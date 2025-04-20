@@ -78,19 +78,21 @@ class Base implements ILayout
 
     private function loadJs()
     {
-        ?>
-        <script src="../vendor/oasys/framework/web-components/js/Components/FieldsetComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/FormFieldComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/GridFieldComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/SuggestFieldComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/WindowComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/FormComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/GridComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/TabComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/Components/GridFormComponent.js"></script>
-        <script src="../vendor/oasys/framework/web-components/js/app.js"></script>
-        <script>App.getInstance().sUrl = '<?= General::$URL ?>'</script>
-        <link rel="stylesheet" href="../vendor/oasys/framework/web-components/css/styles.css">
-        <?php
+        $sBase = '/assets/framework/web-components';
+        $sUrl = General::$URL;
+        echo <<<HTML
+        <script src="$sBase/js/Components/FieldsetComponent.js"></script>
+        <script src="$sBase/js/Components/FormFieldComponent.js"></script>
+        <script src="$sBase/js/Components/GridFieldComponent.js"></script>
+        <script src="$sBase/js/Components/SuggestFieldComponent.js"></script>
+        <script src="$sBase/js/Components/WindowComponent.js"></script>
+        <script src="$sBase/js/Components/FormComponent.js"></script>
+        <script src="$sBase/js/Components/GridComponent.js"></script>
+        <script src="$sBase/js/Components/TabComponent.js"></script>
+        <script src="$sBase/js/Components/GridFormComponent.js"></script>
+        <script src="$sBase/js/app.js"></script>
+        <script>App.getInstance().sUrl = '$sUrl'</script>
+        <link rel="stylesheet" href="$sBase/css/styles.css">
+        HTML;
     }
 }
