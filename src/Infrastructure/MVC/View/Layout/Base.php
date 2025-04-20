@@ -78,7 +78,7 @@ class Base implements ILayout
 
     private function loadJs()
     {
-        $sBase = '/assets';
+        $sBase = '/assets/web-components';
         $sUrl = General::$URL;
         echo <<<HTML
         <script src="$sBase/js/Components/FieldsetComponent.js"></script>
