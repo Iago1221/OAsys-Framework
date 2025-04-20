@@ -6,16 +6,16 @@ class Factory
 {
     public static function loadModel($module, $model, $dto)
     {
-        $class = "\src\Sistema\Domain\\$module\\$model";
+        $class = "ERP\Domain\\$module\\$model";
         return self::setModelValues(self::initializeModel(new $class()), $dto);
     }
 
     public static function loadController($controller)
     {
-        $class = "\src\OASYS\Interface\Infrastructure\Controllers\\$controller";
+        $class = "\Framework\Interface\Infrastructure\Controllers\\$controller";
 
-        if (file_exists("\src\Sistema\Infrastructure\Controllers\\$controller")) {
-            $class = "\src\Sistema\Infrastructure\Controllers\\$controller";
+        if (file_exists("\src\Infrastructure\Controllers\\$controller")) {
+            $class = "ERP\Infrastructure\Controllers\\$controller";
         }
 
         return new $class();
