@@ -21,6 +21,7 @@ class RotaMapper extends ReflectionMapper
         return [
             'id' => 'iId',
             'nome' => 'sNome',
+            'pacote' => 'sPacote',
             'caminho' => 'sCaminho',
             'metodo'  => 'sMetodo',
             'titulo' => 'sTitulo'
