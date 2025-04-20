@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Interface\Usuario;
+namespace Framework\Interface\Domain\Usuario;
 
 /**
  * @author Iago Oliveira <prog.iago.oliveira@gmail.com>

@@ -3,7 +3,7 @@
 namespace Framework\Interface\Infrastructure\Persistence\Sistema\Usuario;
 
 use Framework\Infrastructure\DB\Persistence\Storage\Mapper\ReflectionMapper;
-use Framework\Interface\Usuario\Usuario;
+use Framework\Interface\Domain\Usuario\Usuario;
 
 /**
  * @author Iago Oliveira <prog.iago.oliveira@gmail.com>

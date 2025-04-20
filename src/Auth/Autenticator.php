@@ -5,7 +5,7 @@ namespace Framework\Auth;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
-use Framework\Interface\Usuario\Usuario;
+use Framework\Interface\Domain\Usuario\Usuario;
 
 /**
  * Classe que gerencia a autenticação.

@@ -8,7 +8,7 @@ use Framework\Infrastructure\MVC\Controller\FormController;
 use Framework\Infrastructure\MVC\View\Interface\View;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
 use Framework\Interface\Infrastructure\View\Sistema\Usuario\UsuarioSenhaFormView;
-use Framework\Interface\Usuario\Usuario;
+use Framework\Interface\Domain\Usuario\Usuario;
 
 class UsuarioSenhaFormController extends FormController
 {
