@@ -1,0 +1,11 @@
+{
+  "require": {
+    "firebase/php-jwt": "^6.9",
+    "ext-fileinfo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "src/"
+    }
+  }
+}
