@@ -17,5 +17,7 @@
       "type": "vcs",
       "url": "https://github.com/Iago1221/oasys-web-components.git"
     }
-  ]
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
