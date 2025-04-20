@@ -1,4 +1,7 @@
 {
+  "name": "oasys/framework",
+  "description": "Framework PHP OAsys",
+  "type": "library",
   "require": {
     "firebase/php-jwt": "^6.9",
     "ext-fileinfo": "*"
