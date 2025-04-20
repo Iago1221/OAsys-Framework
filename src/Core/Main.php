@@ -19,14 +19,16 @@ use Framework\Interface\Infrastructure\Persistence\Core\RotaMapper;
  */
 class Main
 {
+    private static $aDBConfig;
     private static \PDO $connection;
     private static PdoStorage $pdoStorage;
 
     private static ?string $route;
     private static Order $oOrder;
 
-    public function __construct($route, RotaMapper $oRotaMapper)
+    public function __construct(array $aDBConfig, $route, RotaMapper $oRotaMapper)
     {
+        self::$aDBConfig = $aDBConfig;
         self::$route = $route;
         $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);
     }
@@ -111,8 +113,7 @@ class Main
     public static function getConnection()
     {
         if (!isset(self::$connection)) {
-            $path = __DIR__ . "/db/banco.sqlite";
-            self::$connection = new \PDO("sqlite:$path");
+            self::$connection = new \PDO(self::$aDBConfig['dsn']);
         }
 
         return self::$connection;
