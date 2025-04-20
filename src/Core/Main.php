@@ -26,11 +26,20 @@ class Main
     private static ?string $route;
     private static Order $oOrder;
 
-    public function __construct(array $aDBConfig, $route, RotaMapper $oRotaMapper)
+    public function __construct($route, RotaMapper $oRotaMapper)
     {
-        self::$aDBConfig = $aDBConfig;
         self::$route = $route;
         $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);
+    }
+
+    public static function setBdConfig($aBDConfig)
+    {
+        if (!self::$aDBConfig) {
+            self::$aDBConfig = $aBDConfig;
+            return;
+        }
+
+        throw new \BadMethodCallException("Não é possível sobrescrever as configurações de banco de dados!");
     }
 
     /**
