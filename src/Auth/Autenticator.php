@@ -5,7 +5,7 @@ namespace Framework\Auth;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
-use src\Sistema\Domain\Sistema\Usuario\Usuario;
+use Framework\Interface\Usuario\Usuario;
 
 /**
  * Classe que gerencia a autenticação.
@@ -25,7 +25,7 @@ class Autenticator
     {
         $this->login = $login;
         $this->password = $password;
-        $this->secretKey = \Auth\General::SECRET_JWT;
+        $this->secretKey = General::$SECRET_JWT;
         $this->oMapper = $oMapper;
     }
 
@@ -95,7 +95,7 @@ class Autenticator
      */
     private static function validateToken($token)
     {
-        $jwtKey = new Key(\Auth\General::SECRET_JWT, 'HS256');
+        $jwtKey = new Key(General::$SECRET_JWT, 'HS256');
         $options = new \stdClass();
         $options->algorithm = 'HS256';
 

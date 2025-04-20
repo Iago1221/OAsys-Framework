@@ -43,7 +43,6 @@ class Base implements ILayout
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>OASYS</title>
             <link rel="stylesheet" href="/assets/css/styles.css">
-            <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
         </head>
         <?php
     }
@@ -91,7 +90,7 @@ class Base implements ILayout
         <script src="assets/js/Components/TabComponent.js"></script>
         <script src="assets/js/Components/GridFormComponent.js"></script>
         <script src="/assets/js/app.js"></script>
-        <script>App.getInstance().sUrl = '<?= General::URL ?>'</script>
+        <script>App.getInstance().sUrl = '<?= General::$URL ?>'</script>
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
         <?php
