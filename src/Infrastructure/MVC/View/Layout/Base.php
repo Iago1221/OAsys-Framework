@@ -42,7 +42,6 @@ class Base implements ILayout
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>OASYS</title>
-            <link rel="stylesheet" href="/assets/css/styles.css">
         </head>
         <?php
     }
@@ -80,19 +79,18 @@ class Base implements ILayout
     private function loadJs()
     {
         ?>
-        <script src="assets/js/Components/FieldsetComponent.js"></script>
-        <script src="assets/js/Components/FormFieldComponent.js"></script>
-        <script src="assets/js/Components/GridFieldComponent.js"></script>
-        <script src="assets/js/Components/SuggestFieldComponent.js"></script>
-        <script src="assets/js/Components/WindowComponent.js"></script>
-        <script src="assets/js/Components/FormComponent.js"></script>
-        <script src="assets/js/Components/GridComponent.js"></script>
-        <script src="assets/js/Components/TabComponent.js"></script>
-        <script src="assets/js/Components/GridFormComponent.js"></script>
-        <script src="/assets/js/app.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/FieldsetComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/FormFieldComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/GridFieldComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/SuggestFieldComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/WindowComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/FormComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/GridComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/TabComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/Components/GridFormComponent.js"></script>
+        <script src="../vendor/oasys/framework/web-components/js/app.js"></script>
         <script>App.getInstance().sUrl = '<?= General::$URL ?>'</script>
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+        <link rel="stylesheet" href="../vendor/oasys/framework/web-components/css/styles.css">
         <?php
     }
 }
