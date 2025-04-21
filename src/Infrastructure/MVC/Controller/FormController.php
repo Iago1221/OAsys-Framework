@@ -114,7 +114,7 @@ abstract class FormController extends Controller
 
     public function delete()
     {
-        $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('id')]);
+        $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('iId')]);
         $this->getMapper()->remove($oModel);
     }
 }
