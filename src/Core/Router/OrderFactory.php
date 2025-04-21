@@ -32,9 +32,9 @@ class OrderFactory
     public function make(): Order
     {
         if (!$this->oRota) {
-            return new Order(null, 'Core\\IndexController', 'index', 'Index');
+            return new Order(null,  'Core', 'IndexController', 'index', 'Index');
         }
 
-        return new Order($this->oRota->getNome(), "{$this->oRota->getPacote()}\\{$this->oRota->getCaminho()}", $this->oRota->getMetodo(), $this->oRota->getTitulo());
+        return new Order($this->oRota->getNome(), $this->oRota->getPacote(), $this->oRota->getCaminho(), $this->oRota->getMetodo(), $this->oRota->getTitulo());
     }
 }

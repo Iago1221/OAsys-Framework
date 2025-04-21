@@ -10,12 +10,12 @@ class Factory
         return self::setModelValues(self::initializeModel(new $class()), $dto);
     }
 
-    public static function loadController($controller)
+    public static function loadController($sPacote, $controller)
     {
-        $class = "\Framework\Interface\Infrastructure\Controllers\\$controller";
+        $class = "ERP\Infrastructure\Controllers\\$controller";
 
-        if (file_exists("\src\Infrastructure\Controllers\\$controller")) {
-            $class = "ERP\Infrastructure\Controllers\\$controller";
+        if ($sPacote == 'Sistema') {
+            $class = "\Framework\Interface\Infrastructure\Controllers\\$controller";
         }
 
         return new $class();

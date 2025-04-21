@@ -31,6 +31,6 @@ class OrderProcessing
      */
     private function call(Order $order)
     {
-        (Factory::loadController($order->getClass()))->{$order->getMethod()}();
+        (Factory::loadController($order->getPacote(), $order->getClass()))->{$order->getMethod()}();
     }
 }
