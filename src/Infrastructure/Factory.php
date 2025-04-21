@@ -14,7 +14,7 @@ class Factory
     {
         $class = "ERP\Infrastructure\Controllers\\$controller";
 
-        if ($sPacote == 'Core') {
+        if ($sPacote == 'Core' || $sPacote == 'Sistema') {
             $class = "\Framework\Interface\Infrastructure\Controllers\\$controller";
         }
 
