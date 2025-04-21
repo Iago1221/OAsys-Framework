@@ -18,7 +18,7 @@ abstract class ReflectionMapper extends GenericMapper
         $oReflection = new \ReflectionClass($this->getModelClass());
         $oModel = $oReflection->newInstanceWithoutConstructor();
         foreach ($this->getColumns() as $sColumn => $sAtribute) {
-            if ($oReflection->hasProperty($sAtribute) && $aData[$sAtribute]) {
+            if ($oReflection->hasProperty($sAtribute)) {
                 $oProperty = $oReflection->getProperty($sAtribute);
                 $oProperty->setAccessible(true);
 
@@ -41,7 +41,7 @@ abstract class ReflectionMapper extends GenericMapper
         $oReflection = new \ReflectionClass($this->getModelClass());
         $oModel = $oReflection->newInstanceWithoutConstructor();
         foreach ($this->getColumns() as $sColumn => $sAtribute) {
-            if ($oReflection->hasProperty($sAtribute)) {
+            if ($oReflection->hasProperty($sAtribute) && $aData[$sAtribute]) {
                 $oProperty = $oReflection->getProperty($sAtribute);
                 $oProperty->setAccessible(true);
 
