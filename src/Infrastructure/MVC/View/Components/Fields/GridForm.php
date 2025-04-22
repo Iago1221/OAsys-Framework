@@ -6,11 +6,18 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class GridForm extends FormComponent
 {
-    protected string $title = '';
+    protected string $name;
+    protected string $title;
     protected string $layout = 'form-two-columns';
     protected array $fields = [];
     protected int $rows = 1;
     protected int $maxRows = 10;
+
+    public function __construct(string $name, string $title)
+    {
+        $this->name = $name;
+        $this->title = $title;
+    }
 
     public function setTitle(string $title): void
     {
@@ -73,6 +80,7 @@ class GridForm extends FormComponent
         return [
             'component' => 'GridFormComponent',
             'GridFormComponent' => [
+                'name' => $this->name,
                 'title' => $this->title,
                 'layout' => $this->layout,
                 'fields' => array_map(
