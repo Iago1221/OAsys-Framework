@@ -37,7 +37,7 @@ class SuggestField extends Field
             'component' => 'SuggestFieldComponent',
             'SuggestFieldComponent' => [
                 'name' => $this->sField,
-                'field' => $this->field->toArray(),
+                'idField' => $this->field->toArray(),
                 'descriptionField' => $this->descriptionField->toArray(),
                 'label' => $this->label,
                 'disabled' => $this->bDisabled,
