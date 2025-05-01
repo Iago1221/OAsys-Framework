@@ -29,7 +29,7 @@ class Menu implements ILayout
     {
         ?>
         <div class="topbar">
-            <h1>OAsys ERP</h1>
+            <h1>TESTE ERP</h1>
             <h2><a class="logout" onclick="App.getInstance().logout()">Sair</a></h2>
 
         </div>
