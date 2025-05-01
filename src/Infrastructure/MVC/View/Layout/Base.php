@@ -93,6 +93,7 @@ class Base implements ILayout
         <script src="$sBase/js/app.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
         <link rel="stylesheet" href="$sBase/css/styles.css">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
         HTML;
     }
 }
