@@ -29,8 +29,7 @@ class IndexController
 
         foreach ($aModulos as $oModulo) {
             /** @var ModuloItem[] $aItens */
-            $aItens = $this->oModuloItemMapper->get(['iModulo' => $oModulo->getId()]);
-            $oModulo->setItens($aItens);
+            $this->oModuloMapper->loadRelationships($oModulo);
             $aData['modulos'][] = $oModulo;
         }
 
