@@ -57,4 +57,19 @@ class GenericRepository
         $this->oStorage->from($sTable);
         $this->oStorage->delete($aFilters);
     }
+
+    public function beginTransaction(): void
+    {
+        $this->oStorage->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->oStorage->commit();
+    }
+
+    public function rollback(): void
+    {
+        $this->oStorage->rollback();
+    }
 }

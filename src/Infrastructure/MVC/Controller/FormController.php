@@ -94,7 +94,7 @@ abstract class FormController extends Controller
                 $oReflectionProperty->setAccessible(true);
 
                 if (is_array($aValue)) {
-                    $oRelationshipMapper = $this->getMapper()->getRelationship($aField);
+                    $oRelationshipMapper = $this->getMapper()->getRelationship($aField)->getMapper();
                     $oReflectionProperty->setValue($oModel, null);
 
                     if ($aValue[$oRelationshipMapper->getIdentifierAtributte()]) {

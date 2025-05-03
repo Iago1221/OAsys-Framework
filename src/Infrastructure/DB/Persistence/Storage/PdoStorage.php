@@ -249,4 +249,19 @@ class PdoStorage extends GenericStorage
         $oQuery = $this->pdo->query($sSql);
         return $oQuery ? $oQuery->fetchAll(PDO::FETCH_ASSOC) : false;
     }
+
+    public function beginTransaction(): void
+    {
+        $this->pdo->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->pdo->commit();
+    }
+
+    public function rollback(): void
+    {
+        $this->pdo->rollBack();
+    }
 }

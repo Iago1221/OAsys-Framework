@@ -51,4 +51,8 @@ interface IStorage
      * @return void
      */
     public function exec(string $sSql): void;
+
+    public function beginTransaction(): void;
+    public function commit(): void;
+    public function rollback(): void;
 }
