@@ -32,6 +32,7 @@ abstract class ReflectionMapper extends GenericMapper
             }
         }
 
+        $this->loadRelationships($model);
         return $model;
     }
 
@@ -62,6 +63,7 @@ abstract class ReflectionMapper extends GenericMapper
             }
         }
 
+        $this->loadRelationships($oModel);
         return $oModel;
     }
 
