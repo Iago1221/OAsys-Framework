@@ -10,7 +10,7 @@ class ModuloItem
           SITUACAO_INATIVO = 2;
 
     private $iId;
-    private ?Rota $oRota;
+    private $oRota;
     private $sTitulo;
     private $iSituacao;
     private $iModulo;
