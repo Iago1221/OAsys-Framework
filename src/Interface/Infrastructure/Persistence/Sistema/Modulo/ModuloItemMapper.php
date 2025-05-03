@@ -14,7 +14,7 @@ class ModuloItemMapper extends ReflectionMapper
         $this->addRelationship('oRota', new Relationship(
             Relationship::TYPE_ONE_TO_ONE,
             new RotaMapper($this->getRepository()),
-            'rota',
+            null,
             'iId'
         ));
     }

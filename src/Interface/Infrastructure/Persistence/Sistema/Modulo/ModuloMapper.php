@@ -13,7 +13,7 @@ class ModuloMapper extends ReflectionMapper
         $this->addRelationship('aItens', new Relationship(
             Relationship::TYPE_ONE_TO_MANY,
             new ModuloItemMapper($this->getRepository()),
-            'modulo', // FK na tabela de itens
+            'iModulo', // FK na tabela de itens
             'iId' // PK no módulo
         ));
     }
