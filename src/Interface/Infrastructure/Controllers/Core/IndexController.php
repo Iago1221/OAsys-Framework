@@ -28,7 +28,6 @@ class IndexController
         $aData = [];
 
         foreach ($aModulos as $oModulo) {
-            /** @var ModuloItem[] $aItens */
             $this->oModuloMapper->loadRelationships($oModulo);
             $aData['modulos'][] = $oModulo;
         }
