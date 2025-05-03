@@ -12,8 +12,8 @@ use Framework\Infrastructure\DB\Persistence\Storage\Repository\GenericRepository
  */
 abstract class GenericMapper implements IMapper
 {
-    /** @var Relationship[] */
-    protected array $relationships = [];
+    /** @var array */
+    protected $aRelationships;
 
     /** @var GenericRepository */
     protected $oRepository;
@@ -21,6 +21,7 @@ abstract class GenericMapper implements IMapper
     public function __construct(GenericRepository $oRepository)
     {
         $this->oRepository = $oRepository;
+        $this->aRelationships = [];
         $this->setRelationships();
     }
 
@@ -71,104 +72,44 @@ abstract class GenericMapper implements IMapper
         return array_values($this->getColumns())[0];
     }
 
-    protected function addRelationship(string $attribute, Relationship $relationship): void
+    /**
+     * Retorna todos os relacionamentos da classe mapeada e seus respectivos mapeadores.
+     * @return array
+     */
+    public function getRelationships()
     {
-        $this->relationships[$attribute] = $relationship;
+        return $this->aRelationships;
     }
 
-    public function getRelationship(string $attribute): ? Relationship
+    /**
+     * Relaciona um mapeador a um atriuto mapeado na classe de acordo com os parâmetros.
+     * @param string $sAtributte
+     * @param IMapper $oMapper
+     * @return void
+     */
+    public function addRelationship($sAtributte, $oMapper)
     {
-        return $this->relationships[$attribute] ?? null;
+        $this->aRelationships[$sAtributte] = $oMapper;
     }
 
-    public function hasRelationship(string $attribute): bool
+    /**
+     * Retorna o mapeador relacionado ao atributo da classe passado por parâmetro.
+     * @param $sAtributte
+     * @return IMapper
+     */
+    public function getRelationship($sAtributte)
     {
-        return isset($this->relationships[$attribute]);
+        return $this->aRelationships[$sAtributte];
     }
 
-    protected function loadRelationship(object $model, string $attribute, Relationship $relationship): void
+    /**
+     * Verifica se existe relacionamento com outros mapeadores para o atributo passado por parâmetro.
+     * @param string $sAtributte
+     * @return boolean
+     */
+    public function hasRelationship($sAtributte)
     {
-        $reflection = new \ReflectionClass($model);
-        $property = $reflection->getProperty($attribute);
-        $property->setAccessible(true);
-
-        switch ($relationship->getType()) {
-            case Relationship::TYPE_ONE_TO_ONE:
-                $value = $this->loadOneToOne($model, $relationship);
-                break;
-            case Relationship::TYPE_ONE_TO_MANY:
-                $value = $this->loadOneToMany($model, $relationship);
-                break;
-            case Relationship::TYPE_MANY_TO_MANY:
-                $value = $this->loadManyToMany($model, $relationship);
-                break;
-            default:
-                throw new \InvalidArgumentException("Tipo de relacionamento inválido");
-        }
-
-        $property->setValue($model, $value);
-    }
-
-    protected function loadOneToOne(object $model, Relationship $relationship): ?object
-    {
-        $reflection = new \ReflectionClass($model);
-        $localKey = $relationship->getLocalKey();
-        $localKeyProperty = $reflection->getProperty($localKey);
-        $localKeyProperty->setAccessible(true);
-        $localValue = $localKeyProperty->getValue($model);
-
-        if (!$localValue) {
-            return null;
-        }
-
-        return $relationship->getMapper()->find([
-            $relationship->getForeignKey() => $localValue
-        ]);
-    }
-
-    protected function loadOneToMany(object $model, Relationship $relationship): array
-    {
-        $reflection = new \ReflectionClass($model);
-        $localKey = $relationship->getLocalKey();
-        $localKeyProperty = $reflection->getProperty($localKey);
-        $localKeyProperty->setAccessible(true);
-        $localValue = $localKeyProperty->getValue($model);
-
-        if (!$localValue) {
-            return [];
-        }
-
-        return $relationship->getMapper()->get([
-            $relationship->getForeignKey() => $localValue
-        ]);
-    }
-
-    protected function loadManyToMany(object $model, Relationship $relationship): array
-    {
-        $reflection = new \ReflectionClass($model);
-        $localKey = $relationship->getLocalKey();
-        $localKeyProperty = $reflection->getProperty($localKey);
-        $localKeyProperty->setAccessible(true);
-        $localValue = $localKeyProperty->getValue($model);
-
-        if (!$localValue) {
-            return [];
-        }
-
-        // Busca os IDs relacionados na tabela pivot
-        $storage = $relationship->getMapper()->getRepository()->getStorage();
-        $storage->from($relationship->getPivotTable());
-        $relatedIds = $storage->get([
-            $relationship->getPivotLocalKey() => $localValue
-        ]);
-
-        if (empty($relatedIds)) {
-            return [];
-        }
-
-        return $relationship->getMapper()->get([
-            $relationship->getMapper()->getIdentifierColumn() => array_column($relatedIds, $relationship->getPivotForeignKey())
-        ]);
+        return array_key_exists($sAtributte, $this->aRelationships);
     }
 
     /**

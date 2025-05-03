@@ -1,29 +1,22 @@
 <?php
+
 namespace Framework\Interface\Infrastructure\Persistence\Sistema\Modulo;
 
 use Framework\Infrastructure\DB\Persistence\Storage\Mapper\ReflectionMapper;
-use Framework\Infrastructure\DB\Persistence\Storage\Mapper\Relationship;
 use Framework\Interface\Domain\Modulo\Modulo;
 
 class ModuloMapper extends ReflectionMapper
 {
     protected function setRelationships()
     {
-        // Relacionamento 1-N com Itens
-        $this->addRelationship('aItens', new Relationship(
-            Relationship::TYPE_ONE_TO_MANY,
-            new ModuloItemMapper($this->getRepository()),
-            'iModulo', // FK na tabela de itens
-            'iId' // PK no módulo
-        ));
     }
 
-    public function getTable(): string
+    public function getTable()
     {
         return 'modulos';
     }
 
-    public function getColumns(): array
+    public function getColumns()
     {
         return [
             'id' => 'iId',
@@ -33,7 +26,7 @@ class ModuloMapper extends ReflectionMapper
         ];
     }
 
-    public function getModelClass(): string
+    public function getModelClass()
     {
         return Modulo::class;
     }

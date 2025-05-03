@@ -13,37 +13,27 @@ use Framework\Infrastructure\DB\Persistence\Storage\Mapper\GenericMapper;
 abstract class ReflectionMapper extends GenericMapper
 {
     /** @inheritDoc */
-    public function create($aData): object
+    public function create($aData)
     {
-        $reflection = new \ReflectionClass($this->getModelClass());
-        $model = $reflection->newInstanceWithoutConstructor();
+        $oReflection = new \ReflectionClass($this->getModelClass());
+        $oModel = $oReflection->newInstanceWithoutConstructor();
+        foreach ($this->getColumns() as $sColumn => $sAtribute) {
+            if ($oReflection->hasProperty($sAtribute)) {
+                $oProperty = $oReflection->getProperty($sAtribute);
+                $oProperty->setAccessible(true);
 
-        foreach ($this->getColumns() as $column => $attribute) {
-            if ($reflection->hasProperty($attribute)) {
-                $property = $reflection->getProperty($attribute);
-                $property->setAccessible(true);
-
-                if ($this->hasRelationship($attribute)) {
-                    $property->setValue($model, null); // Carregamento lazy
+                if ($this->hasRelationship($sAtribute)) {
+                    $oMapper = $this->getRelationship($sAtribute);
+                    $oValue = $oMapper->find([$oMapper->getIdentifierAtributte() => $aData[$sColumn]]);
+                    $oProperty->setValue($oModel, $oValue);
                     continue;
                 }
 
-                $property->setValue($model, $aData[$column] ?? null);
+                $oProperty->setValue($oModel, $aData[$sColumn]);
             }
         }
 
-        $this->loadRelationships($model);
-        $this->afterCreate($model, $aData);
-        return $model;
-    }
-
-    protected function afterCreate($oModel, $aData) {}
-
-    public function loadRelationships(object $model): void
-    {
-        foreach ($this->relationships as $attribute => $relationship) {
-            $this->loadRelationship($model, $attribute, $relationship);
-        }
+        return $oModel;
     }
 
     public function createFromAtributtes($aData)
@@ -56,7 +46,7 @@ abstract class ReflectionMapper extends GenericMapper
                 $oProperty->setAccessible(true);
 
                 if ($this->hasRelationship($sAtribute)) {
-                    $oMapper = $this->getRelationship($sAtribute)->getMapper();
+                    $oMapper = $this->getRelationship($sAtribute);
                     $oValue = $oMapper->createFromAtributtes($aData[$sAtribute]);
                     $oProperty->setValue($oModel, $oValue);
                     continue;
@@ -66,8 +56,6 @@ abstract class ReflectionMapper extends GenericMapper
             }
         }
 
-        $this->loadRelationships($oModel);
-        $this->afterCreate($oModel, $aData);
         return $oModel;
     }
 
@@ -87,7 +75,7 @@ abstract class ReflectionMapper extends GenericMapper
                 $aData[$sColumn] = $oProperty->getValue($oModel);
 
                 if ($this->hasRelationship($sAtribute)) {
-                    $oMapper = $this->getRelationship($sAtribute)->getMapper();
+                    $oMapper = $this->getRelationship($sAtribute);
                     $aData[$sColumn] = $oMapper->getData($aData[$sColumn])[$oMapper->getIdentifierColumn()];
                 }
             }
@@ -111,7 +99,7 @@ abstract class ReflectionMapper extends GenericMapper
                 $aData[$sAtribute] = $oProperty->getValue($oModel);
 
                 if ($this->hasRelationship($sAtribute)) {
-                    $oMapper = $this->getRelationship($sAtribute)->getMapper();
+                    $oMapper = $this->getRelationship($sAtribute);
                     $aData[$sAtribute] = $oMapper->getAtributtesData($aData[$sAtribute]);
                 }
             }
