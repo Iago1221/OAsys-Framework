@@ -13,13 +13,11 @@ use Framework\Interface\Infrastructure\View\Core\IndexView;
 class IndexController
 {
     private $oModuloMapper;
-    private $oModuloItemMapper;
 
     public function __construct()
     {
         $oGenericRepository = new GenericRepository(Main::getPdoStorage());
         $this->oModuloMapper = new ModuloMapper($oGenericRepository);
-        $this->oModuloItemMapper = new ModuloItemMapper($oGenericRepository);
     }
 
     public function index() {

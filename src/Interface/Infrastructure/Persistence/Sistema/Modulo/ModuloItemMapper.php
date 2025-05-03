@@ -3,6 +3,7 @@
 namespace Framework\Interface\Infrastructure\Persistence\Sistema\Modulo;
 
 use Framework\Infrastructure\DB\Persistence\Storage\Mapper\ReflectionMapper;
+use Framework\Infrastructure\DB\Persistence\Storage\Mapper\Relationship;
 use Framework\Interface\Domain\Modulo\ModuloItem;
 use Framework\Interface\Infrastructure\Persistence\Core\RotaMapper;
 
@@ -10,7 +11,12 @@ class ModuloItemMapper extends ReflectionMapper
 {
     protected function setRelationships()
     {
-        $this->addRelationship('oRota', new RotaMapper($this->getRepository()));
+        $this->addRelationship('oRota', new Relationship(
+            Relationship::TYPE_ONE_TO_ONE,
+            new RotaMapper($this->getRepository()),
+            'rota',
+            'iId'
+        ));
     }
 
     public function getTable()
