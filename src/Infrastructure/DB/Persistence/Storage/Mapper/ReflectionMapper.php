@@ -33,8 +33,11 @@ abstract class ReflectionMapper extends GenericMapper
         }
 
         $this->loadRelationships($model);
+        $this->afterCreate($model, $aData);
         return $model;
     }
+
+    protected function afterCreate($oModel, $aData) {}
 
     public function loadRelationships(object $model): void
     {
@@ -64,6 +67,7 @@ abstract class ReflectionMapper extends GenericMapper
         }
 
         $this->loadRelationships($oModel);
+        $this->afterCreate($oModel, $aData);
         return $oModel;
     }
 

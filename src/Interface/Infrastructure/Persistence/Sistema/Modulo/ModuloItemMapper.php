@@ -12,12 +12,6 @@ class ModuloItemMapper extends ReflectionMapper
 {
     protected function setRelationships()
     {
-        $this->addRelationship('oRota', new Relationship(
-            Relationship::TYPE_ONE_TO_ONE,
-            new RotaMapper($this->getRepository()),
-            '',
-            'iId'
-        ));
     }
 
     public function getTable()
@@ -34,6 +28,15 @@ class ModuloItemMapper extends ReflectionMapper
             'rota' => 'oRota',
             'modulo' => 'iModulo'
         ];
+    }
+
+    protected function afterCreate($oModel, $aData) {
+        $iRota = $aData['rota'] ?: $aData['oRota'];
+
+        if ($iRota) {
+            $oRota = (new RotaMapper($this->getRepository()))->find(['iId' => $iRota ]);
+            $oModel->setRota($oRota);
+        }
     }
 
     public function getModelClass()
