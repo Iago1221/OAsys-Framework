@@ -35,7 +35,7 @@ abstract class GenericMapper implements IMapper
      * Utilizar para definir os relacionamentos dos atributos da classe com outros Mappers.
      * @return void
      */
-    abstract protected function setRelationships();
+    protected function setRelationships() {}
 
 
     /** @inheritDoc */
