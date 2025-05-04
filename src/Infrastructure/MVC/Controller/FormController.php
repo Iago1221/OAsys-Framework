@@ -67,10 +67,20 @@ abstract class FormController extends Controller
             return;
         }
 
-        $oModel = $this->getMapper()->createFromAtributtes($this->getRequest());
-        $this->beforeAdd($oModel);
-        $this->getMapper()->save($oModel);
-        $this->afterAdd($oModel);
+        try {
+            Main::getPdoStorage()->beginTransaction();
+
+            $oModel = $this->getMapper()->createFromAtributtes($this->getRequest());
+
+            $this->beforeAdd($oModel);
+            $this->getMapper()->save($oModel);
+            $this->afterAdd($oModel);
+
+            Main::getPdoStorage()->commit();
+        } catch (\Throwable $t) {
+            Main::getPdoStorage()->rollback();
+            throw $t;
+        }
     }
 
     protected function beforeAdd($oModel) {}
@@ -87,12 +97,21 @@ abstract class FormController extends Controller
             return;
         }
 
-        $aData = $this->getRequest();
-        $oModel =  $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $aData[$this->getMapper()->getIdentifierAtributte()]]);
-        $oModel = $this->bean($oModel, $aData);
-        $this->beforeEdit($oModel);
-        $this->getMapper()->save($oModel);
-        $this->afterEdit($oModel);
+        try {
+            Main::getPdoStorage()->beginTransaction();
+            $aData = $this->getRequest();
+            $oModel =  $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $aData[$this->getMapper()->getIdentifierAtributte()]]);
+            $oModel = $this->bean($oModel, $aData);
+
+            $this->beforeEdit($oModel);
+            $this->getMapper()->save($oModel);
+            $this->afterEdit($oModel);
+
+            Main::getPdoStorage()->commit();
+        } catch (\Throwable $t) {
+            Main::getPdoStorage()->rollback();
+            throw $t;
+        }
     }
 
     protected function bean($oModel, $aData)
@@ -125,9 +144,18 @@ abstract class FormController extends Controller
 
     public function delete()
     {
-        $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('iId')]);
-        $this->beforeDelete($oModel);
-        $this->getMapper()->remove($oModel);
-        $this->afterDelete($oModel);
+        try {
+            Main::getPdoStorage()->beginTransaction();
+            $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('iId')]);
+
+            $this->beforeDelete($oModel);
+            $this->getMapper()->remove($oModel);
+            $this->afterDelete($oModel);
+
+            Main::getPdoStorage()->commit();
+        } catch (\Throwable $t) {
+            Main::getPdoStorage()->rollback();
+            throw $t;
+        }
     }
 }
