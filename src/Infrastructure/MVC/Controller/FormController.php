@@ -73,7 +73,7 @@ abstract class FormController extends Controller
             $oModel = $this->getMapper()->createFromAtributtes($this->getRequest());
 
             $this->beforeAdd($oModel);
-            $this->getMapper()->save($oModel);
+            $oModel->setId($this->getMapper()->save($oModel));
             $this->afterAdd($oModel);
 
             Main::getPdoStorage()->commit();
