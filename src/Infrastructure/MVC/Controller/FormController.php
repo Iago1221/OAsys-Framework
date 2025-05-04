@@ -68,8 +68,17 @@ abstract class FormController extends Controller
         }
 
         $oModel = $this->getMapper()->createFromAtributtes($this->getRequest());
+        $this->beforeAdd($oModel);
         $this->getMapper()->save($oModel);
+        $this->afterAdd($oModel);
     }
+
+    protected function beforeAdd($oModel) {}
+    protected function afterAdd($oModel) {}
+    protected function beforeEdit($oModel) {}
+    protected function afterEdit($oModel) {}
+    protected function beforeDelete($oModel) {}
+    protected function afterDelete($oModel) {}
 
     public function edit()
     {
@@ -81,7 +90,9 @@ abstract class FormController extends Controller
         $aData = $this->getRequest();
         $oModel =  $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $aData[$this->getMapper()->getIdentifierAtributte()]]);
         $oModel = $this->bean($oModel, $aData);
+        $this->beforeEdit($oModel);
         $this->getMapper()->save($oModel);
+        $this->afterEdit($oModel);
     }
 
     protected function bean($oModel, $aData)
@@ -115,6 +126,8 @@ abstract class FormController extends Controller
     public function delete()
     {
         $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('iId')]);
+        $this->beforeDelete($oModel);
         $this->getMapper()->remove($oModel);
+        $this->afterDelete($oModel);
     }
 }

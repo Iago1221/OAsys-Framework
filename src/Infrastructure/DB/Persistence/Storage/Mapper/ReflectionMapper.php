@@ -33,8 +33,11 @@ abstract class ReflectionMapper extends GenericMapper
             }
         }
 
+        $this->afterCreate($oModel, $aData);
         return $oModel;
     }
+
+    protected function afterCreate($oModel, $aData) {}
 
     public function createFromAtributtes($aData)
     {
@@ -56,6 +59,7 @@ abstract class ReflectionMapper extends GenericMapper
             }
         }
 
+        $this->afterCreate($oModel, $aData);
         return $oModel;
     }
 
