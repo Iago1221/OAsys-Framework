@@ -12,6 +12,7 @@ class GridForm extends FormComponent
     protected array $fields = [];
     protected int $rows = 1;
     protected int $maxRows = 10;
+    protected array $aValue = [];
 
     public function __construct(string $name, string $title)
     {
@@ -67,6 +68,16 @@ class GridForm extends FormComponent
         $this->fields = $aNewFields;
     }
 
+    public function setValue($aRows)
+    {
+        $this->aValue = $aRows;
+    }
+
+    public function getValue()
+    {
+        return $this->aValue;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -88,7 +99,8 @@ class GridForm extends FormComponent
                     $this->fields
                 ),
                 'rows' => $this->rows,
-                'maxRows' => $this->maxRows
+                'maxRows' => $this->maxRows,
+                'value' => $this->getValue()
             ]
         ];
     }
