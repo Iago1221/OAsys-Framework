@@ -18,11 +18,11 @@ abstract class FormController extends Controller
         $aData['sRoute'] = Main::getOrder()->getRoute();
         $aData['bDisabled'] = $bDisabled;
 
-        $this->beforeRender($aData);
+        $this->beforeRender($oModel, $aData);
         $this->oView->render($aData);
     }
 
-    protected function beforeRender($aData) {}
+    protected function beforeRender($oModel, $aData) {}
 
     protected function formBean($oModel)
     {
