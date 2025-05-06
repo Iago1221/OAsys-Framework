@@ -22,7 +22,7 @@ abstract class FormController extends Controller
         $this->oView->render($aData);
     }
 
-    protected function beforeRender($oModel, $aData) {}
+    protected function beforeRender($oModel, &$aData) {}
 
     protected function formBean($oModel)
     {
