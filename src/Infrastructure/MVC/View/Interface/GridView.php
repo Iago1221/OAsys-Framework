@@ -17,13 +17,13 @@ abstract class GridView extends View
         $this->aColumns[] = $oField;
 
         if ($filter) {
-            $this->addFilter($oField->getField(), $oField->getLabel(), $oField->getType());
+            $this->addFilter($oField);
         }
     }
 
-    protected function addFilter($field, $label, $type)
+    protected function addFilter($oField)
     {
-        $this->aFilters[] = ['field' => $field, 'label' => $label, 'type' => $type];
+        $this->aFilters[] = $oField;
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET')
