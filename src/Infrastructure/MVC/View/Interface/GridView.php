@@ -56,17 +56,13 @@ abstract class GridView extends View
 
     private function atualizaValorFiltros($valores)
     {
-        $filters = [];
         foreach ($this->aFilters as $filter) {
             foreach ($valores as $key => $value) {
-                if ($filter['field'] == $key) {
-                    $filter['value'] = $value;
+                if ($filter->getField() == $key) {
+                    $filter->setVaue($value);
                 }
             }
-            $filters[] = $filter;
         }
-
-        $this->aFilters = $filters;
     }
 
     public function getColumns()

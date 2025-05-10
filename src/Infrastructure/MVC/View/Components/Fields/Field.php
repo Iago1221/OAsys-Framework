@@ -18,6 +18,7 @@ abstract class Field extends FormComponent
     protected string $sField;
     protected string $label;
     protected string $type;
+    protected mixed $value;
     protected array $options = [];
 
     public function __construct(string $sField, string $label, string $type)
@@ -60,6 +61,11 @@ abstract class Field extends FormComponent
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function setValue(mixed $value): void
+    {
+        $this->value = $value;
     }
 
     public function toArray(): array

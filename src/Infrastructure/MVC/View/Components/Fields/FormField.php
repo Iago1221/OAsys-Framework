@@ -7,7 +7,6 @@ use Framework\Infrastructure\MVC\View\Components\Fields\Field;
 class FormField extends Field
 {
     protected bool $required;
-    protected mixed $value;
     protected bool $renderLabel;
 
     public function __construct(string $field, string $label, string $type, bool $required = true, bool $disabled = false, mixed $value = null)
@@ -17,11 +16,6 @@ class FormField extends Field
         $this->bDisabled = $disabled;
         $this->value = $value;
         $this->renderLabel = true;
-    }
-
-    public function setValue(mixed $value): void
-    {
-        $this->value = $value;
     }
 
     public function setRenderLabel(bool $renderLabel = true): void
