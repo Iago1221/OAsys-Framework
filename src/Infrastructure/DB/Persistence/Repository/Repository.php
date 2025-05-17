@@ -262,7 +262,7 @@ abstract class Repository {
     {
         $model = new $this->modelClass();
         foreach ($data as $key => $value) {
-          $method = 'set' . ucfirst($key);
+            $method = 'set' . ucfirst($key);
             if (method_exists($model, $method)) {
                 $model->$method($value);
             }
@@ -350,13 +350,13 @@ abstract class Repository {
     {
         $relatedRepo = new ($relatedClass . 'Repository')($this->pdo);
         $relatedTable = $relatedRepo->getTable();
-  
+
         $localId = $model->{'get' . ucfirst($localKey)}();
 
         $sql = "SELECT r.* FROM {$relatedTable} r
             INNER JOIN {$pivotTable} p ON r.id = p.{$relatedPivotKey}
             WHERE p.{$foreignPivotKey} = ?";
-  
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$localId]);
 
@@ -446,7 +446,7 @@ abstract class Repository {
         }
 
         return $model;
-     }
+    }
 
     /**
      * Realiza a busca de todos os registros na tabela de dominio a partir dos parâmetros.
@@ -494,7 +494,7 @@ abstract class Repository {
             }
         }
 
-        return [$fields, $values, $placeholders, $updates];
+        return [$fields, $values, $placeholders, $updates, $id ?? null];
     }
 
     /**
@@ -502,16 +502,12 @@ abstract class Repository {
      * Metodo utilizado tanto para insert quanto update.
      * @param $model
      * @return bool
-     * @throws RepositoryException
+     * @throws \Exception
      */
     public function save($model): bool
     {
         try {
-            [$fields, $values, $placeholders, $updates] = $this->mapToArray($model);
-
-            if (method_exists($model, 'getId')) {
-                $id = $model->getId();
-            }
+            [$fields, $values, $placeholders, $updates, $id] = $this->mapToArray($model);
 
             if (isset($id)) {
                 $sql = "UPDATE {$this->table} SET " . implode(", ", $updates) . " WHERE id = ?";
@@ -532,7 +528,7 @@ abstract class Repository {
 
             return $result;
         } catch (\Throwable $e) {
-            throw new RepositoryException('Erro ao salvar: ' . $e->getMessage(), 0, $e);
+            throw $e;
         }
     }
 
@@ -579,7 +575,7 @@ abstract class Repository {
             return true;
         } catch (\Exception $e) {
             $this->rollback();
-            throw new RepositoryException('Erro ao salvar: ' . $e->getMessage(), 0, $e);
+            throw $e;
         }
     }
 
@@ -605,7 +601,7 @@ abstract class Repository {
 
             return $result;
         } catch (Throwable $e) {
-            throw new RepositoryException('Erro ao remover: ' . $e->getMessage(), 0, $e);
+            throw $e;
         }
     }
 
@@ -622,7 +618,7 @@ abstract class Repository {
     protected function begin()
     {
         if ($this->controlaTransacao) {
-           $this->pdo->beginTransaction();
+            $this->pdo->beginTransaction();
         }
     }
 

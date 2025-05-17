@@ -21,7 +21,7 @@ class UsuarioFormController extends FormController
     {
         parent::beforeAdd($oModel);
         $this->validaAdicionar();
-        $oModel->setSenha($this->getRequest(['senha']));
+        $oModel->setSenha($this->getRequest('senha'));
     }
 
     protected function beforeEdit($oModel)
