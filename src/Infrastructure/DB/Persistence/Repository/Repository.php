@@ -291,7 +291,7 @@ abstract class Repository {
     /**
      * Define que o modelo possui um relacionamento de 1 para outro modelo.
      * @param $model - Modelo
-     * @param string $relatedClass - Classe relacionada.
+     * @param string $relatedClass Nome do atributo que referencia a classe relacionada.
      * @param string $foreignKey - FK que representa o modelo na tabela relacionada.
      * @param string $localKey - Nome do atributo que representa o relacionamento no modelo.
      * @return void
@@ -307,7 +307,7 @@ abstract class Repository {
     /**
      * Define que o modelo possui um relacionamento de muitos para outro modelo.
      * @param $model - Modelo
-     * @param string $relatedClass - Classe relacionada.
+     * @param string $relatedClass - Nome do atributo que referencia a classe relacionada.
      * @param string $foreignKey - FK que representa o modelo na tabela relaiconada.
      * @param Repository $relatedRepository - Repositório da classe que contém o modelo.
      * @param string $localKey - Nome do atributo que representa o relacionamento no modelo.
@@ -317,13 +317,13 @@ abstract class Repository {
     {
         $localKeyValue = $model->{'get' . ucfirst($localKey)}();
         $relatedModels = $relatedRepository->findAllBy($foreignKey, $localKeyValue);
-        $model->{'set' . ucfirst($relatedClass) . 's'}($relatedModels);
+        $model->{'set' . ucfirst($relatedClass)}($relatedModels);
     }
 
     /**
      * Define que o modelo pertence a outro modelo por um relacionamento de 1.
      * @param $model - Modelo
-     * @param string $relatedClass - Classe que contém o modelo.
+     * @param string $relatedClass - Nome do atributo que referencia a classe relacionada.
      * @param string $ownerKey - FK que representa o modelo na tabela que contém o modelo.
      * @param string $foreignKey - Nome do atribbuto que representa o modelo na classe que o contém.
      * @param Repository $relatedRepository - Repositório da classe que contém o modelo.
@@ -339,7 +339,7 @@ abstract class Repository {
     /**
      * Define que o modelo pertence a outro modelo por um relacionamento de muitos.
      * @param $model - Modelo
-     * @param string $relatedClass - Classe que contém o modelo.
+     * @param string $relatedClass - Nome do atributo que referencia a classe relacionada.
      * @param string $pivotTable - Tabela de ligação fraca.
      * @param string $foreignPivotKey - FK que representa o modelo na tabela de relação fraca.
      * @param string $relatedPivotKey - FK que representa a tabela relacionada na tabela de relação fraca.
@@ -363,7 +363,7 @@ abstract class Repository {
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $relatedModels = array_map([$relatedRepo, 'mapToModel'], $results);
 
-        $model->{'set' . ucfirst($relatedClass) . 's'}($relatedModels);
+        $model->{'set' . ucfirst($relatedClass)}($relatedModels);
     }
 
     /**

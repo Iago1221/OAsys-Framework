@@ -20,7 +20,7 @@ class ModuloRepository extends Repository
 
     protected function loadItens(Modulo $modulo)
     {
-        $this->hasMany($modulo, 'ModuloItem', 'modulo', new ModuloItemRepository($this->pdo));
+        $this->hasMany($modulo, 'Itens', 'modulo', new ModuloItemRepository($this->pdo));
     }
 
     public function getTableName(): string
