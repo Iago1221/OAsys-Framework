@@ -5,13 +5,13 @@ namespace Framework\Interface\Domain\Router;
 class Rota
 {
     private $id;
-    private string $nome;
-    private string $caminho;
-    private string $metodo;
-    private string $pacote;
-    private string $titulo;
+    private ?string $nome;
+    private ?string $caminho;
+    private ?string $metodo;
+    private ?string $pacote;
+    private ?string $titulo;
 
-    public function __construct($nome, $pacote, $caminho, $metodo, $titulo)
+    public function __construct($nome = null, $pacote = null, $caminho = null, $metodo = null, $titulo = null)
     {
         $this->nome = $nome;
         $this->pacote = $pacote;
