@@ -18,7 +18,7 @@ abstract class Field extends FormComponent
     protected string $name;
     protected string $label;
     protected string $type;
-    protected mixed $value;
+    protected mixed $value = null;
     protected array $options = [];
 
     public function __construct(string $name, string $label, string $type)
