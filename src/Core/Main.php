@@ -86,7 +86,7 @@ class Main
             $factory->setRota(new Rota('sys_login', 'Core', 'LoginController', 'login', 'Login'));
             $oProcessing->process($factory->make());
         } catch (\Throwable $t) {
-            $this->setExceptionReturn($t->getMessage());
+            $this->setExceptionReturn('Erro:' . $t->getMessage() . ' Arquivo: '  . $t->getFile() . 'Linha: ' . $t->getLine());
         }
     }
 
