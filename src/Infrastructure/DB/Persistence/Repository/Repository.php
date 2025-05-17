@@ -433,10 +433,19 @@ abstract class Repository {
      */
     public function findBy(string $column, $value): ?object
     {
+        $this->queryBuilder();
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ? LIMIT 1");
         $stmt->execute([$value]);
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $data ? $this->mapToModel($data) : null;
+        $model = $data ? $this->mapToModel($data) : null;
+
+        if ($model) {
+            foreach ($this->with as $relation) {
+                $this->loadRelation($model, $relation);
+            }
+        }
+
+        return $model;
      }
 
     /**
@@ -447,10 +456,18 @@ abstract class Repository {
      */
     public function findAllBy(string $column, $value): array
     {
+        $this->queryBuilder();
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ?");
         $stmt->execute([$value]);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return array_map([$this, 'mapToModel'], $results);
+        $models = array_map([$this, 'mapToModel'], $results);
+        foreach ($models as $model) {
+            foreach ($this->with as $relation) {
+                $this->loadRelation($model, $relation);
+            }
+        }
+
+        return $models;
     }
 
     public function mapToArray($model) {

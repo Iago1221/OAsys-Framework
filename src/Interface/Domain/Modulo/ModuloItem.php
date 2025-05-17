@@ -15,6 +15,16 @@ class ModuloItem
     private $situacao;
     private $modulo;
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     public function setTitulo(string $titulo)
     {
         $this->titulo = $titulo;
