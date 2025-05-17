@@ -155,7 +155,7 @@ abstract class FormController extends Controller
     {
         try {
             Main::getPdoStorage()->beginTransaction();
-            $oModel = $this->getRepository()->findBy('id', $this->getRequest()->getParam('id'));
+            $oModel = $this->getRepository()->findBy('id', $this->getRequest('id'));
 
             $this->beforeDelete($oModel);
             $this->getRepository()->remove($oModel);
