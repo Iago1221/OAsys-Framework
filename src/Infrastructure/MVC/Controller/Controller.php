@@ -14,7 +14,7 @@ abstract class Controller
 {
     protected View $oView;
     protected Repository $oRepository;
-    private array $request;
+    private ?array $request;
 
     public function __construct()
     {
