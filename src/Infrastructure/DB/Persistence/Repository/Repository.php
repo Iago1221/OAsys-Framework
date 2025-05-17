@@ -293,14 +293,14 @@ abstract class Repository {
      * @param $model - Modelo
      * @param string $relatedClass Nome do atributo que referencia a classe relacionada.
      * @param string $foreignKey - FK que representa o modelo na tabela relacionada.
+     * @param Repository $relatedRepository - Repositório da classe que contém o modelo.
      * @param string $localKey - Nome do atributo que representa o relacionamento no modelo.
      * @return void
      */
-    protected function hasOne($model, string $relatedClass, string $foreignKey, string $localKey = 'id')
+    protected function hasOne($model, string $relatedClass, string $foreignKey, Repository $relatedRepository, string $localKey = 'id')
     {
-        $repo = new ($relatedClass . 'Repository')($this->pdo);
         $localKeyValue = $model->{'get' . ucfirst($localKey)}();
-        $relatedModel = $repo->findBy($foreignKey, $localKeyValue);
+        $relatedModel = $relatedRepository->findBy($foreignKey, $localKeyValue);
         $model->{'set' . ucfirst($relatedClass)}($relatedModel);
     }
 

@@ -26,7 +26,7 @@ class ModuloItemRepository extends Repository
 
     protected function loadRota(ModuloItem $item)
     {
-        $this->belongsTo($item, 'Rota', 'id', 'rota', new RotaRepository($this->pdo));
+        $this->hasOne($item, 'Rota', 'id', new RotaRepository($this->pdo), 'rota');
     }
 
     public function getTableName(): string
