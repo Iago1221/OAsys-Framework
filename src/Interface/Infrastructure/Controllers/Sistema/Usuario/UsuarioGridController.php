@@ -2,11 +2,8 @@
 
 namespace Framework\Interface\Infrastructure\Controllers\Sistema\Usuario;
 
-use Framework\Core\Main;
-use Framework\Infrastructure\DB\Persistence\Storage\Repository\GenericRepository;
 use Framework\Infrastructure\MVC\Controller\GridController;
-use Framework\Infrastructure\MVC\View\Interface\View;
-use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Sistema\Usuario\UsuarioGridView;
 
 /**
@@ -14,13 +11,13 @@ use Framework\Interface\Infrastructure\View\Sistema\Usuario\UsuarioGridView;
  */
 class UsuarioGridController extends GridController
 {
-    public function getView(): View
+    public function getViewClass(): string
     {
-        return new UsuarioGridView();
+        return UsuarioGridView::class;
     }
 
-    protected function setMapper(): void
+    protected function getRepositoryClass(): string
     {
-        $this->oMapper = new UsuarioMapper(new GenericRepository(Main::getPdoStorage()));
+        return UsuarioRepository::class;
     }
 }

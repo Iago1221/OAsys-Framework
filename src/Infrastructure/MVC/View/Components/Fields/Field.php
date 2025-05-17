@@ -15,22 +15,22 @@ abstract class Field extends FormComponent
     const TYPE_FILE     = 'file';
     const TYPE_SUGGEST  = 'suggest';
 
-    protected string $sField;
+    protected string $name;
     protected string $label;
     protected string $type;
     protected mixed $value;
     protected array $options = [];
 
-    public function __construct(string $sField, string $label, string $type)
+    public function __construct(string $name, string $label, string $type)
     {
-        $this->sField = $sField;
+        $this->name = $name;
         $this->label = $label;
         $this->type = $type;
     }
 
-    public function getField(): string
+    public function getName(): string
     {
-        return $this->sField;
+        return $this->name;
     }
 
     public function getLabel(): string
@@ -68,12 +68,17 @@ abstract class Field extends FormComponent
         $this->value = $value;
     }
 
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
+
     public function toArray(): array
     {
         return [
             'component' => 'FieldComponent',
             'FieldComponent' => [
-                'field' => $this->sField,
+                'name' => $this->name,
                 'label' => $this->label,
                 'type' => $this->type,
                 'options' => $this->options,

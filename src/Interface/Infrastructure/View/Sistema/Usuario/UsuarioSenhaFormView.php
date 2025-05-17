@@ -10,7 +10,7 @@ class UsuarioSenhaFormView extends FormView
 {
     public function create()
     {
-        $this->addComponent(new FormField('iId', 'ID', Field::TYPE_NUMBER, true, true));
-        $this->addComponent(new FormField('sSenha', 'Senha', Field::TYPE_PASSWORD));
+        $this->addComponent(new FormField('id', 'ID', Field::TYPE_NUMBER, true, true));
+        $this->addComponent(new FormField('senha', 'Senha', Field::TYPE_PASSWORD));
     }
 }

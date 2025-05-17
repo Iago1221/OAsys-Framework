@@ -7,57 +7,57 @@ namespace Framework\Interface\Domain\Usuario;
  */
 class Usuario
 {
-    private ?int $iId;
-    private ?string $sNome;
-    private ?string $sSenha;
-    private ?string $sEmail;
+    private ?int $id;
+    private ?string $nome;
+    private ?string $senha;
+    private ?string $email;
 
-    public function setId(int $iId): void
+    public function setId(int $id): void
     {
-        if (isset($this->iId)) {
+        if (isset($this->id)) {
             throw new \DomainException('Não é possível alterar o ID de um usuário.');
         }
 
-        $this->iId = $iId;
+        $this->id = $id;
     }
 
     public function getId()
     {
-        return $this->iId;
+        return $this->id;
     }
 
     public function getNome(): ?string
     {
-        return $this->sNome;
+        return $this->nome;
     }
 
-    public function setNome(?string $sNome): void
+    public function setNome(?string $nome): void
     {
-        $this->sNome = $sNome;
+        $this->nome = $nome;
     }
 
-    public function validaSenha($sSenha)
+    public function validaSenha($senha)
     {
-        return password_verify($sSenha, $this->sSenha);
+        return password_verify($senha, $this->getSenha());
     }
 
     public function getSenha(): string
     {
-        return $this->sSenha;
+        return $this->senha;
     }
 
-    public function setSenha(?string $sSenha): void
+    public function setSenha(?string $senha): void
     {
-        $this->sSenha = password_hash($sSenha, PASSWORD_ARGON2ID);
+        $this->senha = password_hash($senha, PASSWORD_ARGON2ID);
     }
 
     public function getEmail(): ?string
     {
-        return $this->sEmail;
+        return $this->email;
     }
 
-    public function setEmail(?string $sEmail): void
+    public function setEmail(?string $email): void
     {
-        $this->sEmail = $sEmail;
+        $this->email = $email;
     }
 }

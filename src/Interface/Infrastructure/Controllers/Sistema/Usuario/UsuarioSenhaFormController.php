@@ -2,11 +2,8 @@
 
 namespace Framework\Interface\Infrastructure\Controllers\Sistema\Usuario;
 
-use Framework\Core\Main;
-use Framework\Infrastructure\DB\Persistence\Storage\Repository\GenericRepository;
 use Framework\Infrastructure\MVC\Controller\FormController;
-use Framework\Infrastructure\MVC\View\Interface\View;
-use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Sistema\Usuario\UsuarioSenhaFormView;
 use Framework\Interface\Domain\Usuario\Usuario;
 
@@ -19,22 +16,20 @@ class UsuarioSenhaFormController extends FormController
             return;
         }
 
-        $aData = $this->getRequest();
-
         /** @var Usuario $oUsuario */
-        $oUsuario = $this->getMapper()->find(['iId' => $aData['iId']]);
-        $oUsuario->setSenha($aData['sSenha']);
+        $oUsuario = $this->getRepository()->findBy('id', $this->getRequest('id'));
+        $oUsuario->setSenha($this->getRequest('senha'));
 
-        $this->getMapper()->save($oUsuario);
+        $this->getRepository()->save($oUsuario);
     }
 
-    public function getView(): View
+    public function getViewClass(): string
     {
-        return new UsuarioSenhaFormView();
+        return UsuarioSenhaFormView::class;
     }
 
-    protected function setMapper(): void
+    protected function getRepositoryClass(): string
     {
-        $this->oMapper =  new UsuarioMapper(new GenericRepository(Main::getPdoStorage()));
+        return UsuarioRepository::class;
     }
 }

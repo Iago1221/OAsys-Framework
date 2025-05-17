@@ -9,60 +9,54 @@ class ModuloItem
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
-    private $iId;
-    private $oRota;
-    private $sTitulo;
-    private $iSituacao;
-    private $iModulo;
+    private $id;
+    private $rota;
+    private $titulo;
+    private $situacao;
+    private $modulo;
 
-    public function __construct($oRota, $sTitulo)
+    public function setTitulo(string $titulo)
     {
-        $this->oRota = $oRota;
-        $this->sTitulo = $sTitulo;
+        $this->titulo = $titulo;
     }
 
-    public function setTitulo(string $sTitulo)
+    public function setRota(Rota $rota)
     {
-        $this->sTitulo = $sTitulo;
+        $this->rota = $rota;
     }
 
-    public function setRota(Rota $oRota)
+    public function setSituacao(int $situacao)
     {
-        $this->oRota = $oRota;
-    }
-
-    public function setSituacao(int $iSituacao)
-    {
-        $this->iSituacao = $iSituacao;
+        $this->situacao = $situacao;
     }
 
     public  function getTitulo(): string
     {
-        return $this->sTitulo;
+        return $this->titulo;
     }
 
     public function getRota(): Rota
     {
-        return $this->oRota;
+        return $this->rota;
     }
 
     public function getSituacao(): int
     {
-        return $this->iSituacao;
+        return $this->situacao;
     }
 
-    public function isSituacao(int $iSituacao): bool
+    public function isSituacao(int $situacao): bool
     {
-        return $this->iSituacao == $iSituacao;
+        return $this->situacao == $situacao;
     }
 
-    public function setModulo(int $iModulo)
+    public function setModulo(int $modulo)
     {
-        $this->iModulo = $iModulo;
+        $this->modulo = $modulo;
     }
 
     public function getModulo(): int
     {
-        return $this->iModulo;
+        return $this->modulo;
     }
 }

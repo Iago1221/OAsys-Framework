@@ -4,8 +4,8 @@ namespace Framework\Auth;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
 use Framework\Interface\Domain\Usuario\Usuario;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
 /**
  * Classe que gerencia a autenticação.
@@ -19,14 +19,14 @@ class Autenticator
     private string $login;
     private string $password;
     private string $secretKey;
-    private UsuarioMapper $oMapper;
+    private UsuarioRepository $repository;
 
-    public function __construct(string $login, string $password, UsuarioMapper $oMapper)
+    public function __construct(string $login, string $password, UsuarioRepository $respository)
     {
         $this->login = $login;
         $this->password = $password;
         $this->secretKey = General::$SECRET_JWT;
-        $this->oMapper = $oMapper;
+        $this->repository = $respository;
     }
 
     /**
@@ -36,7 +36,7 @@ class Autenticator
     public function login(): bool
     {
         /** @var Usuario $oUsuario */
-        $oUsuario = $this->oMapper->find(['sEmail' => $this->login]);
+        $oUsuario = $this->repository->findBy('sEmail', $this->login);
 
         if (!$oUsuario) return false;
 

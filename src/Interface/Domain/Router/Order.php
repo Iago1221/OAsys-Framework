@@ -9,23 +9,23 @@ namespace Framework\Interface\Domain\Router;
 class Order
 {
     private $route;
-    private $sPacote;
+    private $pacote;
     private $class;
     private $method;
     private $title;
 
-    public function __construct($route, $sPacote, $class, $method, $title)
+    public function __construct($route, $pacote, $class, $method, $title)
     {
         $this->route = $route;
-        $this->sPacote = $sPacote;
-        $this->class = "{$sPacote}\\{$class}";
+        $this->pacote = $pacote;
+        $this->class = "{$pacote}\\{$class}";
         $this->method = $method;
         $this->title = $title;
     }
 
     public function getPacote()
     {
-        return $this->sPacote;
+        return $this->pacote;
     }
 
     public function getClass()

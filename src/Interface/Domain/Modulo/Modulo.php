@@ -7,56 +7,56 @@ class Modulo
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
-    private $iId;
-    private $sTitulo;
-    private $iSituacao;
-    private $aItens;
-    private $sPacote;
+    private int $id;
+    private string $titulo;
+    private int $situacao;
+    private array $itens;
+    private string $pacote;
 
-    public function __construct($sTitulo)
+    public function setId($id)
     {
-        $this->sTitulo = $sTitulo;
+        $this->id = $id;
     }
 
     public function getId()
     {
-        return $this->iId;
+        return $this->id;
     }
 
     public function setTitulo(string $sTitulo)
     {
-        $this->sTitulo = $sTitulo;
+        $this->titulo = $sTitulo;
     }
 
     public function getTitulo(): string
     {
-        return $this->sTitulo;
+        return $this->titulo;
     }
 
-    public function setSituacao(int $sSituacao)
+    public function setSituacao(int $situacao)
     {
-        $this->iSituacao = $sSituacao;
+        $this->situacao = $situacao;
     }
 
-    public function setItens(array $aItens) {
-        foreach ($aItens as $oItem) {
-            $this->addItem($oItem);
+    public function setItens(array $itens) {
+        foreach ($itens as $item) {
+            $this->addItem($item);
         }
     }
 
-    public function addItem($oItem)
+    public function addItem($item)
     {
-        $this->aItens[] = $oItem;
+        $this->itens[] = $item;
     }
 
     /** @return ModuloItem[] */
     public function getItens(): array
     {
-        return $this->aItens;
+        return $this->itens;
     }
 
-    public function isSituacao(int $iSituacao): bool
+    public function isSituacao(int $situacao): bool
     {
-        return $this->iSituacao == $iSituacao;
+        return $this->situacao == $situacao;
     }
 }

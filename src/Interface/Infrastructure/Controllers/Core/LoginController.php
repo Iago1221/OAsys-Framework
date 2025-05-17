@@ -4,8 +4,7 @@ namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Auth\Autenticator;
 use Framework\Core\Main;
-use Framework\Infrastructure\DB\Persistence\Storage\Repository\GenericRepository;
-use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioMapper;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Core\LoginView;
 
 class LoginController
@@ -18,7 +17,7 @@ class LoginController
 
         $xUsuario = $_POST['usuario'] ?? null;
         $xSenha = $_POST['senha'] ?? null;
-        $oAutenticator = new Autenticator($xUsuario, $xSenha, new UsuarioMapper(new GenericRepository(Main::getPdoStorage())));
+        $oAutenticator = new Autenticator($xUsuario, $xSenha, new UsuarioRepository(Main::getConnection()));
 
         if ($sToken = $oAutenticator->generateToken()) {
             $_SESSION['oasys-token'] = $sToken;

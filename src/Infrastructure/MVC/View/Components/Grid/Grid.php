@@ -3,56 +3,125 @@
 namespace Framework\Infrastructure\MVC\View\Components\Grid;
 
 use Framework\Infrastructure\MVC\View\Components\Fields\GridField;
+use Framework\Infrastructure\MVC\View\Components\Fields\GridFilter;
 use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class Grid implements IComponent
 {
     /** @var GridField[] */
-    private $aColumns;
-    private $aFilters;
-    private $aActions;
-    private $aGridActions;
+    private array $columns;
 
-    public function __construct(array $aColumns, array $aFilters, array $aActions, array $aGridActions)
+    /** @var GridFilter[] */
+    private array $filters;
+    private array $actions;
+    private array $gridActions;
+    private array $rows;
+    private array $informacoes;
+
+    public function setRows(array $rows)
     {
-        $this->aColumns = $aColumns;
-        $this->aFilters = $aFilters;
-        $this->aActions = $aActions;
-        $this->aGridActions = $aGridActions;
+        $this->rows = $rows;
     }
 
-    public function toArray($aData = []): array
+    public function setValorFiltros(array $filtros)
+    {
+        foreach ($filtros as $filtro) {
+            $filter = $this->getFilter($filtro['name']);
+            $filter->setOperator($filtro['operator']);
+            $filter->setValue($filtro['value']);
+        }
+    }
+
+    public function getFilter($name)
+    {
+        return $this->filters[$name];
+    }
+
+    public function setInformacoes(array $aInformacoes)
+    {
+        $this->informacoes = $aInformacoes;
+    }
+
+    public function addColumn(GridField $column)
+    {
+        $this->columns[$column->getName()] = $column;
+    }
+
+    public function addFilter(GridFilter $filter)
+    {
+        $this->filters[$filter->getName()] = $filter;
+    }
+
+    public function addAction($name, $label, $route, $httpMethod = 'GET')
+    {
+        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod];
+    }
+
+    public function addGridAction($name, $label, $route, $httpMethod = 'GET')
+    {
+        $this->gridActions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod];
+    }
+
+    public function getGridActions()
+    {
+        return $this->gridActions;
+    }
+
+    public function getInformacao($name)
+    {
+        return $this->informacoes[$name];
+    }
+
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    public function toArray(): array
     {
         $data = [
-            'window' => [
-                'title' => $aData['sTitle'],
-                'route' => $aData['sRoute']
-            ],
             'component' => 'GridComponent',
             'GridComponent' => [
                 'columns' => array_map(function ($oColumn) {
                     return [
-                        'field' => $oColumn->getField(),
+                        'field' => $oColumn->getName(),
                         'label' => $oColumn->getLabel(),
                         'type' => $oColumn->getType(),
                         'options' => $oColumn->getOptions()
                     ];
-                }, $this->aColumns),
-                'filters' => array_map(function ($oColumn) {
+                }, $this->getColumns()),
+                'filters' => array_map(function ($filter) {
                     return [
-                        'field' => $oColumn->getField(),
-                        'label' => $oColumn->getLabel(),
-                        'type' => $oColumn->getType(),
-                        'options' => $oColumn->getOptions()
+                        'field' => $filter->getName(),
+                        'label' => $filter->getLabel(),
+                        'type' => $filter->getType(),
+                        'options' => $filter->getOptions(),
+                        'value' => $filter->getValue(),
+                        'operator' => $filter->getOperator()
                     ];
-                }, $this->aFilters),
-                'actions' => $this->aActions,
-                'gridActions' => $this->aGridActions,
-                'rows' => $aData['aData'],
+                }, $this->getFilters()),
+                'actions' => $this->getActions(),
+                'gridActions' => $this->getGridActions(),
+                'rows' => $this->getRows(),
                 'pagination' => [
-                    'page' => $aData['aGrid']['page'],
-                    'total' => $aData['aGrid']['total'],
-                    'totalPages' => $aData['aGrid']['totalPages'],
+                    'page' => $this->getInformacao('page'),
+                    'total' => $this->getInformacao('total'),
+                    'totalPages' => $this->getInformacao('totalPages'),
                 ],
             ],
         ];

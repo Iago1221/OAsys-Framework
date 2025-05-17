@@ -8,7 +8,7 @@ use Framework\Core\Router\OrderProcessing;
 use Framework\Infrastructure\DB\Persistence\Storage\PdoStorage;
 use Framework\Interface\Domain\Router\Order;
 use Framework\Interface\Domain\Router\Rota;
-use Framework\Interface\Infrastructure\Persistence\Core\RotaMapper;
+use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
 
 /**
  * Classe principal.
@@ -26,7 +26,7 @@ class Main
     private static ?string $route;
     private static Order $oOrder;
 
-    public function __construct($route, RotaMapper $oRotaMapper)
+    public function __construct($route, RotaRepository $oRotaMapper)
     {
         self::$route = $route;
         $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);

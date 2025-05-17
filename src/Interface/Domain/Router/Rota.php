@@ -4,69 +4,79 @@ namespace Framework\Interface\Domain\Router;
 
 class Rota
 {
-    private $iId;
-    private string $sNome;
-    private string $sCaminho;
-    private string $sMetodo;
-    private string $sPacote;
-    private string $sTitulo;
+    private $id;
+    private string $nome;
+    private string $caminho;
+    private string $metodo;
+    private string $pacote;
+    private string $titulo;
 
-    public function __construct($sNome, $sPacote, $sCaminho, $sMetodo, $sTitulo)
+    public function __construct($nome, $pacote, $caminho, $metodo, $titulo)
     {
-        $this->sNome = $sNome;
-        $this->sPacote = $sPacote;
-        $this->sCaminho = $sCaminho;
-        $this->sMetodo = $sMetodo;
-        $this->sTitulo = $sTitulo;
+        $this->nome = $nome;
+        $this->pacote = $pacote;
+        $this->caminho = $caminho;
+        $this->metodo = $metodo;
+        $this->titulo = $titulo;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function getNome(): string
     {
-        return $this->sNome;
+        return $this->nome;
     }
 
-    public function setNome(string $sNome): void
+    public function setNome(string $nome): void
     {
-        $this->sNome = $sNome;
+        $this->nome = $nome;
     }
 
     public function getCaminho(): string
     {
-        return $this->sCaminho;
+        return $this->caminho;
     }
 
-    public function setCaminho(string $sCaminho): void
+    public function setCaminho(string $caminho): void
     {
-        $this->sCaminho = $sCaminho;
+        $this->caminho = $caminho;
     }
 
     public function getMetodo(): string
     {
-        return $this->sMetodo;
+        return $this->metodo;
     }
 
-    public function setMetodo(string $sMetodo): void
+    public function setMetodo(string $metodo): void
     {
-        $this->sMetodo = $sMetodo;
+        $this->metodo = $metodo;
     }
 
     public function getTitulo(): string
     {
-        return $this->sTitulo;
+        return $this->titulo;
     }
 
-    public function setTitulo(string $sTitulo): void
+    public function setTitulo(string $titulo): void
     {
-        $this->sTitulo = $sTitulo;
+        $this->titulo = $titulo;
     }
 
     public function getPacote(): string
     {
-        return $this->sPacote;
+        return $this->pacote;
     }
 
-    public function setPacote(string $sPacote): void
+    public function setPacote(string $pacote): void
     {
-        $this->sPacote = $sPacote;
+        $this->pacote = $pacote;
     }
 }

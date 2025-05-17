@@ -9,30 +9,34 @@ abstract class FormController extends Controller
 {
     public function show($bDisabled = true)
     {
-        $oModel = $_GET['id'] ? $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $_GET['id']]) : null;
+        $oModel = $_GET['id'] ?
+            $this->getRepository()->findBy('id', $_GET['id']) :
+            null;
+
         if ($oModel) {
             $this->formBean($oModel);
         }
 
-        $aData['sTitle'] = Main::getOrder()->getTitle();
-        $aData['sRoute'] = Main::getOrder()->getRoute();
+        $this->getView()->setTitulo(Main::getOrder()->getTitle());
+        $this->getView()->setRota(Main::getOrder()->getRoute());
+
         $aData['bDisabled'] = $bDisabled;
 
         $this->beforeRender($oModel, $aData);
-        $this->oView->render($aData);
+        $this->getView()->render($aData);
     }
 
     protected function beforeRender($oModel, &$aData) {}
 
     protected function formBean($oModel)
     {
-        $aData = $this->getMapper()->getAtributtesData($oModel);
-        $aComponents = $this->oView->getComponents();
+        $aData = $this->mapModelToArray($oModel);
+        $aComponents = $this->getView()->getComponents();
         $aNewComponents = [];
 
         foreach ($aComponents as $oComponent) {
             if ($oComponent instanceof FormField) {
-                $sField = $oComponent->getField();
+                $sField = $oComponent->getName();
 
                 if (strpos($sField, '/') !== false) {
                     $parts = explode('/', $sField);
@@ -72,11 +76,11 @@ abstract class FormController extends Controller
 
         try {
             Main::getPdoStorage()->beginTransaction();
-
-            $oModel = $this->getMapper()->createFromAtributtes($this->getRequest());
+            $this->getRepository()->setControlaTransacao(false);
+            $oModel = $this->getRepository()->mapToModel($this->getRequest());
 
             $this->beforeAdd($oModel);
-            $oModel->setId($this->getMapper()->save($oModel));
+            $this->getRepository()->saveWithRelations($oModel);
             $this->afterAdd($oModel);
 
             Main::getPdoStorage()->commit();
@@ -101,13 +105,15 @@ abstract class FormController extends Controller
         }
 
         try {
-            Main::getPdoStorage()->beginTransaction();
             $aData = $this->getRequest();
-            $oModel =  $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $aData[$this->getMapper()->getIdentifierAtributte()]]);
-            $oModel = $this->bean($oModel, $aData);
+            Main::getPdoStorage()->beginTransaction();
+
+            $this->getRepository()->setControlaTransacao(false);
+            $oModel = $this->getRepository()->findBy('id', $aData['id']);
+            //$oModel = $this->bean($oModel, $aData);
 
             $this->beforeEdit($oModel);
-            $this->getMapper()->save($oModel);
+            $this->getRepository()->saveWithRelations($oModel);
             $this->afterEdit($oModel);
 
             Main::getPdoStorage()->commit();
@@ -149,10 +155,10 @@ abstract class FormController extends Controller
     {
         try {
             Main::getPdoStorage()->beginTransaction();
-            $oModel = $this->getMapper()->find([$this->getMapper()->getIdentifierAtributte() => $this->getRequest('iId')]);
+            $oModel = $this->getRepository()->findBy('id', $this->getRequest()->getParam('id'));
 
             $this->beforeDelete($oModel);
-            $this->getMapper()->remove($oModel);
+            $this->getRepository()->remove($oModel);
             $this->afterDelete($oModel);
 
             Main::getPdoStorage()->commit();

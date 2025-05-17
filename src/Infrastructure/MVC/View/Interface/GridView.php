@@ -3,32 +3,33 @@
 namespace Framework\Infrastructure\MVC\View\Interface;
 
 use Framework\Infrastructure\MVC\View\Components\Fields\GridField;
+use Framework\Infrastructure\MVC\View\Components\Fields\GridFilter;
 use Framework\Infrastructure\MVC\View\Components\Grid\Grid;
 
 abstract class GridView extends View
 {
-    private $aColumns = [];
-    private $aFilters = [];
-    private $aActions = [];
-    private $aGridActions = [];
-
-    protected function addColumn(GridField $oField, $filter = true)
+    protected function instanciaComponent()
     {
-        $this->aColumns[] = $oField;
+        $this->setComponent(new Grid());
+    }
+
+    protected function addColumn(GridField $field, $filter = true)
+    {
+        $this->getComponent()->addColumn($field);
 
         if ($filter) {
-            $this->addFilter($oField);
+            $this->getComponent()->addFilter(GridFilter::fromGridField($field));
         }
     }
 
-    protected function addFilter($oField)
+    protected function addFilter(GridFilter $filter)
     {
-        $this->aFilters[] = $oField;
+        $this->getComponent()->addFilter($filter);
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET')
     {
-        $this->aActions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod];
+        $this->getComponent()->addAction($name, $label, $route, $httpMethod);
     }
 
     protected function addDefaultActions($routeName)
@@ -41,36 +42,32 @@ abstract class GridView extends View
 
     protected function addGridAction($name, $label, $route, $httpMethod = 'GET')
     {
-        $this->aGridActions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod];
+        $this->getComponent()->addGridAction($name, $label, $route, $httpMethod);
     }
 
     public function render($aData = [])
     {
-        if ($aData['filtersValue']) {
-            $this->atualizaValorFiltros((array) $aData['filtersValue']);
-        }
+        $window = [
+            'window' => [
+                'title' => $this->getTitulo(),
+                'route' => $this->getRota()
+            ]
+        ];
 
-        $oGrid = new Grid($this->aColumns, $this->aFilters, $this->aActions, $this->aGridActions);
-        echo json_encode($oGrid->toArray($aData));
+        $component = array_merge($window, $this->getComponent()->toArray());
+
+        echo json_encode($component);
     }
 
     private function atualizaValorFiltros($valores)
     {
-        foreach ($this->aFilters as $filter) {
+        /** @var GridFilter $filter */
+        foreach ($this->getComponent()->getFilters() as $filter) {
             foreach ($valores as $key => $value) {
-                if ($filter->getField() == $key) {
-                    $filter->setVaue($value);
+                if ($filter->getName() == $key) {
+                    $filter->setVaLue($value);
                 }
             }
         }
-    }
-
-    public function getColumns()
-    {
-        return $this->aColumns;
-
-    }
-    public function getFilters() {
-        return $this->aFilters;
     }
 }

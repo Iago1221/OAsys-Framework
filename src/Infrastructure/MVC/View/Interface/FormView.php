@@ -15,6 +15,11 @@ abstract class FormView extends View
     private $aComponents = [];
     private $sFormLayout = self::FORM_LAYOUT_TWO_COLUMNS;
 
+    protected function instanciaComponent()
+    {
+        //$this->setComponent(new Form());
+    }
+
     protected function addComponent(IComponent $oComponent)
     {
         $this->aComponents[] = $oComponent;

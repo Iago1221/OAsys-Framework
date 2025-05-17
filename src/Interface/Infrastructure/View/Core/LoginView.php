@@ -18,6 +18,11 @@ class LoginView extends View
 
     }
 
+    protected function instanciaComponent()
+    {
+
+    }
+
     public function render()
     {
         throw new \DomainException('Não se pode renderizar componentes na raiz!');

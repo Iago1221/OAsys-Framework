@@ -2,44 +2,55 @@
 
 namespace Framework\Infrastructure\MVC\Controller;
 
-use Framework\Infrastructure\DB\Persistence\Storage\Mapper\GenericMapper;
+use Framework\Core\Main;
+use Framework\Infrastructure\DB\Persistence\Repository\Repository;
 use Framework\Infrastructure\MVC\View\Interface\View;
 
 /**
  * Abstração base para os controllers.
+ * @author Iago Olivera <prog.iago.oliveira@gmail.com>
  */
 abstract class Controller
 {
-    protected $oView;
-    protected $oMapper;
-    private $request;
+    protected View $oView;
+    protected Repository $oRepository;
+    private array $request;
 
     public function __construct()
     {
         $this->setRequest();
-        $this->setMapper();
-        $this->oView = $this->getView();
+        $this->oRepository = new ($this->getRepositoryClass())(Main::getConnection());
+        $this->oView = new ($this->getViewClass())();
     }
 
     /**
      * Deve retornar uma instância da view que será manipulada pelo controller.
+     * @return View::class
+     */
+    abstract protected function getViewClass(): string;
+
+    /**
+     * Deve ser utilizado para setar valor no atributo $oRepository.
+     * @return Repository::class
+     */
+    abstract protected function getRepositoryClass(): string;
+
+    /**
+     * Retorna a instância da view definida para o controller.
      * @return View
      */
-    public abstract function getView(): View;
-
-    /**
-     * Deve ser utilizado para setar valor no atributo $oMapper.
-     * @return void
-     */
-    abstract protected function setMapper(): void;
-
-    /**
-     * Retornar o mapeador a ser utilizado no controle das requisições.
-     * @return GenericMapper
-     */
-    public function getMapper(): GenericMapper
+    protected function getView(): View
     {
-        return $this->oMapper;
+        return $this->oView;
+    }
+
+    /**
+     * Retorna a instância do repositório definido para o controller.
+     * @return Repository
+     */
+    protected function getRepository(): Repository
+    {
+        return $this->oRepository;
     }
 
     /**
@@ -57,6 +68,11 @@ abstract class Controller
         $this->request = $requestData;
     }
 
+    /**
+     * Trata os dados recebidos na requisição.
+     * @param $request
+     * @return array|null
+     */
     protected function trataRequest($request)
     {
         if (!$request) {
@@ -80,6 +96,11 @@ abstract class Controller
         return $request;
     }
 
+    /**
+     * Retorna os dados tratados a partir da requisição.
+     * @param $data
+     * @return mixed|null
+     */
     protected function getRequest($data = null)
     {
         if ($data) {
@@ -93,8 +114,44 @@ abstract class Controller
         return $this->request;
     }
 
+    /**
+     * Define um novo parâmetro nos dados tratados a partir da requisição.
+     * @param $sParamName
+     * @param $xParamValue
+     * @return void
+     */
     protected function setParam($sParamName, $xParamValue)
     {
         $this->request[$sParamName] = $xParamValue;
+    }
+
+    protected function mapModelToArray($model) {
+        $dados = $this->getRepository()->mapToArray($model);
+        $fields = $dados[0];
+        $values = $dados[1];
+        $row = [];
+
+        foreach ($fields as $i => $field) {
+            $value = $values[$i];
+
+            if (is_array($value)) {
+                $arrayValue = [];
+                foreach ($value as $jValue) {
+                    if (is_object($jValue)) {
+                        $arrayValue[] = $this->mapModelToArray($value);
+                    } else {
+                        $arrayValue[] = $jValue;
+                    }
+                }
+
+                $row[$field] = $arrayValue;
+            } else if (is_object($value)) {
+                $row[$field] = $this->mapModelToArray($value);
+            } else {
+                $row[$field] = $value;
+            }
+        }
+
+        return $row;
     }
 }

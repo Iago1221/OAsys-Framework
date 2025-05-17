@@ -10,9 +10,9 @@ class UsuarioGridView extends GridView
 {
     protected function create()
     {
-        $this->addColumn(new GridField('iId', 'ID', Field::TYPE_NUMBER));
-        $this->addColumn(new GridField('sNome', 'Nome', Field::TYPE_TEXT));
-        $this->addColumn(new GridField('sEmail', 'E-mail', Field::TYPE_EMAIL));
+        $this->addColumn(new GridField('id', 'ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('nome', 'Nome', Field::TYPE_TEXT));
+        $this->addColumn(new GridField('email', 'E-mail', Field::TYPE_EMAIL));
 
         $this->addDefaultActions('usuario');
         $this->addAction('edit_password', 'Editar senha', 'sys_usuario_edit_password');

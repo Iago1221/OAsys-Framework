@@ -1,0 +1,35 @@
+<?php
+
+namespace Framework\Interface\Infrastructure\Persistence\Sistema\Modulo;
+
+use Framework\Infrastructure\DB\Persistence\Repository\Repository;
+use Framework\Interface\Domain\Modulo\Modulo;
+
+class ModuloRepository extends Repository
+{
+    protected function getSchema(): ?string
+    {
+        return null;
+    }
+
+    protected function queryBuilder()
+    {
+        parent::queryBuilder();
+        $this->with(['itens']);
+    }
+
+    protected function loadItens(Modulo $modulo)
+    {
+        $this->hasMany($modulo, 'ModuloItem', 'modulo', new ModuloItemRepository($this->pdo));
+    }
+
+    public function getTableName(): string
+    {
+        return 'modulos';
+    }
+
+    public function getModelClass(): string
+    {
+        return Modulo::class;
+    }
+}
