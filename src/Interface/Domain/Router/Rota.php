@@ -2,7 +2,9 @@
 
 namespace Framework\Interface\Domain\Router;
 
-class Rota
+use Framework\Infrastructure\MVC\Model\BaseModel;
+
+class Rota extends BaseModel
 {
     private $id;
     private ?string $nome;

@@ -2,9 +2,10 @@
 
 namespace Framework\Interface\Domain\Modulo;
 
+use Framework\Infrastructure\MVC\Model\BaseModel;
 use Framework\Interface\Domain\Router\Rota;
 
-class ModuloItem
+class ModuloItem extends BaseModel
 {
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
@@ -24,7 +25,7 @@ class ModuloItem
     {
         return $this->id;
     }
-    
+
     public function setTitulo(string $titulo)
     {
         $this->titulo = $titulo;

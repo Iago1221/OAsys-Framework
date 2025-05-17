@@ -2,7 +2,9 @@
 
 namespace Framework\Interface\Domain\Modulo;
 
-class Modulo
+use Framework\Infrastructure\MVC\Model\BaseModel;
+
+class Modulo extends BaseModel
 {
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
