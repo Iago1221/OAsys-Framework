@@ -9,10 +9,10 @@ use Framework\Infrastructure\MVC\Model\BaseModel;
  */
 class Usuario extends BaseModel
 {
-    private ?int $id;
-    private ?string $nome;
-    private ?string $senha;
-    private ?string $email;
+    protected ?int $id;
+    protected ?string $nome;
+    protected ?string $senha;
+    protected ?string $email;
 
     public function setId(int $id): void
     {

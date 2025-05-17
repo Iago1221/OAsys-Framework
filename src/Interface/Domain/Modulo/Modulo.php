@@ -9,11 +9,11 @@ class Modulo extends BaseModel
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
-    private int $id;
-    private string $titulo;
-    private int $situacao;
-    private array $itens;
-    private string $pacote;
+    protected int $id;
+    protected string $titulo;
+    protected int $situacao;
+    protected array $itens;
+    protected string $pacote;
 
     public function setId($id)
     {

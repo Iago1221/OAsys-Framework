@@ -10,11 +10,11 @@ class ModuloItem extends BaseModel
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
-    private $id;
-    private $rota;
-    private $titulo;
-    private $situacao;
-    private $modulo;
+    protected $id;
+    protected $rota;
+    protected $titulo;
+    protected $situacao;
+    protected $modulo;
 
     public function setId($id)
     {

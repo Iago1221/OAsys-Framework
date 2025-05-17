@@ -6,12 +6,12 @@ use Framework\Infrastructure\MVC\Model\BaseModel;
 
 class Rota extends BaseModel
 {
-    private $id;
-    private ?string $nome;
-    private ?string $caminho;
-    private ?string $metodo;
-    private ?string $pacote;
-    private ?string $titulo;
+    protected $id;
+    protected ?string $nome;
+    protected ?string $caminho;
+    protected ?string $metodo;
+    protected ?string $pacote;
+    protected ?string $titulo;
 
     public function __construct($nome = null, $pacote = null, $caminho = null, $metodo = null, $titulo = null)
     {
