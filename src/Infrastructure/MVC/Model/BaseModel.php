@@ -11,8 +11,14 @@ abstract class BaseModel
 
     protected function initializeProperties(): void
     {
-        foreach (get_object_vars($this) as $property => $value) {
-            $this->$property = null;
+        $reflection = new \ReflectionClass($this);
+        foreach ($reflection->getProperties() as $property) {
+            if ($property->isStatic()) {
+                continue;
+            }
+
+            $property->setAccessible(true);
+            $property->setValue($this, null);
         }
     }
 }
