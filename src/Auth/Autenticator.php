@@ -36,7 +36,7 @@ class Autenticator
     public function login(): bool
     {
         /** @var Usuario $oUsuario */
-        $oUsuario = $this->repository->findBy('sEmail', $this->login);
+        $oUsuario = $this->repository->findBy('email', $this->login);
 
         if (!$oUsuario) return false;
 
