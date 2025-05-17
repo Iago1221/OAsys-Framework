@@ -20,7 +20,7 @@ class ModuloItem
         $this->titulo = $titulo;
     }
 
-    public function setRota(Rota $rota)
+    public function setRota(int|Rota $rota)
     {
         $this->rota = $rota;
     }
@@ -35,7 +35,7 @@ class ModuloItem
         return $this->titulo;
     }
 
-    public function getRota(): Rota
+    public function getRota(): int|Rota
     {
         return $this->rota;
     }
