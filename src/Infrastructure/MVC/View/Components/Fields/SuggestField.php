@@ -24,11 +24,11 @@ class SuggestField extends Field
 
     public function bean($aData)
     {
-        $sFieldName = str_replace($this->sField . "/", "", $this->field->getField());
-        $sDescriptionFieldName = str_replace($this->sField . "/", "", $this->descriptionField->getField());
+        $sFieldName = str_replace($this->name . "/", "", $this->field->getName());
+        $sDescriptionFieldName = str_replace($this->name . "/", "", $this->descriptionField->getName());
 
-        $this->field->setValue($aData[$this->sField][$sFieldName]);
-        $this->descriptionField->setValue($aData[$this->sField][$sDescriptionFieldName]);
+        $this->field->setValue($aData[$this->name][$sFieldName]);
+        $this->descriptionField->setValue($aData[$this->name][$sDescriptionFieldName]);
     }
 
     public function toArray(): array
@@ -36,7 +36,7 @@ class SuggestField extends Field
         return [
             'component' => 'SuggestFieldComponent',
             'SuggestFieldComponent' => [
-                'field' => $this->sField,
+                'name' => $this->name,
                 'idField' => $this->field->toArray(),
                 'descriptionField' => $this->descriptionField->toArray(),
                 'label' => $this->label,

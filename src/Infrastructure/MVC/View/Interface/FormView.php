@@ -4,7 +4,6 @@ namespace Framework\Infrastructure\MVC\View\Interface;
 
 use Framework\Infrastructure\MVC\View\Components\Form\Form;
 use Framework\Infrastructure\MVC\View\Components\IComponent;
-use Framework\Infrastructure\MVC\View\Interface\View;
 
 abstract class FormView extends View
 {
@@ -48,7 +47,7 @@ abstract class FormView extends View
 
     public function render($aData = [])
     {
-        $oForm = new Form($this->getComponents(), $this->sFormLayout, $aData['sRoute'], $aData['sTitle'], $aData['bDisabled']);
+        $oForm = new Form($this->getComponents(), $this->sFormLayout, $this->getRota(), $this->getTitulo(), $aData['bDisabled']);
         echo json_encode($oForm->toArray());
     }
 }

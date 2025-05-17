@@ -131,6 +131,10 @@ abstract class Controller
         $values = $dados[1];
         $row = [];
 
+        if (method_exists($model, 'getId')) {
+            $row['id'] = $model->getId();
+        }
+
         foreach ($fields as $i => $field) {
             $value = $values[$i];
 

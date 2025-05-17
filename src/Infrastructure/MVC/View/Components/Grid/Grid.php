@@ -97,24 +97,24 @@ class Grid implements IComponent
         $data = [
             'component' => 'GridComponent',
             'GridComponent' => [
-                'columns' => array_map(function ($oColumn) {
+                'columns' => array_values(array_map(function ($oColumn) {
                     return [
-                        'field' => $oColumn->getName(),
+                        'name' => $oColumn->getName(),
                         'label' => $oColumn->getLabel(),
                         'type' => $oColumn->getType(),
                         'options' => $oColumn->getOptions()
                     ];
-                }, $this->getColumns()),
-                'filters' => array_map(function ($filter) {
+                }, $this->getColumns())),
+                'filters' => array_values(array_map(function ($filter) {
                     return [
-                        'field' => $filter->getName(),
+                        'name' => $filter->getName(),
                         'label' => $filter->getLabel(),
                         'type' => $filter->getType(),
                         'options' => $filter->getOptions(),
                         'value' => $filter->getValue(),
                         'operator' => $filter->getOperator()
                     ];
-                }, $this->getFilters()),
+                }, $this->getFilters())),
                 'actions' => $this->getActions(),
                 'gridActions' => $this->getGridActions(),
                 'rows' => $this->getRows(),

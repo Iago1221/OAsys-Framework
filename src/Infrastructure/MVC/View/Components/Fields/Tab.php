@@ -54,7 +54,7 @@ class Tab extends FormComponent
             $aNewComponents = [];
             foreach ($tab['components'] as $oComponent) {
                 if ($oComponent instanceof FormField) {
-                    $sField = $oComponent->getField();
+                    $sField = $oComponent->getName();
 
                     if (strpos($sField, '/') !== false) {
                         [$sParentKey, $sChildKey] = explode('/', $sField, 2);

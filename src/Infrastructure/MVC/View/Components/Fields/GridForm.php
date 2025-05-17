@@ -47,7 +47,7 @@ class GridForm extends FormComponent
 
         foreach ($this->fields as $oField) {
             if ($oField instanceof FormField) {
-                $sField = $oField->getField();
+                $sField = $oField->getName();
 
                 if (isset($aData[$sField]) && is_array($aData[$sField])) {
                     $this->rows = count($aData[$sField]);

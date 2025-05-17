@@ -28,7 +28,7 @@ class FormField extends Field
         return [
             'component' => 'FormFieldComponent',
             'FormFieldComponent' => [
-                'field' => $this->sField,
+                'name' => $this->name,
                 'label' => $this->label,
                 'type' => $this->type,
                 'options' => $this->options,

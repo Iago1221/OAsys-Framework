@@ -35,7 +35,7 @@ class Fieldset extends FormComponent
 
         foreach ($aComponents as $oComponent) {
             if ($oComponent instanceof FormField) {
-                $sField = $oComponent->getField();
+                $sField = $oComponent->getName();
 
                 if (strpos($sField, '/') !== false) {
                     $parts = explode('/', $sField);
