@@ -492,6 +492,10 @@ abstract class Repository {
         try {
             [$fields, $values, $placeholders, $updates] = $this->mapToArray($model);
 
+            if (method_exists($model, 'getId')) {
+                $id = $model->getId();
+            }
+
             if (isset($id)) {
                 $sql = "UPDATE {$this->table} SET " . implode(", ", $updates) . " WHERE id = ?";
                 $values = array_merge($values, [$id]);
