@@ -27,7 +27,7 @@ class IndexView extends View
         $this->menu->setModulos($this->data['modulos']);
     }
 
-    protected function instanciaComponent()
+    protected function instanciaViewComponent()
     {
 
     }

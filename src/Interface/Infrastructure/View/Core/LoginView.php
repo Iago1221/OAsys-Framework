@@ -18,7 +18,7 @@ class LoginView extends View
 
     }
 
-    protected function instanciaComponent()
+    protected function instanciaViewComponent()
     {
 
     }

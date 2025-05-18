@@ -14,7 +14,7 @@ abstract class FormView extends View
     private $aComponents = [];
     private $sFormLayout = self::FORM_LAYOUT_TWO_COLUMNS;
 
-    protected function instanciaComponent()
+    protected function instanciaViewComponent()
     {
         //$this->setComponent(new Form());
     }

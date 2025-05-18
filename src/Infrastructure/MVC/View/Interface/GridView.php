@@ -8,28 +8,28 @@ use Framework\Infrastructure\MVC\View\Components\Grid\Grid;
 
 abstract class GridView extends View
 {
-    protected function instanciaComponent()
+    protected function instanciaViewComponent()
     {
-        $this->setComponent(new Grid());
+        $this->setViewComponent(new Grid());
     }
 
     protected function addColumn(GridField $field, $filter = true)
     {
-        $this->getComponent()->addColumn($field);
+        $this->getViewComponent()->addColumn($field);
 
         if ($filter) {
-            $this->getComponent()->addFilter(GridFilter::fromGridField($field));
+            $this->getViewComponent()->addFilter(GridFilter::fromGridField($field));
         }
     }
 
     protected function addFilter(GridFilter $filter)
     {
-        $this->getComponent()->addFilter($filter);
+        $this->getViewComponent()->addFilter($filter);
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET')
     {
-        $this->getComponent()->addAction($name, $label, $route, $httpMethod);
+        $this->getViewComponent()->addAction($name, $label, $route, $httpMethod);
     }
 
     protected function addDefaultActions($routeName)
@@ -42,7 +42,7 @@ abstract class GridView extends View
 
     protected function addGridAction($name, $label, $route, $httpMethod = 'GET')
     {
-        $this->getComponent()->addGridAction($name, $label, $route, $httpMethod);
+        $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod);
     }
 
     public function render($aData = [])
@@ -54,7 +54,7 @@ abstract class GridView extends View
             ]
         ];
 
-        $component = array_merge($window, $this->getComponent()->toArray());
+        $component = array_merge($window, $this->getViewComponent()->toArray());
 
         echo json_encode($component);
     }
@@ -62,7 +62,7 @@ abstract class GridView extends View
     private function atualizaValorFiltros($valores)
     {
         /** @var GridFilter $filter */
-        foreach ($this->getComponent()->getFilters() as $filter) {
+        foreach ($this->getViewComponent()->getFilters() as $filter) {
             foreach ($valores as $key => $value) {
                 if ($filter->getName() == $key) {
                     $filter->setVaLue($value);

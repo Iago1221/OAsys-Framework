@@ -15,18 +15,18 @@ abstract class View
     public function __construct($data = [])
     {
         $this->data = $data;
-        $this->instanciaComponent();
+        $this->instanciaViewComponent();
         $this->create();
     }
 
-    abstract protected function instanciaComponent();
+    abstract protected function instanciaViewComponent();
 
-    protected function setComponent(IComponent $component)
+    protected function setViewComponent(IComponent $component)
     {
         $this->component = $component;
     }
 
-    public function getComponent(): IComponent
+    public function getViewComponent(): IComponent
     {
         return $this->component;
     }
