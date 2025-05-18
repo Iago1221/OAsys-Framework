@@ -50,7 +50,17 @@ class Usuario extends BaseModel
 
     public function setSenha(?string $senha): void
     {
-        $this->senha = password_hash($senha, PASSWORD_ARGON2ID);
+        if ($senha && !$this->isHash($senha)) {
+            $this->senha = password_hash($senha, PASSWORD_ARGON2ID);
+            return;
+        }
+
+        $this->senha = $senha;
+    }
+
+    private function isHash(string $valor): bool
+    {
+        return str_starts_with($valor, '$argon2id$');
     }
 
     public function getEmail(): ?string
