@@ -32,7 +32,6 @@ abstract class FormController extends Controller
     {
         $aData = $this->mapModelToArray($oModel);
         $aComponents = $this->getView()->getComponents();
-        $aNewComponents = [];
 
         foreach ($aComponents as $oComponent) {
             if ($oComponent instanceof FormField) {
@@ -55,15 +54,11 @@ abstract class FormController extends Controller
                     }
                 }
 
-                $aNewComponents[] = $oComponent;
                 continue;
             }
 
             $oComponent->bean($aData);
-            $aNewComponents[] = $oComponent;
         }
-
-        $this->oView->setComponents($aNewComponents);
     }
 
     /** @return void|null */

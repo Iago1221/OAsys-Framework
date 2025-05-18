@@ -38,9 +38,9 @@ class Form implements IComponent
             ],
             'component' => 'FormComponent',
             'FormComponent' => [
-                'components' => array_map(function ($oComponent) {
+                'components' => array_values(array_map(function ($oComponent) {
                     return json_encode($oComponent->toArray());
-                }, $this->aComponents),
+                }, $this->aComponents)),
                 'layout' => $this->sLayout,
                 'disabled' => $this->bDisabled,
                 'route' => $this->sRoute

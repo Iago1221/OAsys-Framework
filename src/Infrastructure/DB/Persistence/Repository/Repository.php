@@ -324,6 +324,11 @@ abstract class Repository {
     protected function hasOne($model, string $relatedClass, string $foreignKey, Repository $relatedRepository, string $localKey = 'id')
     {
         $localKeyValue = $model->{'get' . ucfirst($localKey)}();
+
+        if (is_object($localKeyValue)) {
+            $localKeyValue = $localKeyValue->{'get' . ucfirst($foreignKey)}();
+        }
+
         $relatedModel = $relatedRepository->findBy($foreignKey, $localKeyValue);
         $model->{'set' . ucfirst($relatedClass)}($relatedModel);
     }
@@ -356,6 +361,11 @@ abstract class Repository {
     protected function belongsTo($model, string $relatedClass, string $ownerKey, string $foreignKey, Repository $relatedRepository)
     {
         $foreignKeyValue = $model->{'get' . ucfirst($foreignKey)}();
+
+        if (is_object($foreignKeyValue)) {
+            $foreignKeyValue = $foreignKeyValue->{'get' . ucfirst($ownerKey)}();
+        }
+
         $relatedModel = $relatedRepository->findBy($ownerKey, $foreignKeyValue);
         $model->{'set' . ucfirst($relatedClass)}($relatedModel);
     }
