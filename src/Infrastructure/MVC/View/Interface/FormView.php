@@ -21,8 +21,13 @@ abstract class FormView extends View
 
     protected function addComponent(IComponent $oComponent)
     {
-        $this->aComponents[] = $oComponent;
+        $this->aComponents[$oComponent->getName()] = $oComponent;
         return $oComponent;
+    }
+
+    public function getComponent($name)
+    {
+        return $this->aComponents[$name];
     }
 
     protected function setFormLayout(string $sFormLayout)
