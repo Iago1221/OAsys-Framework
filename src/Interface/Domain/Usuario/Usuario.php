@@ -2,12 +2,12 @@
 
 namespace Framework\Interface\Domain\Usuario;
 
-use Framework\Infrastructure\MVC\Model\BaseModel;
+use Framework\Infrastructure\MVC\Model\Model;
 
 /**
  * @author Iago Oliveira <prog.iago.oliveira@gmail.com>
  */
-class Usuario extends BaseModel
+class Usuario extends Model
 {
     protected ?int $id;
     protected ?string $nome;

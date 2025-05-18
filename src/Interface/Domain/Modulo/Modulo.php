@@ -2,18 +2,18 @@
 
 namespace Framework\Interface\Domain\Modulo;
 
-use Framework\Infrastructure\MVC\Model\BaseModel;
+use Framework\Infrastructure\MVC\Model\Model;
 
-class Modulo extends BaseModel
+class Modulo extends Model
 {
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
-    protected int $id;
-    protected string $titulo;
-    protected int $situacao;
-    protected array $itens;
-    protected string $pacote;
+    protected ?int $id;
+    protected ?string $titulo;
+    protected ?int $situacao;
+    protected ?array $itens;
+    protected ?string $pacote;
 
     public function setId($id)
     {

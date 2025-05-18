@@ -2,10 +2,10 @@
 
 namespace Framework\Interface\Domain\Modulo;
 
-use Framework\Infrastructure\MVC\Model\BaseModel;
+use Framework\Infrastructure\MVC\Model\Model;
 use Framework\Interface\Domain\Router\Rota;
 
-class ModuloItem extends BaseModel
+class ModuloItem extends Model
 {
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;

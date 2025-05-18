@@ -2,7 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\Model;
 
-abstract class BaseModel
+abstract class Model
 {
     public function __construct()
     {
