@@ -110,7 +110,7 @@ abstract class FormController extends Controller
 
             $this->getRepository()->setControlaTransacao(false);
             $oModel = $this->getRepository()->findBy('id', $aData['id']);
-            //$oModel = $this->bean($oModel, $aData);
+            $oModel = $this->bean($oModel, $aData);
 
             $this->beforeEdit($oModel);
             $this->getRepository()->saveWithRelations($oModel);

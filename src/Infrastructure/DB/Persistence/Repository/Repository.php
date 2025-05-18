@@ -90,9 +90,9 @@ abstract class Repository {
     {
         foreach ($conditions as $key => $condition) {
             if (is_array($condition)) {
-                [$column, $operator, $value] = $condition;
-                $this->filters[] = "$column $operator ?";
-                $this->bindings[] = $value;
+                ['name' => $column, 'operator' => $operator, 'value' => $value] = $condition;
+                $this->filters[] = "$column {$this->translateOperator($operator)} ?";
+                $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
                 $this->filters[] = "$key = ?";
                 $this->bindings[] = $condition;
@@ -100,6 +100,30 @@ abstract class Repository {
         }
 
         return $this;
+    }
+
+    private function trataFiltroValue($value, $operator)
+    {
+        if (strtoupper($operator) == 'CONTEM') {
+            $value = "%{$value}%";
+        }
+
+        return $value;
+    }
+
+    private function translateOperator($operator)
+    {
+        $operators = [
+            'IGUAL' => '=',
+            'DIFERENTE' => '<>',
+            'CONTEM' => 'LIKE',
+            'MAIOR' => '>',
+            'MENOR' => '<',
+            'MAIOR IGUAL' => '>=',
+            'MENOR IGUAL' => '<='
+        ];
+
+        return $operators[strtoupper($operator)];
     }
 
     /**

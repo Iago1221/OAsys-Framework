@@ -92,7 +92,7 @@ abstract class GridController extends Controller
         $this->beforeBindView();
         $this->getView()->getComponent()->setRows($data);
         $this->getView()->getComponent()->setInformacoes($this->getGridInformations($this->getLimite(), $this->getPagina(), $this->getQuantidadeRegistros()));
-        $this->getView()->getComponent()->setValorFiltros($this->getFiltros());
+        $this->getView()->getComponent()->setFiltersRows($this->getFiltros());
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 

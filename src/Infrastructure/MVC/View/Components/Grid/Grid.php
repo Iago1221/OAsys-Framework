@@ -13,6 +13,7 @@ class Grid implements IComponent
 
     /** @var GridFilter[] */
     private array $filters;
+    private array $filtersRows = [];
     private array $actions;
     private array $gridActions;
     private array $rows;
@@ -23,13 +24,16 @@ class Grid implements IComponent
         $this->rows = $rows;
     }
 
-    public function setValorFiltros(array $filtros)
+    public function setFiltersRows(array $filtros)
     {
         foreach ($filtros as $filtro) {
-            $filter = $this->getFilter($filtro['name']);
-            $filter->setOperator($filtro['operator']);
-            $filter->setValue($filtro['value']);
+            $this->filtersRows[] = $filtro;
         }
+    }
+
+    public function getFiltersRows()
+    {
+        return $this->filtersRows;
     }
 
     public function getFilter($name)
@@ -115,6 +119,7 @@ class Grid implements IComponent
                         'operator' => $filter->getOperator()
                     ];
                 }, $this->getFilters())),
+                'filtersRows' => $this->getFiltersRows(),
                 'actions' => $this->getActions(),
                 'gridActions' => $this->getGridActions(),
                 'rows' => $this->getRows(),
