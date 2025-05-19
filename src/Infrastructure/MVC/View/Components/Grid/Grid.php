@@ -8,6 +8,7 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class Grid implements IComponent
 {
+    protected string $name;
     /** @var GridField[] */
     private array $columns;
 
@@ -18,6 +19,16 @@ class Grid implements IComponent
     private array $gridActions;
     private array $rows;
     private array $informacoes;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
     public function setRows(array $rows)
     {

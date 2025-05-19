@@ -6,8 +6,19 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class Tab extends FormComponent
 {
+    protected string $name;
     protected string $layout = 'form-two-columns';
     protected array $tabs = [];
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 
     public function setLayout(string $layout): void
     {
