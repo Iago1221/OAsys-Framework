@@ -178,8 +178,10 @@ abstract class GridController extends Controller
     {
         $filter = $this->getRequest('filter');
         $keys = array_keys($filter);
-        $filter = ['name' => $keys[0], 'operator' => 'LIKE', 'value' => $filter[0]];
-        $this->getRepository()->filterBy($filter);
+
+        $by = [];
+        $by[] = ['name' => $keys[0], 'operator' => 'CONTEM', 'value' => $filter[0]];
+        $this->getRepository()->filterBy($by);
 
         $models = $this->getRepository()->get();
         $data = [];
