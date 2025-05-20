@@ -177,7 +177,7 @@ abstract class GridController extends Controller
     public function suggestGet()
     {
         $filter = $this->getRequest('filter');
-        $filter = ['name' => key($filter[0]), 'operator' => 'LIKE', 'value' => $filter[0]];
+        $filter = ['name' => key($filter), 'operator' => 'LIKE', 'value' => $filter[0]];
         $this->getRepository()->filterBy($filter);
 
         $models = $this->getRepository()->get();
