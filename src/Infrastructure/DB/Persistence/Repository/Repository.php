@@ -517,6 +517,11 @@ abstract class Repository {
             if (str_starts_with($method->name, 'get')) {
                 $property = lcfirst(substr($method->name, 3));
                 $value = $model->{$method->name}();
+
+                if (is_object($value) && method_exists($value, 'getId')) {
+                    $value = $value->getId();
+                }
+
                 if ($property === 'id' && $value) {
                     $id = $value;
                 } elseif ($property !== 'id') {
