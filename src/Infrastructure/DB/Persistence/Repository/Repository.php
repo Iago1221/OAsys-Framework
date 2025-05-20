@@ -504,7 +504,7 @@ abstract class Repository {
         return $models;
     }
 
-    public function mapToArray($model) {
+    public function mapToArray($model, $consideraRelacionamentos = false) {
         $reflection = new \ReflectionClass($model);
         $methods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC);
 
@@ -518,7 +518,7 @@ abstract class Repository {
                 $property = lcfirst(substr($method->name, 3));
                 $value = $model->{$method->name}();
 
-                if (is_object($value) && method_exists($value, 'getId')) {
+                if ((is_object($value) && method_exists($value, 'getId')) && !($consideraRelacionamentos)) {
                     $value = $value->getId();
                 }
 

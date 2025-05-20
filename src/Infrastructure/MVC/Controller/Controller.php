@@ -126,7 +126,7 @@ abstract class Controller
     }
 
     protected function mapModelToArray($model) {
-        $dados = $this->getRepository()->mapToArray($model);
+        $dados = $this->getRepository()->mapToArray($model, true);
         $fields = $dados[0];
         $values = $dados[1];
         $row = [];
