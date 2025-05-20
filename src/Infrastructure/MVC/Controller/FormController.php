@@ -85,12 +85,12 @@ abstract class FormController extends Controller
         }
     }
 
-    protected function beforeAdd($oModel) {}
-    protected function afterAdd($oModel) {}
-    protected function beforeEdit($oModel) {}
-    protected function afterEdit($oModel) {}
-    protected function beforeDelete($oModel) {}
-    protected function afterDelete($oModel) {}
+    protected function beforeAdd($model) {}
+    protected function afterAdd($model) {}
+    protected function beforeEdit($model) {}
+    protected function afterEdit($model) {}
+    protected function beforeDelete($model) {}
+    protected function afterDelete($model) {}
 
     public function edit()
     {

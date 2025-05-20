@@ -169,24 +169,24 @@ abstract class GridController extends Controller
 
     public function suggestFind()
     {
-        $iId = $this->getRequest('id');
-        $oModel = $this->getRepository()->findBy('id', $iId);
-        die(json_encode($this->mapModelToArray($oModel)));
+        $id = $this->getRequest('id');
+        $model = $this->getRepository()->findBy('id', $id);
+        die(json_encode($model ? $this->mapModelToArray($model) : null));
     }
 
     public function suggestGet()
     {
-        $aFilter = $this->getRequest('filter');
-        $aFilter = [$aFilter[0], 'LIKE', $aFilter[1]];
-        $this->getRepository()->filterBy($aFilter);
+        $filter = $this->getRequest('filter');
+        $filter = ['name' => $filter[0], 'operator' => 'LIKE', 'value' => $filter[1]];
+        $this->getRepository()->filterBy($filter);
 
-        $aModels = $this->getRepository()->get();
-        $aData = [];
+        $models = $this->getRepository()->get();
+        $data = [];
 
-        foreach ($aModels as $oModel) {
-            $aData[] = $this->mapModelToArray($oModel);
+        foreach ($models as $model) {
+            $data[] = $this->mapModelToArray($model);
         }
 
-        die(json_encode($aData));
+        die(json_encode($data));
     }
 }
