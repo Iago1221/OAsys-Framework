@@ -9,15 +9,15 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 class Grid implements IComponent
 {
     /** @var GridField[] */
-    private array $columns;
+    private array $columns = [];
 
     /** @var GridFilter[] */
     private array $filters;
     private array $filtersRows = [];
-    private array $actions;
-    private array $gridActions;
-    private array $rows;
-    private array $informacoes;
+    private array $actions = [];
+    private array $gridActions = [];
+    private array $rows = [];
+    private array $informacoes = [];
 
     public function getName(): string
     {
