@@ -142,7 +142,7 @@ abstract class Controller
                 $arrayValue = [];
                 foreach ($value as $jValue) {
                     if (is_object($jValue)) {
-                        $arrayValue[] = $this->mapModelToArray($value);
+                        $arrayValue[] = $this->mapModelToArray($jValue);
                     } else {
                         $arrayValue[] = $jValue;
                     }

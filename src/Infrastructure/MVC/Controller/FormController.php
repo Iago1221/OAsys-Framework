@@ -3,34 +3,56 @@
 namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
+use Framework\Infrastructure\MVC\Model\Model;
 use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
 
 abstract class FormController extends Controller
 {
+    protected $model = null;
+
     public function show($bDisabled = true)
     {
-        $oModel = $_GET['id'] ?
-            $this->getRepository()->findBy('id', $_GET['id']) :
-            null;
-
-        if ($oModel) {
-            $this->formBean($oModel);
-        }
-
+        $this->instanciaModelById($_GET['id']);
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 
         $aData['bDisabled'] = $bDisabled;
 
-        $this->beforeRender($oModel, $aData);
+        $this->beforeRender($this->getModel(), $aData);
+
+        if ($this->getModel()) {
+            $this->formBean($this->getModel());
+        }
+
         $this->getView()->render($aData);
+    }
+
+    protected function instanciaModelById($id)
+    {
+        if ($id) {
+            return $this->setModel($this->getRepository()->findBy('id', $id));
+        }
+
+        return null;
+    }
+
+    protected function setModel($model){
+        $this->model = $model;
+    }
+
+    protected function getModel()
+    {
+        return $this->model;
     }
 
     protected function beforeRender($oModel, &$aData) {}
 
     protected function formBean($oModel)
     {
-        $aData = $this->mapModelToArray($oModel);
+        if (is_object($oModel)) {
+            $aData = $this->mapModelToArray($oModel);
+        }
+
         $aComponents = $this->getView()->getComponents();
 
         foreach ($aComponents as $oComponent) {

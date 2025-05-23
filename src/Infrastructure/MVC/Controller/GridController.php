@@ -171,7 +171,7 @@ abstract class GridController extends Controller
     {
         $id = $this->getRequest('id');
         $model = $this->getRepository()->findBy('id', $id);
-        die(json_encode($model ? $this->mapModelToArray($model) : null));
+        die(json_encode($model && is_object($model) ? $this->mapModelToArray($model) : null));
     }
 
     public function suggestGet()
@@ -187,7 +187,9 @@ abstract class GridController extends Controller
         $data = [];
 
         foreach ($models as $model) {
-            $data[] = $this->mapModelToArray($model);
+            if (is_object($model)) {
+                $data[] = $this->mapModelToArray($model);
+            }
         }
 
         die(json_encode($data));
