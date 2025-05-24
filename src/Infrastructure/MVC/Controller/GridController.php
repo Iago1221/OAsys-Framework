@@ -22,9 +22,12 @@ abstract class GridController extends Controller
         $this->setRegistros();
     }
 
-    protected function setFiltros(array $aFiltros): void {
-        $this->filtros = $aFiltros;
+    protected function setFiltros(array $filtros): void {
+        $this->filtros = $filtros;
+        $this->trataFiltros($this->filtros);
     }
+
+    protected function trataFiltros(&$filtros) {}
 
     protected function setPagina($iPagina) {
         $this->pagina = $iPagina;
