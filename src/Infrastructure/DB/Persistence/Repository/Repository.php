@@ -28,6 +28,7 @@ abstract class Repository {
     {
         $this->pdo = $pdo;
         $this->setModelInfo();
+        $this->setIgnorePropertys();
     }
 
     /**
