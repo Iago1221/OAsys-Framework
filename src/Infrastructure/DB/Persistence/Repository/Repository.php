@@ -617,7 +617,7 @@ abstract class Repository {
                                 $relatedRepo->setControlaTransacao($this->controlaTransacao);
 
                                 // Tenta setar a FK (ex: setUser)
-                                $setter = 'set' . ucfirst($this->modelClass);
+                                $setter = 'set' . ucfirst($reflection->getShortName());
                                 if (method_exists($relatedModel, $setter)) {
                                     $relatedModel->$setter($model->getId());
                                 }
