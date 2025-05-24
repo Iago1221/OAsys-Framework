@@ -58,6 +58,11 @@ abstract class Field extends FormComponent
         $this->options[$value] = $description;
     }
 
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
+    }
+
     public function getOptions(): array
     {
         return $this->options;
