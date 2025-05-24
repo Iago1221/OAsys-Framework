@@ -22,6 +22,7 @@ abstract class Repository {
     protected ?int $offset = null;
     protected array $joins = [];
     protected bool $controlaTransacao = true;
+    protected array $ignorePropertys = [];
 
     public function __construct(\PDO $pdo)
     {
@@ -504,6 +505,13 @@ abstract class Repository {
         return $models;
     }
 
+    protected function setIgnorePropertys() {}
+
+    protected function addIgonreProperty(string $property)
+    {
+        $this->ignorePropertys[] = $property;
+    }
+
     protected function mapToArray($model, $consideraRelacionamentos = false) {
         $reflection = new \ReflectionClass($model);
         $methods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -518,6 +526,10 @@ abstract class Repository {
                 $property = lcfirst(substr($method->name, 3));
 
                 if (!$reflection->hasProperty($property)) {
+                    continue;
+                }
+
+                if ($this->ignorePropertys && in_array($property, $this->ignorePropertys)) {
                     continue;
                 }
 
