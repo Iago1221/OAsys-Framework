@@ -23,6 +23,7 @@ abstract class Repository {
     protected array $joins = [];
     protected bool $controlaTransacao = true;
     protected array $ignorePropertys = [];
+    protected array $hasManyRelations = [];
 
     public function __construct(\PDO $pdo)
     {
@@ -346,6 +347,7 @@ abstract class Repository {
      */
     protected function hasMany($model, string $relatedClass, string $foreignKey, Repository $relatedRepository, string $localKey = 'id')
     {
+        $this->hasManyRelations[strtolower($relatedClass)] = $relatedRepository;
         $localKeyValue = $model->{'get' . ucfirst($localKey)}();
         $relatedModels = $relatedRepository->findAllBy($foreignKey, $localKeyValue);
         $model->{'set' . ucfirst($relatedClass)}($relatedModels);
@@ -610,9 +612,8 @@ abstract class Repository {
                     $value = $model->{$method->name}();
                     if (is_array($value)) {
                         foreach ($value as $relatedModel) {
-                            $relatedRepoName = ucfirst(substr($property, 0, -1)) . 'Repository';
-                            if (class_exists($relatedRepoName)) {
-                                $relatedRepo = new $relatedRepoName($this->pdo);
+                            $relatedRepo = $this->hasManyRelations[strtolower($property)];
+                            if ($relatedRepo) {
                                 $relatedRepo->setControlaTransacao($this->controlaTransacao);
 
                                 // Tenta setar a FK (ex: setUser)
