@@ -180,7 +180,7 @@ abstract class GridController extends Controller
         $keys = array_keys($filter);
 
         $by = [];
-        $by[] = ['name' => $keys[0], 'operator' => 'CONTEM', 'value' => $filter[0]];
+        $by[] = ['name' => $keys[0], 'operator' => 'CONTEM', 'value' => $filter[$keys[0]]];
         $this->getRepository()->filterBy($by);
 
         $models = $this->getRepository()->get();
