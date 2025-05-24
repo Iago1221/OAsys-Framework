@@ -523,6 +523,10 @@ abstract class Repository {
 
                 $value = $model->{$method->name}();
 
+                if (is_array($value)) {
+                    continue;
+                }
+
                 if ((is_object($value) && method_exists($value, 'getId')) && !($consideraRelacionamentos)) {
                     $value = $value->getId();
                 }
@@ -602,8 +606,8 @@ abstract class Repository {
                                 $relatedRepo = new $relatedRepoName($this->pdo);
                                 $relatedRepo->setControlaTransacao($this->controlaTransacao);
 
-                                // Tenta setar a FK (ex: setUserId)
-                                $setter = 'set' . ucfirst($this->table) . 'Id';
+                                // Tenta setar a FK (ex: setUser)
+                                $setter = 'set' . ucfirst($this->modelClass);
                                 if (method_exists($relatedModel, $setter)) {
                                     $relatedModel->$setter($model->getId());
                                 }
