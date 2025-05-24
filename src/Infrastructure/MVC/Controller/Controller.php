@@ -126,7 +126,7 @@ abstract class Controller
     }
 
     protected function mapModelToArray($model) {
-        $dados = $this->getRepository()->mapToArray($model, true);
+        $dados = $this->mapToArray($model, true);
         $fields = $dados[0];
         $values = $dados[1];
         $row = [];
@@ -157,5 +157,34 @@ abstract class Controller
         }
 
         return $row;
+    }
+
+    protected function mapToArray($model, $consideraRelacionamentos = false) {
+        $reflection = new \ReflectionClass($model);
+        $methods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        $fields = [];
+        $values = [];
+
+        foreach ($methods as $method) {
+            if (str_starts_with($method->name, 'get')) {
+                $property = lcfirst(substr($method->name, 3));
+
+                if (!$reflection->hasProperty($property)) {
+                    continue;
+                }
+
+                $value = $model->{$method->name}();
+
+                if ((is_object($value) && method_exists($value, 'getId')) && !($consideraRelacionamentos)) {
+                    $value = $value->getId();
+                }
+
+                $fields[] = $property;
+                $values[] = $value;
+            }
+        }
+
+        return [$fields, $values];
     }
 }
