@@ -3,6 +3,7 @@
 namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
+use Framework\Infrastructure\MVC\View\Components\Fields\GridField;
 use Framework\Infrastructure\MVC\View\Interface\GridView;
 
 abstract class GridController extends Controller
@@ -128,7 +129,14 @@ abstract class GridController extends Controller
         $out = fopen('php://output', 'w');
 
         if (count($aData) > 0) {
-            $aKeys = array_keys($aData[0]);
+            $aKeys = [];
+            $columns = $this->getView()->getViewComponent()->getColumns();
+
+            /** @var GridField $column */
+            foreach ($columns as $column) {
+                $aKeys[] = $column->getName();
+            }
+
             fputcsv($out, $aKeys); // Cabeçalhos
 
             foreach ($aData as $aLinha) {
@@ -166,6 +174,8 @@ abstract class GridController extends Controller
 
     public function suggestList()
     {
+        $this->getView()->getViewComponent()->resetActions();
+        $this->getView()->getViewComponent()->resetGridActions();
         $this->getView()->addAction('select', 'Selecionar', '');
         $this->list();
     }

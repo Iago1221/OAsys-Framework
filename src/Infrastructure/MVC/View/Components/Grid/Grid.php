@@ -101,6 +101,16 @@ class Grid implements IComponent
         return $this->rows;
     }
 
+    public function resetActions()
+    {
+        $this->actions = [];
+    }
+
+    public function resetGridActions()
+    {
+        $this->gridActions = [];
+    }
+
     public function toArray(): array
     {
         $data = [
