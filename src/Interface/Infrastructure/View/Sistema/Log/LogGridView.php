@@ -10,7 +10,7 @@ class LogGridView extends GridView
 {
     protected function create()
     {
-        $this->addColumn(new GridField('id', 'ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('route', 'Rota', Field::TYPE_NUMBER));
         $this->addColumn(new GridField('usuarioId', 'Usuário ID', Field::TYPE_NUMBER));
         $this->addColumn(new GridField('data', 'Data', Field::TYPE_DATE));
 
