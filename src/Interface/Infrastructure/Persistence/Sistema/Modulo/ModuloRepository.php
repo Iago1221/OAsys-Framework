@@ -32,4 +32,11 @@ class ModuloRepository extends Repository
     {
         return Modulo::class;
     }
+
+    protected function setIgnorePropertys()
+    {
+        parent::setIgnorePropertys();
+        $this->addIgonreProperty('itens');
+        $this->addIgonreProperty('pacote');
+    }
 }

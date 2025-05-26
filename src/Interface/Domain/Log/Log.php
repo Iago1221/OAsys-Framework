@@ -11,7 +11,7 @@ class Log extends Model
     protected ?string $data;
     protected ?string $dados;
 
-    protected function __construct(?string $route, ?string $usuarioId, ?string $dados = null)
+    public function __construct(?string $route, ?string $usuarioId, ?string $dados = null)
     {
         $this->route = $route;
         $this->usuarioId = $usuarioId;
