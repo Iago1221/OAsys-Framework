@@ -1,0 +1,19 @@
+<?php
+
+namespace Framework\Interface\Infrastructure\View\Sistema\Log;
+
+use Framework\Infrastructure\MVC\View\Components\Fields\Field;
+use Framework\Infrastructure\MVC\View\Components\Fields\GridField;
+use Framework\Infrastructure\MVC\View\Interface\GridView;
+
+class LogGridView extends GridView
+{
+    protected function create()
+    {
+        $this->addColumn(new GridField('id', 'ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('usuarioId', 'Usuário ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('data', 'Data', Field::TYPE_DATE));
+
+        $this->addAction('show', 'Visualizar', 'sys_log_show');
+    }
+}

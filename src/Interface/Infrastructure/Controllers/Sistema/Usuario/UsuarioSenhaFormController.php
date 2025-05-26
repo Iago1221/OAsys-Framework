@@ -9,6 +9,8 @@ use Framework\Interface\Domain\Usuario\Usuario;
 
 class UsuarioSenhaFormController extends FormController
 {
+    protected bool $gravaLog = false;
+
     public function editPassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {

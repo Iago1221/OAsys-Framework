@@ -25,11 +25,22 @@ class Main
 
     private static ?string $route;
     private static Order $oOrder;
+    private static ?int $usuarioId;
 
     public function __construct($route, RotaRepository $oRotaMapper)
     {
         self::$route = $route;
         $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);
+    }
+
+    protected function setUsuarioId($usuarioId)
+    {
+        self::$usuarioId = $usuarioId;
+    }
+
+    public static function getUsuarioId()
+    {
+        return self::$usuarioId;
     }
 
     public static function setBdConfig($aBDConfig)
@@ -74,6 +85,10 @@ class Main
             self::$oOrder = $factory->make();
             $oProcessing = new OrderProcessing();
             if (Autenticator::verifyToken()) {
+                if ($usuarioId = $_SESSION['usuario']) {
+                    $this->setUsuarioId($usuarioId);
+                }
+
                 $oProcessing->process(self::$oOrder);
                 return;
             }

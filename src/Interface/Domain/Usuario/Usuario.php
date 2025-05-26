@@ -72,4 +72,9 @@ class Usuario extends Model
     {
         $this->email = $email;
     }
+
+    protected function propertiesToSerializeIgnore(): array
+    {
+        return ['senha'];
+    }
 }

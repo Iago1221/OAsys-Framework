@@ -4,6 +4,7 @@ namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Auth\Autenticator;
 use Framework\Core\Main;
+use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Core\LoginView;
 
@@ -17,10 +18,16 @@ class LoginController
 
         $xUsuario = $_POST['usuario'] ?? null;
         $xSenha = $_POST['senha'] ?? null;
-        $oAutenticator = new Autenticator($xUsuario, $xSenha, new UsuarioRepository(Main::getConnection()));
+        $usuarioRepository = new UsuarioRepository(Main::getConnection());
+        $oAutenticator = new Autenticator($xUsuario, $xSenha, $usuarioRepository);
 
         if ($sToken = $oAutenticator->generateToken()) {
             $_SESSION['oasys-token'] = $sToken;
+
+            /** @var Usuario $usuario */
+            $usuario = $usuarioRepository->findBy('email', $xUsuario);
+            $_SESSION['usuario'] = $usuario->getId();
+
             header('Location: /');
             return;
         }

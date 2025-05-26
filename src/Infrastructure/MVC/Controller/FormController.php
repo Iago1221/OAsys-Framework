@@ -5,10 +5,13 @@ namespace Framework\Infrastructure\MVC\Controller;
 use Framework\Core\Main;
 use Framework\Infrastructure\MVC\Model\Model;
 use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
+use Framework\Interface\Domain\Log\Log;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Log\LogRepository;
 
 abstract class FormController extends Controller
 {
     protected $model = null;
+    protected bool $gravaLog = true;
 
     public function show($bDisabled = true)
     {
@@ -107,12 +110,36 @@ abstract class FormController extends Controller
         }
     }
 
+    /** @return LogRepository */
+    protected function getLogRepository()
+    {
+        return new LogRepository(Main::getConnection());
+    }
+
     protected function beforeAdd($model) {}
-    protected function afterAdd($model) {}
+    protected function afterAdd($model) {
+        if ($this->gravaLog) {
+            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
+            $this->getLogRepository()->save($log);
+        }
+    }
+
     protected function beforeEdit($model) {}
-    protected function afterEdit($model) {}
+
+    protected function afterEdit($model) {
+        if ($this->gravaLog) {
+            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
+            $this->getLogRepository()->save($log);
+        }
+    }
+
     protected function beforeDelete($model) {}
-    protected function afterDelete($model) {}
+    protected function afterDelete($model) {
+        if ($this->gravaLog) {
+            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId());
+            $this->getLogRepository()->save($log);
+        }
+    }
 
     public function edit()
     {
