@@ -35,7 +35,7 @@ class Modulo extends Model
         return $this->titulo;
     }
 
-    public function setSituacao(int $situacao)
+    public function setSituacao(?int $situacao)
     {
         $this->situacao = $situacao;
     }
@@ -55,6 +55,11 @@ class Modulo extends Model
     public function getItens(): array
     {
         return $this->itens;
+    }
+
+    public function getSituacao(): ?int
+    {
+        return $this->situacao;
     }
 
     public function isSituacao(int $situacao): bool
