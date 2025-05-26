@@ -23,5 +23,6 @@ class ModuloGridView extends GridView
         $this->getViewComponent()->getFilter('situacao')->setOptions($fieldSituacao->getOptions());
 
         $this->addAction('show', 'Visualizar', 'sys_modulo_show');
+        $this->addAction('edit', 'Editar', 'sys_modulo_edit');
     }
 }
