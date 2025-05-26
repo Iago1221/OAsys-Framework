@@ -8,7 +8,7 @@ abstract class Field extends FormComponent
     const TYPE_TEXT     = 'text';
     const TYPE_TEXTAREA = 'textarea';
     const TYPE_DATE     = 'date';
-    const TYPE_DATETIME = 'datetime';
+    const TYPE_DATETIME = 'datetime-local';
     const TYPE_LIST     = 'list';
     const TYPE_CHECK    = 'checkbox';
     const TYPE_PASSWORD = 'password';

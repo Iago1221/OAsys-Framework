@@ -12,7 +12,7 @@ class LogGridView extends GridView
     {
         $this->addColumn(new GridField('route', 'Rota', Field::TYPE_TEXT));
         $this->addColumn(new GridField('usuarioId', 'Usuário ID', Field::TYPE_NUMBER));
-        $this->addColumn(new GridField('data', 'Data', Field::TYPE_DATE));
+        $this->addColumn(new GridField('data', 'Data', Field::TYPE_DATETIME));
 
         $this->addAction('show', 'Visualizar', 'sys_log_show');
     }
