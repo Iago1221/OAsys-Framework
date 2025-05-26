@@ -6,6 +6,7 @@ use Framework\Infrastructure\MVC\Model\Model;
 
 class Log extends Model
 {
+    protected ?string $id;
     protected ?string $route;
     protected ?string $usuarioId;
     protected ?string $data;
@@ -42,5 +43,15 @@ class Log extends Model
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 }
