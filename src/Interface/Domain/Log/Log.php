@@ -14,6 +14,7 @@ class Log extends Model
 
     public function __construct(?string $route = null, ?string $usuarioId = null, ?string $dados = null)
     {
+        parent::__construct();
         $this->route = $route;
         $this->usuarioId = $usuarioId;
         $this->dados = $dados;
