@@ -18,7 +18,9 @@ class Log extends Model
         $this->route = $route;
         $this->usuarioId = $usuarioId;
         $this->dados = $dados;
-        $this->data = date('Y-m-d H:i:s');
+        if ($route) {
+            $this->data = date('Y-m-d H:i:s');
+        }
     }
 
     public static function comRotaUsuarioEDados($route, $usuarioId, $dados = null)
@@ -54,5 +56,25 @@ class Log extends Model
     public function setId($id): void
     {
         $this->id = $id;
+    }
+
+    public function setRoute($route): void
+    {
+        $this->route = $route;
+    }
+
+    public function setUsuarioId($usuarioId): void
+    {
+        $this->usuarioId = $usuarioId;
+    }
+
+    public function setDados($dados): void
+    {
+        $this->dados = $dados;
+    }
+
+    public function setData($data): void
+    {
+        $this->data = $data;
     }
 }
