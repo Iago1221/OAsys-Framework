@@ -550,7 +550,7 @@ abstract class Repository {
                 } elseif ($property !== 'id') {
                     $property = $this->camelToSnake($property);
                     $fields[] = $property;
-                    $values[] = $value;
+                    $values[] = $this->trataValue($value);
                     $placeholders[] = '?';
                     $updates[] = "$property = ?";
                 }
@@ -558,6 +558,14 @@ abstract class Repository {
         }
 
         return [$fields, $values, $placeholders, $updates, $id ?? null];
+    }
+
+    protected function trataValue($value) {
+        if ($value == 'null') {
+            return null;
+        }
+
+        return $value;
     }
 
     /**
