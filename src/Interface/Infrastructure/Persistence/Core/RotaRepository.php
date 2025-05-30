@@ -9,7 +9,7 @@ class RotaRepository extends Repository
 {
     protected function getSchema(): ?string
     {
-        return null;
+        return 'oasys';
     }
 
     protected function getTableName(): string
