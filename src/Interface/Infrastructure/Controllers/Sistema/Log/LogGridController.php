@@ -17,4 +17,10 @@ class LogGridController extends GridController
     {
         return LogRepository::class;
     }
+
+    protected function beforeSetRegitros()
+    {
+        parent::beforeSetRegitros();
+        $this->getRepository()->orderBy('data', 'DESC');
+    }
 }
