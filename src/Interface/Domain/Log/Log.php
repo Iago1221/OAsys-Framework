@@ -16,7 +16,7 @@ class Log extends Model
     {
         parent::__construct();
         $this->route = $route;
-        $this->usuarioId = $usuarioId;
+        $this->usuario = $usuarioId;
         $this->dados = $dados;
         if ($route) {
             $this->data = date('Y-m-d H:i:s');
