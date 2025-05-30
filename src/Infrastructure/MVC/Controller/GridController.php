@@ -130,33 +130,23 @@ abstract class GridController extends Controller
 
         if (count($aData) > 0) {
             $aKeys = [];
+            $aCabecalho = [];
             $columns = $this->getView()->getViewComponent()->getColumns();
 
             /** @var GridField $column */
             foreach ($columns as $column) {
                 $aKeys[] = $column->getName();
+                $aCabecalho[] = $column->getLabel();
             }
 
-            fputcsv($out, $aKeys); // Cabeçalhos
+            fputcsv($out, $aCabecalho);
 
             foreach ($aData as $aLinha) {
                 $aPut = [];
                 foreach ($aKeys as $sKey) {
-                    if (is_array($aLinha[$sKey])) {
-                        $sLinha = '';
-                        $i = 0;
-                        $j = count($aLinha);
-                        foreach ($aLinha[$sKey] as $sTextoLinha) {
-                            if ($sTextoLinha) {
-                                $sLinha .= $sTextoLinha;
-
-                                if ($i < $j) {
-                                    $sLinha .= ' - ';
-                                }
-                            }
-                        }
-
-                        $aPut[] = $sLinha;
+                    $aSplitKeys = explode('/', $sKey);
+                    if (is_array($aLinha[$aSplitKeys[0]])) {
+                        $aPut[] = $aLinha[$aSplitKeys[0]][$aSplitKeys[1]];
                         continue;
                     }
 
