@@ -49,7 +49,9 @@ abstract class GridController extends Controller
         $this->registros = $this->getRepository()->paginate($this->getLimite(), $this->getPagina());
     }
 
-    protected function beforeSetRegitros() {}
+    protected function beforeSetRegitros() {
+        $this->getRepository()->orderBy('id', 'DESC');
+    }
 
     protected function getFiltros() {
         return $this->filtros;
