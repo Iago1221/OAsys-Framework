@@ -96,9 +96,11 @@ abstract class Repository {
         foreach ($conditions as $key => $condition) {
             if (is_array($condition)) {
                 ['name' => $column, 'operator' => $operator, 'value' => $value] = $condition;
+                $column = $this->pathToDotNotation($column);
                 $this->filters[] = "{$this->camelToSnake($column)} {$this->translateOperator($operator)} ?";
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
+                $key = $this->pathToDotNotation($key);
                 $this->filters[] = "{$this->camelToSnake($key)} = ?";
                 $this->bindings[] = $condition;
             }
@@ -714,5 +716,9 @@ abstract class Repository {
 
     protected function snakeToCamel(string $input): string {
         return lcfirst(str_replace('_', '', ucwords($input, '_')));
+    }
+
+    protected function pathToDotNotation(string $input): string {
+        return str_replace('/', '.', $input);
     }
 }
