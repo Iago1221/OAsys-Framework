@@ -8,7 +8,7 @@ class Log extends Model
 {
     protected ?string $id;
     protected ?string $route;
-    protected ?string $usuarioId;
+    protected ?string $usuario;
     protected ?string $data;
     protected ?string $dados;
 
@@ -33,9 +33,9 @@ class Log extends Model
         return $this->route;
     }
 
-    public function getUsuarioId()
+    public function getUsuario()
     {
-        return $this->usuarioId;
+        return $this->usuario;
     }
 
     public function getDados()
@@ -63,9 +63,9 @@ class Log extends Model
         $this->route = $route;
     }
 
-    public function setUsuarioId($usuarioId): void
+    public function setUsuario($usuarioId): void
     {
-        $this->usuarioId = $usuarioId;
+        $this->usuario = $usuarioId;
     }
 
     public function setDados($dados): void
