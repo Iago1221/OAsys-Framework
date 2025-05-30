@@ -68,6 +68,7 @@ abstract class Repository {
 
     /**
      * Adiciona um Join na consulta a ser realizada pelo repositório.
+     * @param string $schema - Schema da tabela a fazer a junção
      * @param string $table - Tabela a fazer a junção
      * @param string $localColumn - Coluna da tabela de domínio a ser utilizada na junção
      * @param string $foreignColumn - Coluna na tabela estrangeia a ser utilizada na junção
@@ -76,10 +77,11 @@ abstract class Repository {
      * @param boolean $lateral - Define se é uma junção lateral
      * @return $this
      */
-    public function addJoin(string $table, string $localColumn, string $foreignColumn, string $type = 'INNER', string $alias = null, bool $lateral = false): self
+    public function addJoin(string $schema, string $table, string $localColumn, string $foreignColumn, string $type = 'INNER', string $alias = null, bool $lateral = false): self
     {
         $join = $lateral ? 'JOIN LATERAL' : 'JOIN';
         $alias = $alias ?: $table;
+        $table = $schema ? $schema . '.' . $table : $table;
         $this->joins[] = strtoupper($type) . " $join $table AS $alias ON {$this->table}.{$this->camelToSnake($localColumn)} = $alias.{$this->camelToSnake($foreignColumn)}";
         return $this;
     }
