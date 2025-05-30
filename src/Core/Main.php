@@ -6,6 +6,7 @@ use Framework\Auth\Autenticator;
 use Framework\Core\Router\OrderFactory;
 use Framework\Core\Router\OrderProcessing;
 use Framework\Infrastructure\DB\Persistence\Storage\PdoStorage;
+use Framework\Infrastructure\Mensagem;
 use Framework\Interface\Domain\Router\Order;
 use Framework\Interface\Domain\Router\Rota;
 use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
@@ -19,12 +20,13 @@ use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
  */
 class Main
 {
-    private static $aDBConfig;
+    private static $dBConfig;
+    private static $config;
     private static \PDO $connection;
     private static PdoStorage $pdoStorage;
 
     private static ?string $route;
-    private static Order $oOrder;
+    private static Order $order;
     private static ?int $usuarioId;
 
     public function __construct($route, RotaRepository $oRotaMapper)
@@ -45,12 +47,21 @@ class Main
 
     public static function setBdConfig($aBDConfig)
     {
-        if (!self::$aDBConfig) {
-            self::$aDBConfig = $aBDConfig;
+        if (!self::$dBConfig) {
+            self::$dBConfig = $aBDConfig;
             return;
         }
 
         throw new \BadMethodCallException("Não é possível sobrescrever as configurações de banco de dados!");
+    }
+
+    public static function setConfig($config) {
+        if (!self::$config) {
+            self::$config = $config;
+            return;
+        }
+
+        throw new \BadMethodCallException("Não é possível sobrescrever as configurações do ambiente!");
     }
 
     /**
@@ -70,7 +81,7 @@ class Main
      */
     public static function getOrder()
     {
-        return self::$oOrder;
+        return self::$order;
     }
 
     /**
@@ -82,14 +93,14 @@ class Main
     private function execute(OrderFactory $factory, $route): void
     {
         try {
-            self::$oOrder = $factory->make();
+            self::$order = $factory->make();
             $oProcessing = new OrderProcessing();
             if (Autenticator::verifyToken()) {
                 if ($usuarioId = $_SESSION['usuario']) {
                     $this->setUsuarioId($usuarioId);
                 }
 
-                $oProcessing->process(self::$oOrder);
+                $oProcessing->process(self::$order);
                 return;
             }
 
@@ -101,8 +112,30 @@ class Main
             $factory->setRota(new Rota('sys_login', 'Core', 'LoginController', 'login', 'Login'));
             $oProcessing->process($factory->make());
         } catch (\Throwable $t) {
-            $this->setExceptionReturn('Erro:' . $t->getMessage() . ' Arquivo: '  . $t->getFile() . 'Linha: ' . $t->getLine());
+            if ($t instanceof Mensagem) {
+                $this->setExceptionReturn($t->getMessage());
+                return;
+            }
+
+            if (self::isAmbienteDesenvolvimento()) {
+                $this->setExceptionReturn('Erro:' . $t->getMessage() . ' Arquivo: '  . $t->getFile() . 'Linha: ' . $t->getLine());
+                return;
+            }
+
+            $this->setExceptionReturn('Houve um erro ao executar a ação, tente novamente mais tarde, ou contate o suporte.');
         }
+    }
+
+    public static function isAmbienteDesenvolvimento() {
+        return self::$config['ambiente'] == 'DEV';
+    }
+
+    public static function isAmbienteQualidade() {
+        return self::$config['ambiente'] == 'QA';
+    }
+
+    public static function isAmbienteProducao() {
+        return self::$config['ambiente'] == 'PROD';
     }
 
     /**
@@ -137,7 +170,7 @@ class Main
     public static function getConnection()
     {
         if (!isset(self::$connection)) {
-            self::$connection = new \PDO(self::$aDBConfig['dsn'], self::$aDBConfig['user'], self::$aDBConfig['password']);
+            self::$connection = new \PDO(self::$dBConfig['dsn'], self::$dBConfig['user'], self::$dBConfig['password']);
         }
 
         return self::$connection;
