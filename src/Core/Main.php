@@ -137,7 +137,7 @@ class Main
     public static function getConnection()
     {
         if (!isset(self::$connection)) {
-            self::$connection = new \PDO(self::$aDBConfig['dsn']);
+            self::$connection = new \PDO(self::$aDBConfig['dsn'], self::$aDBConfig['user'], self::$aDBConfig['password']);
         }
 
         return self::$connection;

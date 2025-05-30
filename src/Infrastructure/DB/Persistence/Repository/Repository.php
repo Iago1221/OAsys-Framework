@@ -80,7 +80,7 @@ abstract class Repository {
     {
         $join = $lateral ? 'JOIN LATERAL' : 'JOIN';
         $alias = $alias ?: $table;
-        $this->joins[] = strtoupper($type) . " $join $table AS $alias ON {$this->table}.$localColumn = $alias.$foreignColumn";
+        $this->joins[] = strtoupper($type) . " $join $table AS $alias ON {$this->table}.{$this->camelToSnake($localColumn)} = $alias.{$this->camelToSnake($foreignColumn)}";
         return $this;
     }
 
@@ -94,10 +94,10 @@ abstract class Repository {
         foreach ($conditions as $key => $condition) {
             if (is_array($condition)) {
                 ['name' => $column, 'operator' => $operator, 'value' => $value] = $condition;
-                $this->filters[] = "$column {$this->translateOperator($operator)} ?";
+                $this->filters[] = "{$this->camelToSnake($column)} {$this->translateOperator($operator)} ?";
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
-                $this->filters[] = "$key = ?";
+                $this->filters[] = "{$this->camelToSnake($key)} = ?";
                 $this->bindings[] = $condition;
             }
         }
@@ -137,7 +137,7 @@ abstract class Repository {
      */
     public function orderBy(string $column, string $direction = 'asc'): self
     {
-        $this->orderBy = $column;
+        $this->orderBy = $this->camelToSnake($column);
         $this->orderDir = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
         return $this;
     }
@@ -289,6 +289,7 @@ abstract class Repository {
     {
         $model = new $this->modelClass();
         foreach ($data as $key => $value) {
+            $key = $this->snakeToCamel($key);
             $method = 'set' . ucfirst($key);
             if (method_exists($model, $method)) {
                 $model->$method($value);
@@ -472,6 +473,7 @@ abstract class Repository {
     public function findBy(string $column, $value): ?object
     {
         $this->queryBuilder();
+        $column = $this->camelToSnake($column);
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ? LIMIT 1");
         $stmt->execute([$value]);
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -495,6 +497,7 @@ abstract class Repository {
     public function findAllBy(string $column, $value): array
     {
         $this->queryBuilder();
+        $column = $this->camelToSnake($column);
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ?");
         $stmt->execute([$value]);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -545,6 +548,7 @@ abstract class Repository {
                 if ($property === 'id' && $value) {
                     $id = $value;
                 } elseif ($property !== 'id') {
+                    $property = $this->camelToSnake($property);
                     $fields[] = $property;
                     $values[] = $value;
                     $placeholders[] = '?';
@@ -692,5 +696,13 @@ abstract class Repository {
         if ($this->controlaTransacao) {
             $this->pdo->rollBack();
         }
+    }
+
+    protected function camelToSnake(string $input): string {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $input));
+    }
+
+    protected function snakeToCamel(string $input): string {
+        return lcfirst(str_replace('_', '', ucwords($input, '_')));
     }
 }
