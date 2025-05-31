@@ -703,7 +703,7 @@ abstract class Repository {
     protected function trataFkException($message) {
         $tratamento = 'Violação de integridade referencial (tabela não identificada)';
 
-        if (preg_match('/on table "([^"]+)"/', $message, $matches)) {
+        if (preg_match('/from table "([^"]+)"/', $message, $matches)) {
             $referencedTable = ucfirst($matches[1]);
             $tratamento = "Não é possível excluir o registro pois ele possui referencia com $referencedTable.";
         }
