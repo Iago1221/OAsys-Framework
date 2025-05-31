@@ -100,7 +100,7 @@ abstract class Repository {
                 $column = $this->pathToDotNotation($column);
                 $column = $this->camelToSnake($column);
 
-                if (strpos($column, '.') !== false) {
+                if (strpos($column, '.') == false) {
                     $column = $this->table . '.' . $column;
                 }
 
@@ -110,7 +110,7 @@ abstract class Repository {
                 $key = $this->pathToDotNotation($key);
                 $key = $this->camelToSnake($key);
 
-                if (strpos($key, '.') !== false) {
+                if (strpos($key, '.') == false) {
                     $key = $this->table . '.' . $key;
                 }
 
