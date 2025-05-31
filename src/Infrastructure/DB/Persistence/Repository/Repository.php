@@ -98,11 +98,23 @@ abstract class Repository {
             if (is_array($condition)) {
                 ['name' => $column, 'operator' => $operator, 'value' => $value] = $condition;
                 $column = $this->pathToDotNotation($column);
-                $this->filters[] = "{$this->camelToSnake($column)} {$this->translateOperator($operator)} ?";
+                $column = $this->camelToSnake($column);
+
+                if (strpos($column, '.') !== false) {
+                    $column = $this->table . '.' . $column;
+                }
+
+                $this->filters[] = "{$column} {$this->translateOperator($operator)} ?";
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
                 $key = $this->pathToDotNotation($key);
-                $this->filters[] = "{$this->camelToSnake($key)} = ?";
+                $key = $this->camelToSnake($key);
+
+                if (strpos($key, '.') !== false) {
+                    $key = $this->table . '.' . $key;
+                }
+
+                $this->filters[] = "{$key} = ?";
                 $this->bindings[] = $condition;
             }
         }
