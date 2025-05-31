@@ -90,6 +90,8 @@ class Base implements ILayout
         <script src="$sBase/js/Components/GridComponent.js"></script>
         <script src="$sBase/js/Components/TabComponent.js"></script>
         <script src="$sBase/js/Components/GridFormComponent.js"></script>
+        <script src="$sBase/js/Components/AvisoComponent.js"></script>
+        <script src="$sBase/js/Components/ConfirmComponent.js"></script>
         <script src="$sBase/js/app.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
         <link rel="stylesheet" href="$sBase/css/styles.css">

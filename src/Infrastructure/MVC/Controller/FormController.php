@@ -4,6 +4,7 @@ namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
 use Framework\Infrastructure\MVC\Model\Model;
+use Framework\Infrastructure\MVC\View\Components\Callaback\Aviso;
 use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
 use Framework\Interface\Domain\Log\Log;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Log\LogRepository;
@@ -104,6 +105,7 @@ abstract class FormController extends Controller
             $this->afterAdd($oModel);
 
             Main::getPdoStorage()->commit();
+            $this->setAvisoRetorno('Registro incluído com sucesso!');
         } catch (\Throwable $t) {
             Main::getPdoStorage()->rollback();
             throw $t;
@@ -161,6 +163,7 @@ abstract class FormController extends Controller
             $this->afterEdit($oModel);
 
             Main::getPdoStorage()->commit();
+            $this->setAvisoRetorno('Registro alterado com sucesso!');
         } catch (\Throwable $t) {
             Main::getPdoStorage()->rollback();
             throw $t;
@@ -195,9 +198,16 @@ abstract class FormController extends Controller
             $this->afterDelete($oModel);
 
             Main::getPdoStorage()->commit();
+            $this->setAvisoRetorno('Registro deletado com sucesso!');
         } catch (\Throwable $t) {
             Main::getPdoStorage()->rollback();
             throw $t;
         }
+    }
+
+    protected function setAvisoRetorno($mensagem, $tipo = Aviso::TIPO_SUCESSO) {
+        $aviso = new Aviso($mensagem);
+        $aviso->setTipo($tipo);
+        echo json_encode($aviso->toArray());
     }
 }
