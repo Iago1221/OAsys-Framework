@@ -705,7 +705,7 @@ abstract class Repository {
 
         if (preg_match('/from table "([^"]+)"/', $message, $matches)) {
             $referencedTable = ucfirst($matches[1]);
-            $tratamento = "Não é possível excluir o registro pois ele possui referencia com $referencedTable.";
+            $tratamento = "Não é possível excluir o registro pois ele possui referência com $referencedTable.";
         }
 
         throw new Mensagem($tratamento);
