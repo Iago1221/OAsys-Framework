@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\DB\Persistence\Repository;
 
+use Framework\Infrastructure\Mensagem;
 use Throwable;
 
 /**
@@ -674,9 +675,40 @@ abstract class Repository {
             $result = $stmt->execute([$id]);
 
             return $result;
-        } catch (Throwable $e) {
-            throw $e;
+        } catch (Throwable $t) {
+            $this->trataDeleteException($t);
         }
+    }
+
+    /**
+     * Metodo que trata as exceções de remove.
+     * @param \Throwable $t
+     * @return void
+     * @throws Mensagem
+     */
+    protected function trataDeleteException($t) {
+        if ($t instanceof \PDOException && $t->getCode() == '23503') {
+            $this->trataFkException($t->getMessage());
+        }
+
+        throw $t;
+    }
+
+    /**
+     * Metodo trata o retorno de exceções geradas por não cumprimento de FK.
+     * @param string $message
+     * @return mixed
+     * @throws Mensagem
+     */
+    protected function trataFkException($message) {
+        $tratamento = 'Violação de integridade referencial (tabela não identificada)';
+
+        if (preg_match('/on table "([^"]+)"/', $message, $matches)) {
+            $referencedTable = ucfirst($matches[1]);
+            $tratamento = "Não é possível excluir o registro pois ele possui referencia com $referencedTable.";
+        }
+
+        throw new Mensagem($tratamento);
     }
 
     /**
