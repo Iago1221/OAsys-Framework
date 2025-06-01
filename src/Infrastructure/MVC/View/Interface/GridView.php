@@ -32,12 +32,27 @@ abstract class GridView extends View
         $this->getViewComponent()->addAction($name, $label, $route, $httpMethod);
     }
 
-    protected function addDefaultActions($routeName)
+    protected function addDefaultActions($routeName, $add = true, $show = true, $edit = true, $delete = true, $changeStatus = false)
     {
-        $this->addGridAction('add', 'Adicionar', 'sys_'.$routeName.'_add');
-        $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show');
-        $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit');
-        $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE');
+        if ($add) {
+            $this->addGridAction('add', 'Adicionar', 'sys_'.$routeName.'_add');
+        }
+
+        if ($show) {
+            $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show');
+        }
+
+        if ($edit) {
+            $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit');
+        }
+
+        if ($delete) {
+            $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE');
+        }
+
+        if ($changeStatus) {
+            $this->addAction('status', 'Ativar/Inativar', 'sys_'.$routeName.'_status');
+        }
     }
 
     protected function addGridAction($name, $label, $route, $httpMethod = 'GET')

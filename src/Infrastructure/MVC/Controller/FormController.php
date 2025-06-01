@@ -3,7 +3,8 @@
 namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
-use Framework\Infrastructure\MVC\Model\Model;
+use Framework\Infrastructure\Mensagem;
+use Framework\Infrastructure\MVC\Model\StatusModel;
 use Framework\Infrastructure\MVC\View\Components\Callaback\Aviso;
 use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
 use Framework\Interface\Domain\Log\Log;
@@ -203,6 +204,24 @@ abstract class FormController extends Controller
             Main::getPdoStorage()->rollback();
             throw $t;
         }
+    }
+
+    protected function beforeChangeStatus($model) {}
+    protected function afterChangeStatus($model) {}
+
+    public function status()
+    {
+        $model = $this->getRepository()->findBy('id', $this->getRequest('id'));
+        if ($model instanceof StatusModel) {
+            $this->beforeChangeStatus($model);
+            $model->toggleSituacao();
+            $this->getRepository()->save($model);
+            $this->afterChangeStatus($model);
+            $this->setAvisoRetorno('Registro atualizado com sucesso!');
+            return;
+        }
+
+        throw new Mensagem('Para utilizar a estrutura de status é esperado uma instância de StatusModel!');
     }
 
     protected function setAvisoRetorno($mensagem, $tipo = Aviso::TIPO_SUCESSO) {
