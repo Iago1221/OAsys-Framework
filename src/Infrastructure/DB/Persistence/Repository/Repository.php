@@ -515,7 +515,7 @@ abstract class Repository {
     {
         $this->queryBuilder();
         $column = $this->camelToSnake($column);
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ?");
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ? ORDER BY $column DESC");
         $stmt->execute([$value]);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $models = array_map([$this, 'mapToModel'], $results);
