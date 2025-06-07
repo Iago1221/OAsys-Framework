@@ -28,6 +28,7 @@ final class PdoMigrationManager implements IMigration
      */
     public function up($migrationName = null)
     {
+        $this->createMigrationsTableIfNotExists();
         $executedMigrations = $this->getExecutedMigrations();
         $sFile = $this->migrationsDir . '/' . $migrationName . '.php';
 
@@ -58,6 +59,7 @@ final class PdoMigrationManager implements IMigration
      */
     public function down($migrationName = null)
     {
+        $this->createMigrationsTableIfNotExists();
         $executedMigrations = $this->getExecutedMigrations();
         $sFile = $this->migrationsDir . '/' . $migrationName . '.php';
 
@@ -88,6 +90,7 @@ final class PdoMigrationManager implements IMigration
      */
     public function runMigrations()
     {
+        $this->createMigrationsTableIfNotExists();
         $executedMigrations = $this->getExecutedMigrations();
         $migrationFiles = glob($this->migrationsDir . '/*.php');
         $bExecuted = false;
@@ -118,6 +121,7 @@ final class PdoMigrationManager implements IMigration
      */
     public function rollbackMigrations($iSteps = 1)
     {
+        $this->createMigrationsTableIfNotExists();
         $executedMigrations = $this->getExecutedMigrations();
         $migrationsToRollback = array_slice(array_reverse($executedMigrations), 0, $iSteps);
         $bExecuted = false;
@@ -140,6 +144,32 @@ final class PdoMigrationManager implements IMigration
         }
 
         echo $bExecuted ? "Foram revertidas as últimas {$iSteps} migrations executadas.\n" : "Nenhuma migration a ser revertida.\n";
+    }
+
+    /**
+     * Cria a tabela de controle de migrations caso ela não exista.
+     * @return void
+     */
+    private function createMigrationsTableIfNotExists()
+    {
+        $this->createSchemaIfNotExists();
+        $sql = "CREATE TABLE IF NOT EXISTS oasys.migrations (
+            id serial4 PRIMARY KEY,
+            migration VARCHAR(255) NOT NULL UNIQUE,
+            executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )";
+
+        $this->oStorage->exec($sql);
+    }
+
+    /**
+     * Cria o schema do framework caso ele não exista.
+     */
+    private function createSchemaIfNotExists()
+    {
+        $sql = "CREATE SCHEMA oasys IF NOT EXISTS;";
+
+        $this->oStorage->exec($sql);
     }
 
     /**
