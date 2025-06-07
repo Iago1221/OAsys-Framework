@@ -15,6 +15,8 @@ abstract class Field extends FormComponent
     const TYPE_EMAIL    = 'email';
     const TYPE_FILE     = 'file';
     const TYPE_SUGGEST  = 'suggest';
+    const TYPE_INTEGER = 'integer';
+    const TYPE_CPF_CNPJ = 'cpf_cnpj';
 
     protected string $name;
     protected string $label;
