@@ -96,15 +96,17 @@ class Main
             self::$order = $factory->make();
             $oProcessing = new OrderProcessing();
             if (Autenticator::verifyToken()) {
-                if ($usuarioId = $_SESSION['usuario']) {
-                    $this->setUsuarioId($usuarioId);
-                }
+                if (isset($_SESSION['usuario'])) {
+                    if ($usuarioId = $_SESSION['usuario']) {
+                        $this->setUsuarioId($usuarioId);
+                    }
 
-                $oProcessing->process(self::$order);
-                return;
+                    $oProcessing->process(self::$order);
+                    return;
+                }
             }
 
-            if ($_SESSION['oasys-token'] || $route) {
+            if (isset($_SESSION['oasys-token']) || $route) {
                 session_destroy();
                 $this->setUnauthorizedReturn();
             }

@@ -11,7 +11,7 @@ class Login implements ILayout
         <html lang="pt-BR">
         <?php
         $this->renderHead();
-        $this->renderBody($aData['bUnauthorized']);
+        $this->renderBody(isset($aData['bUnauthorized']));
         ?></html><?php
     }
 
