@@ -136,7 +136,7 @@ abstract class Repository {
         $operators = [
             'IGUAL' => '=',
             'DIFERENTE' => '<>',
-            'CONTEM' => 'LIKE',
+            'CONTEM' => 'ILIKE',
             'MAIOR' => '>',
             'MENOR' => '<',
             'MAIOR IGUAL' => '>=',
