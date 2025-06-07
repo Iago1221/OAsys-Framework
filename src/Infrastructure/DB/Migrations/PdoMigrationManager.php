@@ -152,7 +152,7 @@ final class PdoMigrationManager implements IMigration
      */
     private function createMigrationsTableIfNotExists()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS migrations (
+        $sql = "CREATE TABLE IF NOT EXISTS oasys.migrations (
             id INT AUTO_INCREMENT PRIMARY KEY,
             migration VARCHAR(255) NOT NULL UNIQUE,
             executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -167,7 +167,7 @@ final class PdoMigrationManager implements IMigration
      */
     private function getExecutedMigrations()
     {
-        return $this->oStorage->query("SELECT migration FROM migrations ORDER BY executed_at ASC");
+        return $this->oStorage->query("SELECT migration FROM oasys.migrations ORDER BY executed_at ASC");
     }
 
     /**
@@ -177,7 +177,7 @@ final class PdoMigrationManager implements IMigration
      */
     private function markMigrationAsExecuted($migrationName)
     {
-        $sql = "INSERT INTO migrations (migration) VALUES ('$migrationName')";
+        $sql = "INSERT INTO oasys.migrations (migration) VALUES ('$migrationName')";
         $this->oStorage->exec($sql);
     }
 
@@ -188,7 +188,7 @@ final class PdoMigrationManager implements IMigration
      */
     private function markMigrationAsRolledBack($migrationName)
     {
-        $sql = "DELETE FROM migrations WHERE migration = '$migrationName'";
+        $sql = "DELETE FROM oasys.migrations WHERE migration = '$migrationName'";
         $this->oStorage->exec($sql);
     }
 
