@@ -178,7 +178,16 @@ final class PdoMigrationManager implements IMigration
      */
     private function getExecutedMigrations()
     {
-        return $this->oStorage->query("SELECT migration FROM oasys.migrations ORDER BY executed_at ASC");
+        $migrations = $this->oStorage->query("SELECT migration FROM oasys.migrations ORDER BY executed_at ASC");
+        $retorno = [];
+
+        if (is_array($migrations)) {
+            foreach ($migrations as $migration) {
+                $retorno[] = $migration['migration'];
+            }
+        }
+
+        return $retorno;
     }
 
     /**
