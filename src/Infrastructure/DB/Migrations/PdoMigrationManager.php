@@ -153,7 +153,7 @@ final class PdoMigrationManager implements IMigration
     private function createMigrationsTableIfNotExists()
     {
         $sql = "CREATE TABLE IF NOT EXISTS oasys.migrations (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id serial4 PRIMARY KEY,
             migration VARCHAR(255) NOT NULL UNIQUE,
             executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
