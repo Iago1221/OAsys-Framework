@@ -39,6 +39,7 @@ class GridFilter extends Field
                 'options' => $this->getOptions(),
                 'operator' => $this->getOperator(),
                 'value' => $this->getValue(),
+                'maxLength' => $this->getMaxLength(),
             ]
         ];
     }

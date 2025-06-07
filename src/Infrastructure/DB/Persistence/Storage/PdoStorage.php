@@ -264,4 +264,26 @@ class PdoStorage extends GenericStorage
     {
         $this->pdo->rollBack();
     }
+
+    function executarArquivoSQL(string $caminhoArquivo): void
+    {
+        if (!file_exists($caminhoArquivo)) {
+            throw new \RuntimeException("Arquivo não encontrado: $caminhoArquivo");
+        }
+
+        $sql = file_get_contents($caminhoArquivo);
+
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+        try {
+            $this->pdo->beginTransaction();
+            $this->pdo->exec($sql);
+            $this->pdo->commit();
+            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            throw new \RuntimeException("Erro ao executar o script SQL: " . $e->getMessage());
+        }
+    }
 }

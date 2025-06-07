@@ -23,6 +23,7 @@ abstract class Field extends FormComponent
     protected string $type;
     protected mixed $value = null;
     protected array $options = [];
+    protected $maxLength = null;
 
     public function __construct(string $name, string $label, string $type)
     {
@@ -81,6 +82,16 @@ abstract class Field extends FormComponent
         return $this->value;
     }
 
+    public function setMaxLength(int $value): void
+    {
+        $this->maxLength = $value;
+    }
+
+    public function getMaxLength(): ?int
+    {
+        return $this->maxLength;
+    }
+
     public function toArray(): array
     {
         return [
@@ -90,6 +101,7 @@ abstract class Field extends FormComponent
                 'label' => $this->label,
                 'type' => $this->type,
                 'options' => $this->options,
+                'maxLength' => $this->maxLength,
             ]
         ];
     }

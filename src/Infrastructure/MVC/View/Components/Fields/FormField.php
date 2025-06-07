@@ -36,6 +36,7 @@ class FormField extends Field
                 'disabled' => $this->bDisabled,
                 'value' => $this->value,
                 'renderLabel' => $this->renderLabel,
+                'maxLength' => $this->maxLength,
             ]
         ];
     }
