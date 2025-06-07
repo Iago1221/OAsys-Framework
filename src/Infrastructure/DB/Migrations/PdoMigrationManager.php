@@ -167,7 +167,7 @@ final class PdoMigrationManager implements IMigration
      */
     private function createSchemaIfNotExists()
     {
-        $sql = "CREATE SCHEMA oasys IF NOT EXISTS;";
+        $sql = "CREATE SCHEMA IF NOT EXISTS oasys;";
 
         $this->oStorage->exec($sql);
     }
