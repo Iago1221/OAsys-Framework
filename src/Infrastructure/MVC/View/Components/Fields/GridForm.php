@@ -78,6 +78,11 @@ class GridForm extends FormComponent
         return $this->aValue;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
