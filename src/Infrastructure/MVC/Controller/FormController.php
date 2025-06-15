@@ -17,7 +17,7 @@ abstract class FormController extends Controller
 
     public function show($bDisabled = true)
     {
-        $this->instanciaModelById($_GET['id']);
+        $this->instanciaModelById(isset($_GET['id']) ? $_GET['id'] : null);
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 
