@@ -27,8 +27,26 @@ class SuggestField extends Field
         $sFieldName = str_replace($this->name . "/", "", $this->field->getName());
         $sDescriptionFieldName = str_replace($this->name . "/", "", $this->descriptionField->getName());
 
-        $this->field->setValue($aData[$this->name][$sFieldName]);
-        $this->descriptionField->setValue($aData[$this->name][$sDescriptionFieldName]);
+        $data = $this->geTtreatedData($aData);
+        $this->field->setValue($data[$sFieldName]);
+        $this->descriptionField->setValue($data[$sDescriptionFieldName]);
+    }
+
+    protected function geTtreatedData($data)
+    {
+        if (strpos($this->name, '/') === false) {
+            return $data[$this->name];
+        }
+
+        $parts = explode('/', $this->name);
+
+        foreach ($parts as $part) {
+            if (is_array($data) && array_key_exists($part, $data)) {
+                $data = $data[$part];
+            }
+        }
+
+        return $data;
     }
 
     public function toArray(): array
