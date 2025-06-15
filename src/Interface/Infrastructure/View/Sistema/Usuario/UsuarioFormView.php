@@ -15,7 +15,7 @@ class UsuarioFormView extends FormView
     protected function create()
     {
         if (!Main::isRoute('sys_usuario_add')) {
-            $this->addComponent(new FormField('id', 'ID', Field::TYPE_NUMBER, true, true));
+            $this->addComponent(new FormField('id', 'ID', Field::TYPE_INTEGER, true, true));
         }
         $this->addComponent(new FormField('nome', 'Nome', Field::TYPE_TEXT));
         $this->addComponent(new FormField('email', 'Email', Field::TYPE_EMAIL));

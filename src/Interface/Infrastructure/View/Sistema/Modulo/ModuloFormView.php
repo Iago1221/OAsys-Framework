@@ -12,7 +12,7 @@ class ModuloFormView extends FormView
     protected function create()
     {
 
-        $this->addComponent(new FormField('id', 'ID', Field::TYPE_NUMBER, true, true));
+        $this->addComponent(new FormField('id', 'ID', Field::TYPE_INTEGER, true, true));
         $this->addComponent(new FormField('titulo', 'Título', Field::TYPE_TEXT, true, true));
         $fieldSituacao = $this->addComponent(new FormField('situacao', 'Situação', Field::TYPE_LIST, true));
         $fieldSituacao->addOption(Modulo::SITUACAO_ATIVO,  'Ativo');

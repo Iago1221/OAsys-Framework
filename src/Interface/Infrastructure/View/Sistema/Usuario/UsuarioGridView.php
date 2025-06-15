@@ -10,7 +10,7 @@ class UsuarioGridView extends GridView
 {
     protected function create()
     {
-        $this->addColumn(new GridField('id', 'ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('id', 'ID', Field::TYPE_INTEGER));
         $this->addColumn(new GridField('nome', 'Nome', Field::TYPE_TEXT));
         $this->addColumn(new GridField('email', 'E-mail', Field::TYPE_EMAIL));
 

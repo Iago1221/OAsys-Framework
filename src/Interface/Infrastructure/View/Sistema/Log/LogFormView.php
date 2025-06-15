@@ -12,7 +12,7 @@ class LogFormView extends FormView
     protected function create()
     {
         $this->addComponent(new FormField('route', 'Rota', Field::TYPE_TEXT));
-        $this->addComponent(new FormField('usuario', 'Usuário ID', Field::TYPE_NUMBER));
+        $this->addComponent(new FormField('usuario', 'Usuário ID', Field::TYPE_INTEGER));
         $this->addComponent(new FormField('data', 'Data', Field::TYPE_DATETIME));
         $this->addComponent(new FormField('dados', 'Dados', Field::TYPE_TEXTAREA));
     }

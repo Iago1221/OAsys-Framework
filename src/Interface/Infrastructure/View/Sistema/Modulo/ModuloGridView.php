@@ -11,7 +11,7 @@ class ModuloGridView extends GridView
 {
     protected function create()
     {
-        $this->addColumn(new GridField('id', 'ID', Field::TYPE_NUMBER));
+        $this->addColumn(new GridField('id', 'ID', Field::TYPE_INTEGER));
         $this->addColumn(new GridField('titulo', 'Título', Field::TYPE_TEXT));
 
         $fieldSituacao = new GridField('situacao', 'Situação', Field::TYPE_LIST);
