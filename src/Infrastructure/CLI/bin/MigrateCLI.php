@@ -48,7 +48,7 @@ class MigrateCLI
         $this->command = $argv[1];
     }
 
-    protected function execute()
+    public function execute()
     {
         global $argv, $argc;
 
