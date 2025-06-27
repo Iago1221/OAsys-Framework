@@ -95,4 +95,34 @@ class CsvReader
     {
         $this->close();
     }
+
+    /**
+     * Valida se um arquivo recebido é um CSV válido e bem formado.
+     * @param array $file - Array do arquivo ($_FILES['arquivo'])
+     * @return bool
+     */
+    public static function isValid(array $file): bool
+    {
+        if (!isset($file['tmp_name'], $file['name']) || !is_uploaded_file($file['tmp_name'])) {
+            return false;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+        $validMimes = ['text/plain', 'text/csv', 'application/vnd.ms-excel'];
+
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($mime, $validMimes)) return false;
+        if ($ext !== 'csv') return false;
+        if (!is_readable($file['tmp_name'])) return false;
+
+        $handle = fopen($file['tmp_name'], 'r');
+        if (!$handle) return false;
+
+        $firstLine = fgetcsv($handle);
+        fclose($handle);
+
+        return $firstLine !== false && count(array_filter($firstLine)) > 0;
+    }
 }
