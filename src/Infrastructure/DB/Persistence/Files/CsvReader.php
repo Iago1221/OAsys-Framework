@@ -17,21 +17,21 @@ class CsvReader
     public function __construct($filePath, $delimiter = ',')
     {
         if (!file_exists($filePath) || !is_readable($filePath)) {
-            throw new Exception("Arquivo CSV inválido ou não legível: $filePath");
+            throw new CsvReaderException("Arquivo CSV inválido ou não legível: $filePath");
         }
 
         $this->delimiter = $delimiter;
         $this->handle = fopen($filePath, 'r');
 
         if (!$this->handle) {
-            throw new Exception("Erro ao abrir o arquivo CSV.");
+            throw new CsvReaderException("Erro ao abrir o arquivo CSV.");
         }
 
         // Lê o cabeçalho
         $this->header = fgetcsv($this->handle, 0, $this->delimiter);
 
         if (!$this->header || count($this->header) === 0) {
-            throw new Exception("Cabeçalho do CSV vazio ou inválido.");
+            throw new CsvReaderException("Cabeçalho do CSV vazio ou inválido.");
         }
     }
 
@@ -45,20 +45,20 @@ class CsvReader
      * @param array $expectedColumns - Lista de colunas esperadas (ordem não importa)
      * @param bool $strict - Se true, exige correspondência exata (mesmo número e nomes)
      * @return void
-     * @throws Exception
+     * @throws CsvReaderException
      */
     public function validateHeader(array $expectedColumns, bool $strict = false)
     {
         $missing = array_diff($expectedColumns, $this->header);
 
         if (!empty($missing)) {
-            throw new Exception("Colunas ausentes no CSV: " . implode(', ', $missing));
+            throw new CsvReaderException("Colunas ausentes no CSV: " . implode(', ', $missing));
         }
 
         if ($strict) {
             $extra = array_diff($this->header, $expectedColumns);
             if (!empty($extra)) {
-                throw new Exception("Colunas extras no CSV: " . implode(', ', $extra));
+                throw new CsvReaderException("Colunas extras no CSV: " . implode(', ', $extra));
             }
         }
     }
