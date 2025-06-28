@@ -31,11 +31,15 @@ abstract class GridController extends Controller
     protected function trataFiltros(&$filtros) {}
 
     protected function setPagina($iPagina) {
-        $this->pagina = $iPagina;
+        if (!$this->getRequest('exportar')) {
+            $this->pagina = $iPagina;
+        }
     }
 
     protected function setLimite($iLimite) {
-        $this->limite = $iLimite;
+        if (!$this->getRequest('exportar')) {
+            $this->limite = $iLimite;
+        }
     }
 
     protected function setQuantidadeRegistros() {
