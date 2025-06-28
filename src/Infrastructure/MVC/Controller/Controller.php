@@ -169,11 +169,6 @@ abstract class Controller
         foreach ($methods as $method) {
             if (str_starts_with($method->name, 'get')) {
                 $property = lcfirst(substr($method->name, 3));
-
-                if (!$reflection->hasProperty($property)) {
-                    continue;
-                }
-
                 $value = $model->{$method->name}();
 
                 if ((is_object($value) && method_exists($value, 'getId')) && !($consideraRelacionamentos)) {
