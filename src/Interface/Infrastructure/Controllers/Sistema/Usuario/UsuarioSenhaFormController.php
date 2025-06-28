@@ -23,6 +23,7 @@ class UsuarioSenhaFormController extends FormController
         $oUsuario->setSenha($this->getRequest('senha'));
 
         $this->getRepository()->save($oUsuario);
+        $this->setAvisoRetorno('Senha alterada com sucesso.');
     }
 
     public function getViewClass(): string

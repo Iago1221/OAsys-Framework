@@ -82,6 +82,7 @@ abstract class GridController extends Controller
         $data = [];
 
         foreach ($this->getRegistros() as $registro) {
+            $this->beforeBeanRegistro($registro);
             if (is_object($registro)) {
                 $data[] = $this->mapModelToArray($registro);
                 continue;
@@ -92,6 +93,8 @@ abstract class GridController extends Controller
 
         return $data;
     }
+
+    protected function beforeBeanRegistro(&$registro) {}
 
     public function list() {
         $this->setAtributosFromRequest();
