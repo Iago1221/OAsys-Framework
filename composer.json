@@ -5,8 +5,7 @@
   "require": {
     "firebase/php-jwt": "^6.9",
     "ext-fileinfo": "*",
-    "oasys/web-components": "dev-main",
-    "dompdf/dompdf": "^0.6.2"
+    "oasys/web-components": "dev-main"
   },
   "autoload": {
     "psr-4": {
