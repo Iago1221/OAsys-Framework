@@ -1,6 +1,8 @@
 <?php
 namespace Framework\Infrastructure\MVC\View\Report;
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
