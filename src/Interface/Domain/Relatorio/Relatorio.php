@@ -8,7 +8,6 @@ class Relatorio extends Model
 {
     private $id;
     private $pacote;
-    private $rota;
     private $descricao;
 
     public function getId()
@@ -29,16 +28,6 @@ class Relatorio extends Model
     public function setPacote($pacote)
     {
         $this->pacote = $pacote;
-    }
-
-    public function getRota()
-    {
-        return $this->rota;
-    }
-
-    public function setRota($rota)
-    {
-        $this->rota = $rota;
     }
 
     public function getDescricao()
