@@ -1,5 +1,5 @@
 <?php
-namespace Reports;
+namespace Framework\Infrastructure\MVC\View\Report;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
