@@ -30,22 +30,28 @@ class SuggestField extends Field
         $data = $this->geTreatedData($aData);
 
         if (is_array($data)) {
-            $this->field->setValue($data[$sFieldName]);
-            $this->descriptionField->setValue($data[$sDescriptionFieldName]);
+            $this->field->setValue(isset($data[$sFieldName]) ? $data[$sFieldName] : null);
+            $this->descriptionField->setValue(isset($data[$sDescriptionFieldName]) ? $data[$sDescriptionFieldName] : null);
         }
     }
 
     protected function geTreatedData($data)
     {
         if (strpos($this->name, '/') === false) {
-            return $data[$this->name];
+            if (isset($data[$this->name])) {
+                return $data[$this->name];
+            }
+
+            return null;
         }
 
         $parts = explode('/', $this->name);
 
         foreach ($parts as $part) {
             if (is_array($data) && array_key_exists($part, $data)) {
-                $data = $data[$part];
+                if (isset($data[$part])) {
+                    $data = $data[$part];
+                }
             }
         }
 
