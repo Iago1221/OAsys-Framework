@@ -7,15 +7,13 @@ use Dompdf\Options;
 abstract class ReportBase
 {
     protected Dompdf $pdf;
-    protected string $templatePath;
     protected array $data;
 
-    public function __construct(string $templatePath, array $data = [])
+    public function __construct(array $data = [])
     {
         $options = new Options();
         $options->set('isRemoteEnabled', true); // para usar imagens externas
         $this->pdf = new Dompdf($options);
-        $this->templatePath = $templatePath;
         $this->data = $data;
     }
 
