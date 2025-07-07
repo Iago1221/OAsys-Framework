@@ -12,6 +12,7 @@ class Form implements IComponent
     private $bDisabled;
     private $sRoute;
     private $sTitle;
+    private $isRelatorio;
 
     public function __construct(array $aComponents, string $sLayout, string $sRoute, string $sTitle, bool $bDisabled = false)
     {
@@ -20,6 +21,11 @@ class Form implements IComponent
         $this->bDisabled = $bDisabled;
         $this->sRoute = $sRoute;
         $this->sTitle = $sTitle;
+        $this->isRelatorio = false;
+    }
+
+    public function setRelatorio($isRelatorio = true) {
+        $this->isRelatorio = true;
     }
 
     public function toArray(): array
@@ -43,7 +49,8 @@ class Form implements IComponent
                 }, $this->aComponents)),
                 'layout' => $this->sLayout,
                 'disabled' => $this->bDisabled,
-                'route' => $this->sRoute
+                'route' => $this->sRoute,
+                'isRelatorio' => $this->isRelatorio
             ]
         ];
 
