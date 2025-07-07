@@ -25,7 +25,7 @@ class Form implements IComponent
     }
 
     public function setRelatorio($isRelatorio = true) {
-        $this->isRelatorio = true;
+        $this->isRelatorio = $isRelatorio;
     }
 
     public function toArray(): array
