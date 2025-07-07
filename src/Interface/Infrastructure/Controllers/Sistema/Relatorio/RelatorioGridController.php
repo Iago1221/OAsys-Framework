@@ -20,7 +20,7 @@ abstract class RelatorioGridController extends GridController
 
     public function list()
     {
-        $this->getView()->addAction('imprimir', 'Imprimir', "sys_{$this->getPacote()}_report");
+        $this->getView()->addAction('imprimir', 'Imprimir', "sys_". strtolower($this->getPacote())."_report");
         $this->getRepository()->filterBy(['pacote' => $this->getPacote()]);
         parent::list();
     }
