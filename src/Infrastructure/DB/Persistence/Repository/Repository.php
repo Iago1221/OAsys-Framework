@@ -396,16 +396,16 @@ abstract class Repository {
      * Define que o modelo pertence a outro modelo por um relacionamento de muitos.
      * @param $model - Modelo
      * @param string $relatedClass - Nome do atributo que referencia a classe relacionada.
+     * @param Repository $relatedRepository - Repositório da classe relacionada.
      * @param string $pivotTable - Tabela de ligação fraca.
      * @param string $foreignPivotKey - FK que representa o modelo na tabela de relação fraca.
      * @param string $relatedPivotKey - FK que representa a tabela relacionada na tabela de relação fraca.
      * @param string $localKey - Nome do atributo que representa o relacionamento no modelo.
      * @return void
      */
-    protected function belongsToMany($model, string $relatedClass, string $pivotTable, string $foreignPivotKey, string $relatedPivotKey, string $localKey = 'id')
+    protected function belongsToMany($model, string $relatedClass, Repository $relatedRepository, string $pivotTable, string $foreignPivotKey, string $relatedPivotKey, string $localKey = 'id')
     {
-        $relatedRepo = new ($relatedClass . 'Repository')($this->pdo);
-        $relatedTable = $relatedRepo->getTable();
+        $relatedTable = $relatedRepository->getTable();
 
         $localId = $model->{'get' . ucfirst($localKey)}();
 
@@ -417,7 +417,7 @@ abstract class Repository {
         $stmt->execute([$localId]);
 
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        $relatedModels = array_map([$relatedRepo, 'mapToModel'], $results);
+        $relatedModels = array_map([$relatedRepository, 'mapToModel'], $results);
 
         $model->{'set' . ucfirst($relatedClass)}($relatedModels);
     }
