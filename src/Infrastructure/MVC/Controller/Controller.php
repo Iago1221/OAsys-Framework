@@ -20,14 +20,16 @@ abstract class Controller
     {
         $this->setRequest();
         $this->oRepository = new ($this->getRepositoryClass())(Main::getConnection());
-        $this->oView = new ($this->getViewClass())();
+        if ($this->getViewClass()) {
+            $this->oView = new ($this->getViewClass())();
+        }
     }
 
     /**
      * Deve retornar uma instância da view que será manipulada pelo controller.
-     * @return View::class
+     * @return View::class|null
      */
-    abstract protected function getViewClass(): string;
+    abstract protected function getViewClass(): string|null;
 
     /**
      * Deve ser utilizado para setar valor no atributo $oRepository.
