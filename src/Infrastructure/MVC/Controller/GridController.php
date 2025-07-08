@@ -196,6 +196,7 @@ abstract class GridController extends Controller
 
         $by = [];
         $by[] = ['name' => $keys[0], 'operator' => 'CONTEM', 'value' => $filter[$keys[0]]];
+        $this->trataFiltros($by);
         $this->getRepository()->filterBy($by);
 
         $models = $this->getRepository()->get();
