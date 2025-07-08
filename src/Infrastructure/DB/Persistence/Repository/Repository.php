@@ -641,7 +641,7 @@ abstract class Repository {
                     $value = $model->{$method->name}();
                     if (is_array($value)) {
                         foreach ($value as $relatedModel) {
-                            $relatedRepo = $this->hasManyRelations[strtolower($property)];
+                            $relatedRepo = isset($this->hasManyRelations[strtolower($property)]) ? $this->hasManyRelations[strtolower($property)] : null;
                             if ($relatedRepo) {
                                 $relatedRepo->setControlaTransacao($this->controlaTransacao);
 
