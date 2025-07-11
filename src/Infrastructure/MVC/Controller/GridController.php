@@ -10,7 +10,7 @@ abstract class GridController extends Controller
 {
     protected GridView $view;
     private array $filtros;
-    private int $pagina;
+    private ?int $pagina;
     private ?int $limite;
     private int $quantidadeRegistros;
     private array $registros;
@@ -31,6 +31,8 @@ abstract class GridController extends Controller
     protected function trataFiltros(&$filtros) {}
 
     protected function setPagina($iPagina) {
+        $this->pagina = null;
+
         if (!$this->getRequest('exportar')) {
             $this->pagina = $iPagina;
         }
