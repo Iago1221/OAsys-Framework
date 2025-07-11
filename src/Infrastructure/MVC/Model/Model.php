@@ -51,7 +51,7 @@ abstract class Model implements JsonSerializable
 
             if (is_array($value)) {
                 $jValue = [];
-                if ($value[0] && is_object($value[0])) {
+                if (isset($value[0]) && is_object($value[0])) {
                     foreach ($value as $j) {
                         $jValue[] = $j->getId();
                     }
