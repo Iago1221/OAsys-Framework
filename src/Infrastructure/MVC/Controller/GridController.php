@@ -11,7 +11,7 @@ abstract class GridController extends Controller
     protected GridView $view;
     private array $filtros;
     private int $pagina;
-    private int $limite;
+    private ?int $limite;
     private int $quantidadeRegistros;
     private array $registros;
 
@@ -37,6 +37,8 @@ abstract class GridController extends Controller
     }
 
     protected function setLimite($iLimite) {
+        $this->limite = null;
+
         if (!$this->getRequest('exportar')) {
             $this->limite = $iLimite;
         }
