@@ -61,9 +61,9 @@ class Grid implements IComponent
         $this->filters[$filter->getName()] = $filter;
     }
 
-    public function addAction($name, $label, $route, $httpMethod = 'GET')
+    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
     {
-        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod];
+        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod, 'blank' => $blank];
     }
 
     public function addGridAction($name, $label, $route, $httpMethod = 'GET')
