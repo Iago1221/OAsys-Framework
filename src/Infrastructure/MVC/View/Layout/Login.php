@@ -122,7 +122,6 @@ class Login implements ILayout
                     <input type="password" name="senha" placeholder="Senha" required>
                     <button type="submit">Entrar</button>
                 </form>
-                <a href="#" class="forgot-password">Esqueceu a senha?</a>
             </div>
         </body>
         <?php
