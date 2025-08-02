@@ -46,7 +46,8 @@ class Form implements IComponent
         $aData = [
             'window' => [
                 'title' => $this->sTitle,
-                'route' => $this->sRoute
+                'route' => $this->sRoute,
+                'width' => $this->width,
             ],
             'component' => 'FormComponent',
             'FormComponent' => [
