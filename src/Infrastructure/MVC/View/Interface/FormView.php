@@ -14,6 +14,7 @@ abstract class FormView extends View
     private $aComponents = [];
     private $sFormLayout = self::FORM_LAYOUT_TWO_COLUMNS;
     private $isRelatorio = false;
+    private $width;
 
     protected function instanciaViewComponent()
     {
@@ -55,10 +56,20 @@ abstract class FormView extends View
         $this->isRelatorio = true;
     }
 
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
     public function render($aData = [])
     {
         $oForm = new Form($this->getComponents(), $this->sFormLayout, $this->getRota(), $this->getTitulo(), $aData['bDisabled']);
         $oForm->setRelatorio($this->isRelatorio);
+
+        if (isset($this->width)) {
+            $oForm->setWidth($this->width);
+        }
+
         echo json_encode($oForm->toArray());
     }
 }
