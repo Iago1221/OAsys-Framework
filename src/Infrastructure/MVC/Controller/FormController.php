@@ -14,6 +14,7 @@ abstract class FormController extends Controller
 {
     protected $model = null;
     protected bool $gravaLog = true;
+    protected $controlaPersistencia = false;
 
     public function show($bDisabled = true)
     {
@@ -101,9 +102,14 @@ abstract class FormController extends Controller
             $this->getRepository()->setControlaTransacao(false);
             $oModel = $this->getRepository()->mapToModel($this->getRequest());
 
-            $this->beforeAdd($oModel);
-            $this->getRepository()->saveWithRelations($oModel);
-            $this->afterAdd($oModel);
+            if ($this->controlaPersistencia) {
+                $this->addFunction($oModel);
+            } else {
+                $this->beforeAdd($oModel);
+                $this->getRepository()->saveWithRelations($oModel);
+                $this->afterAdd($oModel);
+            }
+
 
             Main::getPdoStorage()->commit();
             $this->setAvisoRetorno('Registro incluído com sucesso!');
@@ -112,6 +118,10 @@ abstract class FormController extends Controller
             throw $t;
         }
     }
+
+    public function addFunction($model) {}
+    public function editFunction($model) {}
+    public function deleteFunction($model) {}
 
     /** @return LogRepository */
     protected function getLogRepository()
@@ -159,9 +169,13 @@ abstract class FormController extends Controller
             $oModel = $this->getRepository()->findBy('id', $aData['id']);
             $oModel = $this->bean($oModel, $aData);
 
-            $this->beforeEdit($oModel);
-            $this->getRepository()->saveWithRelations($oModel);
-            $this->afterEdit($oModel);
+            if ($this->controlaPersistencia) {
+                $this->editFunction($oModel);
+            } else {
+                $this->beforeEdit($oModel);
+                $this->getRepository()->saveWithRelations($oModel);
+                $this->afterEdit($oModel);
+            }
 
             Main::getPdoStorage()->commit();
             $this->setAvisoRetorno('Registro alterado com sucesso!');
@@ -194,9 +208,13 @@ abstract class FormController extends Controller
             Main::getPdoStorage()->beginTransaction();
             $oModel = $this->getRepository()->findBy('id', $this->getRequest('id'));
 
-            $this->beforeDelete($oModel);
-            $this->getRepository()->remove($oModel);
-            $this->afterDelete($oModel);
+            if ($this->controlaPersistencia) {
+                $this->deleteFunction($oModel);
+            } {
+                $this->beforeDelete($oModel);
+                $this->getRepository()->remove($oModel);
+                $this->afterDelete($oModel);
+            }
 
             Main::getPdoStorage()->commit();
             $this->setAvisoRetorno('Registro deletado com sucesso!');
