@@ -10,6 +10,7 @@ class SuggestField extends Field
     private FormField $field;
     private FormField $descriptionField;
     private $sRoute;
+    private $callbacks = [];
 
     public function __construct(string $sName, FormField $field, FormField $descriptionField, string $label, string $sRoute)
     {
@@ -33,6 +34,11 @@ class SuggestField extends Field
             $this->field->setValue(isset($data[$sFieldName]) ? $data[$sFieldName] : null);
             $this->descriptionField->setValue(isset($data[$sDescriptionFieldName]) ? $data[$sDescriptionFieldName] : null);
         }
+    }
+
+    public function on($event, $functionJs)
+    {
+        $this->callbacks[$event] = $functionJs;
     }
 
     protected function geTreatedData($data)
@@ -69,6 +75,7 @@ class SuggestField extends Field
                 'label' => $this->label,
                 'disabled' => $this->bDisabled,
                 'route' => $this->sRoute,
+                'callbacks' => $this->callbacks
             ]
         ];
     }
