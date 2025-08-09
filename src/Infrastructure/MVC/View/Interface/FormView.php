@@ -70,6 +70,10 @@ abstract class FormView extends View
             $oForm->setWidth($this->width);
         }
 
+        if (isset($this->scriptFile)) {
+            $oForm->setScriptFile($this->scriptFile);
+        }
+
         echo json_encode($oForm->toArray());
     }
 }

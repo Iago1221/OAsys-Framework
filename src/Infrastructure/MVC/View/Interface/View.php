@@ -11,6 +11,7 @@ abstract class View
     protected $rota;
     protected $layout;
     protected $data = [];
+    protected $scriptFile;
 
     public function __construct($data = [])
     {
@@ -60,6 +61,11 @@ abstract class View
     public function getRota()
     {
         return $this->rota;
+    }
+
+    public function setScriptFile(string $scriptFile)
+    {
+        $this->scriptFile = $scriptFile;
     }
 
     public abstract function render();

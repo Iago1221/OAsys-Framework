@@ -14,6 +14,7 @@ class Form implements IComponent
     private $sTitle;
     private $isRelatorio;
     private $width;
+    private $scriptFile = null;
 
     public function __construct(array $aComponents, string $sLayout, string $sRoute, string $sTitle, bool $bDisabled = false)
     {
@@ -34,6 +35,14 @@ class Form implements IComponent
         $this->width = $width;
     }
 
+
+    /* @param string $scriptFile
+    */
+    public function setScriptFile(string $scriptFile): void
+    {
+        $this->scriptFile = $scriptFile;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -49,6 +58,7 @@ class Form implements IComponent
                 'route' => $this->sRoute,
                 'width' => $this->width,
             ],
+            'scriptFile' => $this->scriptFile,
             'component' => 'FormComponent',
             'FormComponent' => [
                 'components' => array_values(array_map(function ($oComponent) {
