@@ -5,6 +5,7 @@ namespace Framework\Infrastructure\MVC\View\Components\Fields;
 abstract class Field extends FormComponent
 {
     const TYPE_NUMBER   = 'number';
+    const TYPE_REAL     = 'real';
     const TYPE_TEXT     = 'text';
     const TYPE_TEXTAREA = 'textarea';
     const TYPE_DATE     = 'date';
