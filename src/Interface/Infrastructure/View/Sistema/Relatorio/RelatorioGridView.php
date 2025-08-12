@@ -12,5 +12,6 @@ class RelatorioGridView extends GridView
     {
         $this->addColumn(new GridField('id', 'ID', Field::TYPE_INTEGER));
         $this->addColumn(new GridField('descricao', 'Descrição', Field::TYPE_TEXT));
+        $this->addColumn(new GridField('pacote', 'Pacote', Field::TYPE_TEXT));
     }
 }
