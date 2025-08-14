@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\View\Layout;
 
+use Framework\Core\Main;
 use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Modulo\ModuloItem;
 
@@ -73,7 +74,7 @@ class Menu implements ILayout
     public function renderModulos()
     {
         foreach ($this->aModulos as $i => $oModulo) {
-            if ($oModulo->isSituacao(Modulo::SITUACAO_ATIVO)) {
+            if ($oModulo->isSituacao(Modulo::SITUACAO_ATIVO) && $oModulo->isDisponivel(Main::getUsuarioId())) {
                 ?>
                 <li class="menu-item <?= $i ?>">
                     <?= $oModulo->getTitulo() ?>

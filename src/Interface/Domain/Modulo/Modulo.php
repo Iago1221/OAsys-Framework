@@ -66,4 +66,13 @@ class Modulo extends Model
     {
         return $this->situacao == $situacao;
     }
+
+    public function isDisponivel($usuario): bool
+    {
+        if ($this->pacote == 'Sistema' && $usuario != 1) {
+            return false;
+        }
+
+        return true;
+    }
 }
