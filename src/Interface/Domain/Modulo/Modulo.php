@@ -67,9 +67,19 @@ class Modulo extends Model
         return $this->situacao == $situacao;
     }
 
+    public function setPacote(string $pacote)
+    {
+        $this->pacote = $pacote;
+    }
+
+    public function getPacote(): string
+    {
+        return $this->pacote;
+    }
+
     public function isDisponivel($usuario): bool
     {
-        if ($this->pacote == 'Sistema' && $usuario != 1) {
+        if ($this->getPacote() == 'Sistema' && $usuario != 1) {
             return false;
         }
 
