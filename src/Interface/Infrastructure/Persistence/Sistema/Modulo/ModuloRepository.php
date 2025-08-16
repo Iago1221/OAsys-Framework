@@ -15,6 +15,7 @@ class ModuloRepository extends Repository
     protected function queryBuilder()
     {
         parent::queryBuilder();
+        $this->filterBy(['sistema' => $_SESSION['sistema']]);
         $this->with(['itens']);
     }
 
