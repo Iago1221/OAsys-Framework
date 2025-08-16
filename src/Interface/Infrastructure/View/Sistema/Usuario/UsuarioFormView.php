@@ -20,8 +20,8 @@ class UsuarioFormView extends FormView
         $this->addComponent(new FormField('nome', 'Nome', Field::TYPE_TEXT));
         $this->addComponent(new FormField('email', 'Email', Field::TYPE_EMAIL));
 
-        $this->addComponent(new FormField('acessoErp', 'Possui acesso ERP?', Field::TYPE_CHECK));
-        $this->addComponent(new FormField('acessoCrm', 'Possui acesso CRM?', Field::TYPE_CHECK));
+        $this->addComponent(new FormField('acessoErp', 'Possui acesso ERP?', Field::TYPE_CHECK, false));
+        $this->addComponent(new FormField('acessoCrm', 'Possui acesso CRM?', Field::TYPE_CHECK, false));
 
         if (Main::isRoute('sys_usuario_add')) {
             $this->addComponent(new FormField('senha', 'Senha', Field::TYPE_PASSWORD));
