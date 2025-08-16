@@ -7,11 +7,19 @@ use Framework\Infrastructure\MVC\View\Layout\ILayout;
 
 class Base implements ILayout
 {
-    private $oMenu;
+    private Menu $oMenu;
+    private $acessoErp;
+    private $acessoCrm;
 
-    public function __construct($oMenu)
+    public function __construct($oMenu, $acessoErp, $acessoCrm)
     {
         $this->oMenu = $oMenu;
+        $this->acessoErp = $acessoErp;
+        $this->acessoCrm = $acessoCrm;
+
+        if ($this->acessoErp && $this->acessoCrm) {
+            $this->oMenu->setMudaSistema();
+        }
     }
 
     public function setMenu($oMenu)

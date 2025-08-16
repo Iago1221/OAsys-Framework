@@ -14,6 +14,7 @@ class Menu implements ILayout
 {
     /** @var Modulo[] */
     private $aModulos;
+    private $mudaSistema = false;
 
     public function setModulos($aModulos) {
         foreach ($aModulos as $oModulo) {
@@ -26,11 +27,18 @@ class Menu implements ILayout
         $this->aModulos[] = $oModulo;
     }
 
+    public function setMudaSistema($mudaSistema = true) {
+        $this->mudaSistema = $mudaSistema;
+    }
+
     public function render()
     {
         ?>
         <div class="topbar">
-            <h1>OAsys ERP</h1>
+            <div>
+                <h1>OAsys <?= $_SESSION['sistema'] = 1 ? 'ERP' : 'CRM' ?></h1>
+                <span onclick="App.getInstance().toggleSistema()"> <?= $this->mudaSistema ? '&#10227;' : '' ?></span>
+            </div>
             <h2><a class="logout" onclick="App.getInstance().logout()">Sair</a></h2>
 
         </div>
