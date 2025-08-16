@@ -36,12 +36,12 @@ class Menu implements ILayout
         ?>
         <div class="topbar">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <h1 style="margin: 0; font-size: 1.5rem;">
+                <h1 style="margin: 0; font-size: 1 rem;">
                     OAsys <?= $_SESSION['sistema'] == 1 ? 'ERP' : 'CRM' ?>
                 </h1>
                 <span
                         onclick="App.getInstance().toggleSistema()"
-                        style="cursor: pointer; font-size: 1.5rem; transition: transform 0.2s ease;"
+                        style="cursor: pointer; font-size: 1 rem; transition: transform 0.2s ease;"
                         onmouseover="this.style.transform='rotate(90deg)'"
                         onmouseout="this.style.transform='rotate(0deg)'"
                 > <?= $this->mudaSistema ? '&#10227;' : '' ?>
