@@ -166,6 +166,19 @@ class Main
     }
 
     /**
+     * Define o retorno caso o path requisitado não esteja disponível.
+     * @param $sMessage
+     * @return void
+     */
+    public static function setNotFoundException($sMessage)
+    {
+        http_response_code('404');
+        header('Content-Type: application/json');
+        header("HTTP/1.1 404 Not Found");
+        exit($sMessage);
+    }
+
+    /**
      * Retorna a instância do PDO conectado ao banco de dados.
      * @return \PDO
      */
