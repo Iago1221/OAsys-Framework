@@ -80,23 +80,31 @@ class Usuario extends Model
         return ['senha'];
     }
 
-    public function setAcessoErp($acessoErp): void
+    public function setAcessoErp($acessoErp)
     {
+        if ($acessoErp === null) {
+            $acessoErp = false;
+        }
+
         $this->acessoErp = $acessoErp;
     }
 
     public function getAcessoErp()
     {
-        return (bool) $this->acessoErp;
+        return $this->acessoErp;
     }
 
-    public function setAcessoCrm($acessoCrm): void
+    public function setAcessoCrm($acessoCrm)
     {
+        if ($acessoCrm === null) {
+            $acessoCrm = false;
+        }
+
         $this->acessoCrm = $acessoCrm;
     }
 
     public function getAcessoCrm()
     {
-        return (bool) $this->acessoCrm;
+        return $this->acessoCrm;
     }
 }
