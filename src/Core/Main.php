@@ -173,7 +173,6 @@ class Main
     public static function setNotFoundException($sMessage)
     {
         http_response_code('404');
-        header('Content-Type: application/json');
         header("HTTP/1.1 404 Not Found");
         exit($sMessage);
     }
