@@ -82,29 +82,21 @@ class Usuario extends Model
 
     public function setAcessoErp($acessoErp)
     {
-        if ($acessoErp === null) {
-            $acessoErp = false;
-        }
-
         $this->acessoErp = $acessoErp;
     }
 
     public function getAcessoErp()
     {
-        return $this->acessoErp;
+        return $this->acessoErp ?? null;
     }
 
     public function setAcessoCrm($acessoCrm)
     {
-        if ($acessoCrm === null) {
-            $acessoCrm = false;
-        }
-
         $this->acessoCrm = $acessoCrm;
     }
 
     public function getAcessoCrm()
     {
-        return $this->acessoCrm;
+        return $this->acessoCrm ?? null;
     }
 }

@@ -58,7 +58,7 @@ class Modulo extends Model
     /** @return ModuloItem[] */
     public function getItens(): array
     {
-        return $this->itens;
+        return $this->itens ?? [];
     }
 
     public function getSituacao(): ?int
