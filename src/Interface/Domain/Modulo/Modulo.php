@@ -9,11 +9,15 @@ class Modulo extends Model
     const SITUACAO_ATIVO = 1,
           SITUACAO_INATIVO = 2;
 
+    CONST SISTEMA_ERP = 1,
+          SISTEMA_CRM = 2;
+
     protected ?int $id;
     protected ?string $titulo;
     protected ?int $situacao;
     protected ?array $itens;
     protected ?string $pacote;
+    protected $sistema;
 
     public function setId($id)
     {
@@ -84,5 +88,15 @@ class Modulo extends Model
         }
 
         return true;
+    }
+
+    public function getSistema()
+    {
+        return $this->sistema;
+    }
+
+    public function setSistema($sistema)
+    {
+        $this->sistema = $sistema;
     }
 }

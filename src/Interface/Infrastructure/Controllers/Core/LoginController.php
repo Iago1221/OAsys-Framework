@@ -4,6 +4,7 @@ namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Auth\Autenticator;
 use Framework\Core\Main;
+use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Core\LoginView;
@@ -27,6 +28,14 @@ class LoginController
             /** @var Usuario $usuario */
             $usuario = $usuarioRepository->findBy('email', $xUsuario);
             $_SESSION['usuario'] = $usuario->getId();
+
+            if ($usuario->getAcessoCrm()) {
+                $_SESSION['sistema'] = Modulo::SISTEMA_CRM;
+            }
+
+            if ($usuario->getAcessoErp()) {
+                $_SESSION['sistema'] = Modulo::SISTEMA_ERP;
+            }
 
             header('Location: /');
             return;

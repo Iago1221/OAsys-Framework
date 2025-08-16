@@ -13,6 +13,8 @@ class Usuario extends Model
     protected ?string $nome;
     protected ?string $senha;
     protected ?string $email;
+    protected $acessoErp;
+    protected $acessoCrm;
 
     public function setId(int $id): void
     {
@@ -76,5 +78,25 @@ class Usuario extends Model
     protected function propertiesToSerializeIgnore(): array
     {
         return ['senha'];
+    }
+
+    public function setAcessoErp(bool $acessoErp): void
+    {
+        $this->acessoErp = $acessoErp;
+    }
+
+    public function getAcessoErp(): bool
+    {
+        return $this->acessoErp;
+    }
+
+    public function setAcessoCrm(bool $acessoCrm): void
+    {
+        $this->acessoCrm = $acessoCrm;
+    }
+
+    public function getAcessoCrm(): bool
+    {
+        return $this->acessoCrm;
     }
 }

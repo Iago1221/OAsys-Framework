@@ -17,6 +17,7 @@ class IndexController
 
     public function index() {
         $data = [];
+        $this->moduloRepository->filterBy(['sistema' => $_SESSION['sistema']]);
         $data['modulos'] = $this->moduloRepository->get();
 
         $oView = new IndexView($data);
