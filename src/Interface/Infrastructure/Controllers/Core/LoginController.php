@@ -48,7 +48,7 @@ class LoginController
     {
         ob_clean();
         session_destroy();
-        header('Location: /');
+        header('Location: /' . $_SESSION['cliente']);
         exit();
     }
 }
