@@ -29,6 +29,8 @@ class LoginController
             $usuario = $usuarioRepository->findBy('email', $xUsuario);
             $_SESSION['usuario'] = $usuario->getId();
 
+            $_SESSION['sistema'] = Modulo::SISTEMA_ERP;
+
             if ($usuario->getAcessoCrm()) {
                 $_SESSION['sistema'] = Modulo::SISTEMA_CRM;
             }
