@@ -3,6 +3,7 @@
 namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Core\Main;
+use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Modulo\ModuloRepository;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
@@ -30,5 +31,16 @@ class IndexController
 
         $oView = new IndexView($data);
         echo $oView->renderLayout();
+    }
+
+    public function toggleSistema() {
+        if ($_SESSION['sistema'] == Modulo::SISTEMA_ERP) {
+            $_SESSION['sistema'] = Modulo::SISTEMA_CRM;
+            $this->index();
+            return;
+        }
+
+        $_SESSION['sistema'] = Modulo::SISTEMA_ERP;
+        $this->index();
     }
 }
