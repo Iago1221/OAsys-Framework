@@ -47,7 +47,7 @@ class LoginController
     public function logout()
     {
         ob_clean();
-        session_destroy();
+        unset($_SESSION['oasys-token']);
         header('Location: /' . $_SESSION['cliente']);
         exit();
     }

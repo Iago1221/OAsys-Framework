@@ -107,7 +107,7 @@ class Main
             }
 
             if (isset($_SESSION['oasys-token']) || $route) {
-                session_destroy();
+                unset($_SESSION['oasys-token']);
                 $this->setUnauthorizedReturn();
             }
 
