@@ -84,6 +84,26 @@ class Base implements ILayout
         <div id="loading-overlay" class="loading-overlay">
             <div class="loading-spinner"></div>
         </div>
+
+        <!-- Botão flutuante -->
+        <div id="chatbot-button">
+            💬
+        </div>
+
+        <!-- Janela do Chat -->
+        <div id="chatbot-window" class="hidden">
+            <div class="chatbot-header">
+                <span>OAsys Neuron</span>
+                <button onclick="App.getInstance().toggleChat()">✖</button>
+            </div>
+            <div id="chatbot-messages" class="chatbot-messages"></div>
+            <div class="chatbot-input-area">
+                <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
+                       onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
+                <button onclick="App.getInstance().sendMessage()">Enviar</button>
+            </div>
+        </div>
+
         <?php
         $this->loadJs();
         ?></body><?php
@@ -105,6 +125,7 @@ class Base implements ILayout
         <script src="$sBase/js/Components/GridFormComponent.js"></script>
         <script src="$sBase/js/Components/AvisoComponent.js"></script>
         <script src="$sBase/js/Components/ConfirmComponent.js"></script>
+        <script src="$sBase/js/Components/Chatbot.js"></script>
         <script src="$sBase/js/app.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
         HTML;
