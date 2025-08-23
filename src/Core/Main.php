@@ -71,7 +71,11 @@ class Main
      */
     public static function isRoute($route)
     {
-        return self::$route == $route;
+        if (isset(self::$route)) {
+            return self::$route == $route;
+        }
+
+        return false;
     }
 
 
