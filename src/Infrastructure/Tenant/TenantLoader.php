@@ -19,8 +19,8 @@ class TenantLoader
         return self::$configs;
     }
 
-    public static function conectar(array $tenant)
+    public static function conectar(string $tenant)
     {
-        Main::switchConnection($tenant);
+        Main::switchConnection(self::$configs[$tenant]);
     }
 }
