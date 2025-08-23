@@ -177,6 +177,12 @@ class Main
         exit($sMessage);
     }
 
+    public static function switchConnection($dbConfig)
+    {
+        self::$dBConfig = $dbConfig;
+        self::$connection = new \PDO(self::$dBConfig['dsn'], self::$dBConfig['user'], self::$dBConfig['password']);
+    }
+
     /**
      * Retorna a instância do PDO conectado ao banco de dados.
      * @return \PDO
