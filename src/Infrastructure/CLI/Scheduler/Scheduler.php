@@ -18,8 +18,8 @@ class Scheduler
     {
         $tenants = TenantLoader::listarTodos();
 
-        foreach ($tenants as $tenant) {
-            echo "\n>> Executando tarefas para: {$tenant['nome']} \n";
+        foreach (array_keys($tenants) as $tenant) {
+            echo "\n>> Executando tarefas para: {$tenant} \n";
             TenantLoader::conectar($tenant);
 
             foreach ($this->tasks as $name => $task) {
@@ -29,7 +29,7 @@ class Scheduler
                     echo " -> Executando tarefa: {$name} \n";
                     $task->run($tenant);
                 } catch (\Throwable $e) {
-                    echo " !! Erro na tarefa {$name} para {$tenant['nome']}: {$e->getMessage()} \n";
+                    echo " !! Erro na tarefa {$name} para {$tenant}: {$e->getMessage()} \n";
                 }
             }
         }

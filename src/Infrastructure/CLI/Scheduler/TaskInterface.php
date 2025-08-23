@@ -6,5 +6,5 @@ interface TaskInterface
 {
     public function getName(): string;
 
-    public function run(array $tenant): void;
+    public function run(): void;
 }
