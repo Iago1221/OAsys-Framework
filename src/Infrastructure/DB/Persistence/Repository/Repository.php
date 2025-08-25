@@ -578,8 +578,16 @@ abstract class Repository {
     }
 
     protected function trataValue($value) {
-        if ($value == 'null') {
+        if ($value === 'null') {
             return null;
+        }
+
+        if ($value === false) {
+            return 'false';
+        }
+
+        if ($value === true) {
+            return 'true';
         }
 
         return $value;

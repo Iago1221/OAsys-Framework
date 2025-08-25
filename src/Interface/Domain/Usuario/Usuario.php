@@ -87,7 +87,7 @@ class Usuario extends Model
 
     public function getAcessoErp()
     {
-        return $this->acessoErp ?? null;
+        return $this->acessoErp;
     }
 
     public function setAcessoCrm($acessoCrm)
@@ -97,6 +97,6 @@ class Usuario extends Model
 
     public function getAcessoCrm()
     {
-        return $this->acessoCrm ?? null;
+        return $this->acessoCrm;
     }
 }
