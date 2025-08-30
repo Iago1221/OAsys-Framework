@@ -73,19 +73,19 @@ class Base implements ILayout
             </div>
             <ul class="menu-items">
                 <li onclick="App.getInstance().switchSystem('erp')" title="ERP">
-                    <i class="fi fi-rr-home"></i>
+                    <i class="fi fi-tr-home"></i>
                 </li>
                 <li onclick="App.getInstance().switchSystem('crm')" title="CRM">
-                    <i class="fi fi-rr-users-alt"></i>
+                    <i class="fi fi-tr-users-alt"></i>
                 </li>
                 <li onclick="App.getInstance().switchSystem('financeiro')" title="Financeiro">
-                    <i class="fi fi-rr-bank"></i>
+                    <i class="fi fi-tr-bank"></i>
                 </li>
                 <li onclick="App.getInstance().switchSystem('varejo')" title="Varejo">
-                    <i class="fi fi-rr-shopping-cart"></i>
+                    <i class="fi fi-tr-shopping-cart"></i>
                 </li>
                 <li onclick="App.getInstance().switchSystem('industria')" title="Indústria">
-                    <i class="fi fi-rr-factory"></i>
+                    <i class="fi fi-tr-factory"></i>
                 </li>
             </ul>
         </div>
