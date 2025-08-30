@@ -78,7 +78,7 @@ class Base implements ILayout
                 <li onclick="App.getInstance().switchSystem('crm')" title="CRM">
                     <i class="fi fi-tr-users"></i>
                 </li>
-                <li onclick="App.getInstance().switchSystem('financeiro')" title="Financeiro">
+                <li onclick="App.getInstance().switchSystem('gestao')" title="Gestão Econômica">
                     <i class="fi fi-tr-bank"></i>
                 </li>
                 <li onclick="App.getInstance().switchSystem('varejo')" title="Varejo">
