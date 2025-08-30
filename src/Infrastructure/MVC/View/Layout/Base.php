@@ -104,6 +104,17 @@ class Base implements ILayout
             </div>
         </div>
 
+        <div id="side-menu" class="side-menu collapsed">
+            <button class="toggle-btn" onclick="App.getInstance().toggleMenu()">⇔</button>
+            <ul>
+                <li onclick="App.getInstance().switchSystem('erp')">ERP</li>
+                <li onclick="App.getInstance().switchSystem('crm')">CRM</li>
+                <li onclick="App.getInstance().switchSystem('financeiro')">Financeiro</li>
+                <li onclick="App.getInstance().switchSystem('varejo')">Varejo</li>
+                <li onclick="App.getInstance().switchSystem('industria')">Indústria</li>
+            </ul>
+        </div>
+
         <?php
         $this->loadJs();
         ?></body><?php
