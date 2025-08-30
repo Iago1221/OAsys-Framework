@@ -10,7 +10,10 @@ class Modulo extends Model
           SITUACAO_INATIVO = 2;
 
     CONST SISTEMA_ERP = 1,
-          SISTEMA_CRM = 2;
+          SISTEMA_CRM = 2,
+          SISTEMA_GESTAO_ECONOMICA = 3,
+          SISTEMA_VAREJO = 4,
+          SISTEMA_INDUSTRIA = 5;
 
     protected ?int $id;
     protected ?string $titulo;
