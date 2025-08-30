@@ -65,6 +65,31 @@ class Base implements ILayout
         ?><body><?php
         $this->getMenu()->render();
         ?>
+
+        <!-- Menu lateral -->
+        <div id="side-menu" class="side-menu collapsed">
+            <div class="menu-toggle" onclick="App.getInstance().toggleMenu()">
+                <i class="fi fi-rr-angle-right"></i>
+            </div>
+            <ul class="menu-items">
+                <li onclick="App.getInstance().switchSystem('erp')" title="ERP">
+                    <i class="fi fi-rr-home"></i>
+                </li>
+                <li onclick="App.getInstance().switchSystem('crm')" title="CRM">
+                    <i class="fi fi-rr-users-alt"></i>
+                </li>
+                <li onclick="App.getInstance().switchSystem('financeiro')" title="Financeiro">
+                    <i class="fi fi-rr-bank"></i>
+                </li>
+                <li onclick="App.getInstance().switchSystem('varejo')" title="Varejo">
+                    <i class="fi fi-rr-shopping-cart"></i>
+                </li>
+                <li onclick="App.getInstance().switchSystem('industria')" title="Indústria">
+                    <i class="fi fi-rr-factory"></i>
+                </li>
+            </ul>
+        </div>
+
         <div id="workspace">
         </div>
 
@@ -102,17 +127,6 @@ class Base implements ILayout
                        onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
                 <button onclick="App.getInstance().sendMessage()">Enviar</button>
             </div>
-        </div>
-
-        <div id="side-menu" class="side-menu collapsed">
-            <button class="toggle-btn" onclick="App.getInstance().toggleMenu()">⇔</button>
-            <ul>
-                <li onclick="App.getInstance().switchSystem('erp')">ERP</li>
-                <li onclick="App.getInstance().switchSystem('crm')">CRM</li>
-                <li onclick="App.getInstance().switchSystem('financeiro')">Financeiro</li>
-                <li onclick="App.getInstance().switchSystem('varejo')">Varejo</li>
-                <li onclick="App.getInstance().switchSystem('industria')">Indústria</li>
-            </ul>
         </div>
 
         <?php
