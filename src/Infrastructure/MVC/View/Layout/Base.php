@@ -67,7 +67,7 @@ class Base implements ILayout
         ?>
 
         <!-- Menu lateral -->
-        <div id="side-menu" class="side-menu collapsed">
+        <div id="side-menu" class="side-menu">
             <div class="menu-toggle" onclick="App.getInstance().toggleMenu()">
                 <i class="fi fi-rr-angle-right"></i>
             </div>
