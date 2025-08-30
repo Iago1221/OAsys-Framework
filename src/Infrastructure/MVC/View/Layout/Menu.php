@@ -36,7 +36,7 @@ class Menu implements ILayout
         ?>
         <div class="topbar">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <h1 style="margin: 0; font-size: 1rem;">
+                <h1 style="font-size: 1rem;">
                     OAsys <?= $_SESSION['sistema'] == 1 ? 'ERP' : 'CRM' ?>
                 </h1>
             </div>
