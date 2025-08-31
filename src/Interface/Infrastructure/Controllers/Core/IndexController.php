@@ -30,6 +30,12 @@ class IndexController
         $data['possuiAcessoCrm'] = $usuario->getAcessoCrm();
 
         $oView = new IndexView($data);
+
+        if (isset($_GET['system'])) {
+            echo $oView->renderBody();
+            return;
+        }
+
         echo $oView->renderLayout();
     }
 

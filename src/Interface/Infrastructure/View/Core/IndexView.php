@@ -27,6 +27,11 @@ class IndexView extends View
         $this->menu->setModulos($this->data['modulos']);
     }
 
+    public function renderBody()
+    {
+        return $this->layout->renderBody();
+    }
+
     protected function instanciaViewComponent()
     {
 

@@ -60,7 +60,7 @@ class Base implements ILayout
     }
 
 
-    private function renderBody()
+    public function renderBody()
     {
         ?><body><?php
         $this->getMenu()->render();
