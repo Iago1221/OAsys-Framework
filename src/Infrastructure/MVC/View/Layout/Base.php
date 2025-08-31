@@ -118,7 +118,7 @@ class Base implements ILayout
         <!-- Janela do Chat -->
         <div id="chatbot-window" class="hidden">
             <div class="chatbot-header">
-                <span>OAsys Neuron</span>
+                <span>Oasys Neuron</span>
                 <button onclick="App.getInstance().toggleChat()">✖</button>
             </div>
             <div id="chatbot-messages" class="chatbot-messages"></div>

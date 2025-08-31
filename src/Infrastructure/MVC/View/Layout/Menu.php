@@ -16,7 +16,8 @@ class Menu implements ILayout
     private $aModulos;
     private $mudaSistema = false;
 
-    public function setModulos($aModulos) {
+    public function setModulos($aModulos)
+    {
         foreach ($aModulos as $oModulo) {
             $this->addModulo($oModulo);
         }
@@ -27,8 +28,29 @@ class Menu implements ILayout
         $this->aModulos[] = $oModulo;
     }
 
-    public function setMudaSistema($mudaSistema = true) {
+    public function setMudaSistema($mudaSistema = true)
+    {
         $this->mudaSistema = $mudaSistema;
+    }
+
+    private function getDescricao()
+    {
+        $sistema = $_SESSION['sistema'] ?? 1;
+
+        switch ($sistema) {
+            case 1:
+                return 'ERP';
+            case 2:
+                return 'CRM';
+            case 3:
+                return 'Gestão';
+            case 4:
+                return 'Varejo';
+            case 5:
+                return 'Indústria';
+            default:
+                return 'ERP';
+        }
     }
 
     public function render()
@@ -37,7 +59,7 @@ class Menu implements ILayout
         <div class="topbar">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <h1 style="font-size: 1rem;">
-                    OAsys <?= $_SESSION['sistema'] == 1 ? 'ERP' : 'CRM' ?>
+                    Oasys <?= $this->getDescricao() ?>
                 </h1>
             </div>
 
