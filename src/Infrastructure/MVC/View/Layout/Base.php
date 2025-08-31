@@ -56,6 +56,7 @@ class Base implements ILayout
             <link rel="stylesheet" href="<?= $sBase ?>/css/styles.css">
             <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
         </head>
         <?php
     }
