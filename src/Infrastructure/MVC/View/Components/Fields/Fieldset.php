@@ -11,6 +11,12 @@ class Fieldset extends FormComponent
     protected string $layout = 'form-two-columns';
     protected string $title;
     protected array $components = [];
+    protected $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
 
     public function setTitle(string $title): void
     {
@@ -26,6 +32,16 @@ class Fieldset extends FormComponent
     {
         $this->components[] = $component;
         return $component;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function bean($aData)
@@ -83,6 +99,7 @@ class Fieldset extends FormComponent
             'component' => 'FieldsetComponent',
             'FieldsetComponent' => [
                 'title' => $this->title,
+                'name' => $this->name,
                 'layout' => $this->layout,
                 'components' => array_map(fn($component) => $component->toArray(), $this->components),
             ]
