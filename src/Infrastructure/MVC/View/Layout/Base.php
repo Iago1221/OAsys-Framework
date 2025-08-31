@@ -62,73 +62,75 @@ class Base implements ILayout
 
     public function renderBody()
     {
-        ?><body><?php
-        $this->getMenu()->render();
-        ?>
+        ?><body>
+        <div style="margin: 0; padding: 0;">
+            <?php
+            $this->getMenu()->render();
+            ?>
 
-        <!-- Menu lateral -->
-        <div id="side-menu" class="side-menu">
-            <div class="menu-toggle" onclick="App.getInstance().toggleMenu()">
-                <i class="fi fi-rr-angle-right"></i>
+            <!-- Menu lateral -->
+            <div id="side-menu" class="side-menu">
+                <div class="menu-toggle" onclick="App.getInstance().toggleMenu()">
+                    <i class="fi fi-rr-angle-right"></i>
+                </div>
+                <ul class="menu-items">
+                    <li onclick="App.getInstance().switchSystem('1')" title="ERP">
+                        <i class="fi fi-tr-house-chimney"></i>
+                    </li>
+                    <li onclick="App.getInstance().switchSystem('2')" title="CRM">
+                        <i class="fi fi-tr-users"></i>
+                    </li>
+                    <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
+                        <i class="fi fi-tr-bank"></i>
+                    </li>
+                    <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
+                        <i class="fi fi-tr-basket-shopping-simple"></i>
+                    </li>
+                    <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
+                        <i class="fi fi-tr-industry-alt"></i>
+                    </li>
+                </ul>
             </div>
-            <ul class="menu-items">
-                <li onclick="App.getInstance().switchSystem('1')" title="ERP">
-                    <i class="fi fi-tr-house-chimney"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('2')" title="CRM">
-                    <i class="fi fi-tr-users"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
-                    <i class="fi fi-tr-bank"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
-                    <i class="fi fi-tr-basket-shopping-simple"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
-                    <i class="fi fi-tr-industry-alt"></i>
-                </li>
-            </ul>
-        </div>
 
-        <div id="workspace">
-        </div>
+            <div id="workspace">
+            </div>
 
-        <div id="tabs-bar">
-        </div>
+            <div id="tabs-bar">
+            </div>
 
-        <div class="modal">
-            <div class="modal-content">
-                <fieldset class="modal-fieldset">
-                    <legend class="modal-legend">Mensagem</legend>
-                    <p class="modal-message"></p>
-                </fieldset>
-                <button class="principal-form-button" onclick="App.getInstance().closeModal()">Confirmar</button>
+            <div class="modal">
+                <div class="modal-content">
+                    <fieldset class="modal-fieldset">
+                        <legend class="modal-legend">Mensagem</legend>
+                        <p class="modal-message"></p>
+                    </fieldset>
+                    <button class="principal-form-button" onclick="App.getInstance().closeModal()">Confirmar</button>
+                </div>
+            </div>
+
+            <div id="loading-overlay" class="loading-overlay">
+                <div class="loading-spinner"></div>
+            </div>
+
+            <!-- Botão flutuante -->
+            <div id="chatbot-button">
+                💬
+            </div>
+
+            <!-- Janela do Chat -->
+            <div id="chatbot-window" class="hidden">
+                <div class="chatbot-header">
+                    <span>Oasys Neuron</span>
+                    <button onclick="App.getInstance().toggleChat()">✖</button>
+                </div>
+                <div id="chatbot-messages" class="chatbot-messages"></div>
+                <div class="chatbot-input-area">
+                    <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
+                           onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
+                    <button onclick="App.getInstance().sendMessage()">Enviar</button>
+                </div>
             </div>
         </div>
-
-        <div id="loading-overlay" class="loading-overlay">
-            <div class="loading-spinner"></div>
-        </div>
-
-        <!-- Botão flutuante -->
-        <div id="chatbot-button">
-            💬
-        </div>
-
-        <!-- Janela do Chat -->
-        <div id="chatbot-window" class="hidden">
-            <div class="chatbot-header">
-                <span>Oasys Neuron</span>
-                <button onclick="App.getInstance().toggleChat()">✖</button>
-            </div>
-            <div id="chatbot-messages" class="chatbot-messages"></div>
-            <div class="chatbot-input-area">
-                <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
-                       onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
-                <button onclick="App.getInstance().sendMessage()">Enviar</button>
-            </div>
-        </div>
-
         <?php
         $this->loadJs();
         ?></body><?php
