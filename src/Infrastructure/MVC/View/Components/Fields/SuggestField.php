@@ -11,6 +11,7 @@ class SuggestField extends Field
     private FormField $descriptionField;
     private $sRoute;
     private $callbacks = [];
+    private $params = [];
 
     public function __construct(string $sName, FormField $field, FormField $descriptionField, string $label, string $sRoute)
     {
@@ -39,6 +40,11 @@ class SuggestField extends Field
     public function on($event, $functionJs)
     {
         $this->callbacks[$event] = $functionJs;
+    }
+
+    public function addParam($parametro, $value)
+    {
+        $this->params[$parametro] = $value;
     }
 
     protected function geTreatedData($data)
@@ -75,7 +81,8 @@ class SuggestField extends Field
                 'label' => $this->label,
                 'disabled' => $this->bDisabled,
                 'route' => $this->sRoute,
-                'callbacks' => $this->callbacks
+                'callbacks' => $this->callbacks,
+                'params' => $this->params
             ]
         ];
     }
