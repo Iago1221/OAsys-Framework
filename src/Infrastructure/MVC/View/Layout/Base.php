@@ -132,12 +132,12 @@ class Base implements ILayout
             <div class="loading-spinner"></div>
         </div>
 
-        <!-- Botão flutuante -->
-        <div id="chatbot-button">
-            💬
-        </div>
-
         <? if ($usuario->getAcessoNeuron()): ?>
+            <!-- Botão flutuante -->
+            <div id="chatbot-button">
+                💬
+            </div>
+
             <!-- Janela do Chat -->
             <div id="chatbot-window" class="hidden">
                 <div class="chatbot-header">
