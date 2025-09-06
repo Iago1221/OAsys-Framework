@@ -23,4 +23,9 @@ class TenantLoader
     {
         Main::switchConnection(self::$configs[$tenant]);
     }
+
+    public static function existe(string $tenant): bool
+    {
+        return isset(self::$configs[$tenant]);
+    }
 }
