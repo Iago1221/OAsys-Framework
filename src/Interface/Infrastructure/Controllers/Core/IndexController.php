@@ -33,15 +33,4 @@ class IndexController
 
         echo $oView->renderLayout();
     }
-
-    public function toggleSistema() {
-        if ($_SESSION['sistema'] == Modulo::SISTEMA_ERP) {
-            $_SESSION['sistema'] = Modulo::SISTEMA_CRM;
-            $this->index();
-            return;
-        }
-
-        $_SESSION['sistema'] = Modulo::SISTEMA_ERP;
-        $this->index();
-    }
 }

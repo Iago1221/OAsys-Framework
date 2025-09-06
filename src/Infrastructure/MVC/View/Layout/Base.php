@@ -3,7 +3,10 @@
 namespace Framework\Infrastructure\MVC\View\Layout;
 
 use Framework\Auth\General;
+use Framework\Core\Main;
 use Framework\Infrastructure\MVC\View\Layout\ILayout;
+use Framework\Interface\Domain\Usuario\Usuario;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
 class Base implements ILayout
 {
@@ -30,6 +33,11 @@ class Base implements ILayout
     public function getMenu()
     {
         return $this->oMenu;
+    }
+
+    private function getUsuario(): Usuario
+    {
+        return (new UsuarioRepository(Main::getConnection()))->findBy('id', Main::getUsuarioId());
     }
 
     public function render()
@@ -62,9 +70,10 @@ class Base implements ILayout
         <?php
     }
 
-
     private function renderBody()
     {
+        $usuario = $this->getUsuario();
+
         ?><body><?php
         $this->getMenu()->render();
         ?>
@@ -75,21 +84,31 @@ class Base implements ILayout
                 <i class="fi fi-rr-angle-right"></i>
             </div>
             <ul class="menu-items">
-                <li onclick="App.getInstance().switchSystem('1')" title="ERP">
-                    <i class="fi fi-tr-house-chimney"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('2')" title="CRM">
-                    <i class="fi fi-tr-users"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
-                    <i class="fi fi-tr-bank"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
-                    <i class="fi fi-tr-basket-shopping-simple"></i>
-                </li>
-                <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
-                    <i class="fi fi-tr-industry-alt"></i>
-                </li>
+                <? if ($usuario->getAcessoErp()): ?>
+                    <li onclick="App.getInstance().switchSystem('1')" title="ERP">
+                        <i class="fi fi-tr-house-chimney"></i>
+                    </li>
+                <? endif; ?>
+                <? if ($usuario->getAcessoCrm()): ?>
+                    <li onclick="App.getInstance().switchSystem('2')" title="CRM">
+                        <i class="fi fi-tr-users"></i>
+                    </li>
+                <? endif; ?>
+                <? if ($usuario->getAcessoGestao()): ?>
+                    <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
+                        <i class="fi fi-tr-bank"></i>
+                    </li>
+                <? endif; ?>
+                <? if ($usuario->getAcessoVarejo()): ?>
+                    <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
+                        <i class="fi fi-tr-basket-shopping-simple"></i>
+                    </li>
+                <? endif; ?>
+                <? if ($usuario->getAcessoIndustria()): ?>
+                    <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
+                        <i class="fi fi-tr-industry-alt"></i>
+                    </li>
+                <? endif; ?>
             </ul>
         </div>
 
@@ -118,19 +137,21 @@ class Base implements ILayout
             💬
         </div>
 
-        <!-- Janela do Chat -->
-        <div id="chatbot-window" class="hidden">
-            <div class="chatbot-header">
-                <span>Oasys Neuron</span>
-                <button onclick="App.getInstance().toggleChat()">✖</button>
+        <? if ($usuario->getAcessoNeuron()): ?>
+            <!-- Janela do Chat -->
+            <div id="chatbot-window" class="hidden">
+                <div class="chatbot-header">
+                    <span>Oasys Neuron</span>
+                    <button onclick="App.getInstance().toggleChat()">✖</button>
+                </div>
+                <div id="chatbot-messages" class="chatbot-messages"></div>
+                <div class="chatbot-input-area">
+                    <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
+                           onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
+                    <button onclick="App.getInstance().sendMessage()">Enviar</button>
+                </div>
             </div>
-            <div id="chatbot-messages" class="chatbot-messages"></div>
-            <div class="chatbot-input-area">
-                <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
-                       onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
-                <button onclick="App.getInstance().sendMessage()">Enviar</button>
-            </div>
-        </div>
+        <? endif; ?>
 
         <?php
         $this->loadJs();

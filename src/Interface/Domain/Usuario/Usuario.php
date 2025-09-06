@@ -15,6 +15,10 @@ class Usuario extends Model
     protected ?string $email;
     protected $acessoErp;
     protected $acessoCrm;
+    protected $acessoGestao;
+    protected $acessoVarejo;
+    protected $acessoIndustria;
+    protected $acessoNeuron;
 
     public function setId(int $id): void
     {
@@ -98,5 +102,45 @@ class Usuario extends Model
     public function getAcessoCrm()
     {
         return $this->acessoCrm;
+    }
+
+    public function setAcessoGestao($acessoGestao)
+    {
+        $this->acessoGestao = $acessoGestao;
+    }
+
+    public function getAcessoGestao()
+    {
+        return $this->acessoGestao;
+    }
+
+    public function setAcessoVarejo($acessoVarejo)
+    {
+        $this->acessoVarejo = $acessoVarejo;
+    }
+
+    public function getAcessoVarejo()
+    {
+        return $this->acessoVarejo;
+    }
+
+    public function setAcessoIndustria($acessoIndustria)
+    {
+        $this->acessoIndustria = $acessoIndustria;
+    }
+
+    public function getAcessoIndustria()
+    {
+        return $this->acessoIndustria;
+    }
+
+    public function setAcessoNeuron($acessoNeuron)
+    {
+        $this->acessoNeuron = $acessoNeuron;
+    }
+
+    public function getAcessoNeuron()
+    {
+        return $this->acessoNeuron;
     }
 }
