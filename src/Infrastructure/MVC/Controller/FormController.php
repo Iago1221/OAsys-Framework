@@ -16,9 +16,12 @@ abstract class FormController extends Controller
     protected bool $gravaLog = true;
     protected $controlaPersistencia = false;
 
-    public function show($bDisabled = true)
+    public function show($bDisabled = true, $instanciaModel = true)
     {
-        $this->instanciaModelById(isset($_GET['id']) ? $_GET['id'] : null);
+        if ($instanciaModel) {
+            $this->instanciaModelById(isset($_GET['id']) ? $_GET['id'] : null);
+        }
+
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 
