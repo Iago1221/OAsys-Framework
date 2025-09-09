@@ -70,6 +70,15 @@ class SuggestField extends Field
         return $data;
     }
 
+    public function setValue($value): void {
+        if (!is_array($value)) {
+            throw new \UnexpectedValueException("É necessário um array para alterar o valor de um suggest!");
+        }
+
+        $this->field->setValue($value[0]);
+        $this->descriptionField->setValue($value[1]);
+    }
+
     public function toArray(): array
     {
         return [
