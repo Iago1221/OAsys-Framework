@@ -15,7 +15,7 @@ class GridForm extends FormComponent
     protected array $aValue = [];
     protected bool $hasFieldset = false;
     protected $fieldsetTitle;
-    protected $fieldsetFields;
+    protected $fieldsetFields = [];
 
     public function __construct(string $name, string $title)
     {
