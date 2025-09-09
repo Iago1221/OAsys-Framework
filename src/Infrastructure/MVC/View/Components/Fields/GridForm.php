@@ -13,6 +13,9 @@ class GridForm extends FormComponent
     protected int $rows = 1;
     protected int $maxRows = 10;
     protected array $aValue = [];
+    protected bool $hasFieldset = false;
+    protected $fieldsetTitle;
+    protected $fieldsetFields;
 
     public function __construct(string $name, string $title)
     {
@@ -39,6 +42,22 @@ class GridForm extends FormComponent
     {
         $this->fields[] = $field;
         return $field;
+    }
+
+    public function addFieldsetField(IComponent $field): IComponent
+    {
+        $this->fieldsetFields[] = $field;
+        return $field;
+    }
+
+    public function setFieldset(bool $hasFieldset = true): void
+    {
+        $this->hasFieldset = $hasFieldset;
+    }
+
+    public function setFieldsetTitle(string $fieldsetTitle): void
+    {
+        $this->fieldsetTitle = $fieldsetTitle;
     }
 
     public function bean(array $aData): void
@@ -105,7 +124,13 @@ class GridForm extends FormComponent
                 ),
                 'rows' => $this->rows,
                 'maxRows' => $this->maxRows,
-                'value' => $this->getValue()
+                'value' => $this->getValue(),
+                'hasFieldset' => $this->hasFieldset,
+                'fieldsetTitle' => $this->fieldsetTitle,
+                'fieldsetFields' => array_map(
+                    fn($field) => $field->toArray(),
+                    $this->fieldsetFields
+                ),
             ]
         ];
     }
