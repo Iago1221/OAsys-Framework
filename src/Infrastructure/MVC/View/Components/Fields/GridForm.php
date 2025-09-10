@@ -14,7 +14,7 @@ class GridForm extends FormComponent
     protected int $maxRows = 10;
     protected array $aValue = [];
     protected bool $hasFieldset = false;
-    protected $fieldsetTitle;
+    protected $fieldsetTitle = [];
     protected $fieldsetFields = [];
     protected $fieldsets = [];
 
@@ -26,6 +26,7 @@ class GridForm extends FormComponent
 
     public function addFieldset($name) {
         $this->fieldsets[] = $name;
+        $this->fieldsetFields[$name] = [];
     }
 
     public function setTitle(string $title): void
@@ -62,7 +63,7 @@ class GridForm extends FormComponent
 
     public function setFieldsetTitle(string $fieldsetName, string $fieldsetTitle): void
     {
-        $this->fieldsetTitle = [$fieldsetName => $fieldsetTitle];
+        $this->fieldsetTitle[] = [$fieldsetName => $fieldsetTitle];
     }
 
     public function bean(array $aData): void
