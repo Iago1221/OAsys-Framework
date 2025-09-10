@@ -24,9 +24,10 @@ class GridForm extends FormComponent
         $this->title = $title;
     }
 
-    public function addFieldset($name) {
+    public function addFieldset($name, $title) {
         $this->fieldsets[] = $name;
         $this->fieldsetFields[$name] = [];
+        $this->fieldsetTitle[] = $title;
     }
 
     public function setTitle(string $title): void
@@ -59,11 +60,6 @@ class GridForm extends FormComponent
     public function setFieldset(bool $hasFieldset = true): void
     {
         $this->hasFieldset = $hasFieldset;
-    }
-
-    public function setFieldsetTitle(string $fieldsetName, string $fieldsetTitle): void
-    {
-        $this->fieldsetTitle[] = [$fieldsetName => $fieldsetTitle];
     }
 
     public function bean(array $aData): void
