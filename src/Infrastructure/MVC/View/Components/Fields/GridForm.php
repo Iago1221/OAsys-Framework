@@ -16,11 +16,16 @@ class GridForm extends FormComponent
     protected bool $hasFieldset = false;
     protected $fieldsetTitle;
     protected $fieldsetFields = [];
+    protected $fieldsets = [];
 
     public function __construct(string $name, string $title)
     {
         $this->name = $name;
         $this->title = $title;
+    }
+
+    public function addFieldset($name) {
+        $this->fieldsets[] = $name;
     }
 
     public function setTitle(string $title): void
@@ -44,9 +49,9 @@ class GridForm extends FormComponent
         return $field;
     }
 
-    public function addFieldsetField(IComponent $field): IComponent
+    public function addFieldsetField($fieldsetName, IComponent $field): IComponent
     {
-        $this->fieldsetFields[] = $field;
+        $this->fieldsetFields[$fieldsetName][] = $field;
         return $field;
     }
 
@@ -55,9 +60,9 @@ class GridForm extends FormComponent
         $this->hasFieldset = $hasFieldset;
     }
 
-    public function setFieldsetTitle(string $fieldsetTitle): void
+    public function setFieldsetTitle(string $fieldsetName, string $fieldsetTitle): void
     {
-        $this->fieldsetTitle = $fieldsetTitle;
+        $this->fieldsetTitle = [$fieldsetName => $fieldsetTitle];
     }
 
     public function bean(array $aData): void
@@ -127,9 +132,12 @@ class GridForm extends FormComponent
                 'value' => $this->getValue(),
                 'hasFieldset' => $this->hasFieldset,
                 'fieldsetTitle' => $this->fieldsetTitle,
-                'fieldsetFields' => array_map(
-                    fn($field) => $field->toArray(),
-                    $this->fieldsetFields
+                'fieldsets' => array_map(
+                    fn($fieldset) => array_map(
+                            fn($oField) => $oField->toArray(),
+                            $this->fieldsetFields[$fieldset]
+                        ),
+                    $this->fieldsets
                 ),
             ]
         ];
