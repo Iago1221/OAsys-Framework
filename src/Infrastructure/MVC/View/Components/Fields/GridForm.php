@@ -112,6 +112,12 @@ class GridForm extends FormComponent
                     $oField->setDisabled(true);
                 }
             }
+
+            foreach ($this->fieldsetFields as $oField) {
+                if ($oField instanceof FormComponent) {
+                    $oField->setDisabled(true);
+                }
+            }
         }
 
         return [
