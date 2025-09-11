@@ -109,13 +109,15 @@ class GridForm extends FormComponent
         if ($this->bDisabled) {
             foreach ($this->fields as $oField) {
                 if ($oField instanceof FormComponent) {
-                    $oField->setDisabled(true);
+                    $oField->setDisabled();
                 }
             }
 
-            foreach ($this->fieldsetFields as $oField) {
-                if ($oField instanceof FormComponent) {
-                    $oField->setDisabled(true);
+            foreach ($this->fieldsetFields as $aFields) {
+                foreach ($aFields as $oField) {
+                    if ($oField instanceof FormComponent) {
+                        $oField->setDisabled();
+                    }
                 }
             }
         }
@@ -132,6 +134,7 @@ class GridForm extends FormComponent
                 ),
                 'rows' => $this->rows,
                 'maxRows' => $this->maxRows,
+                'disabled' => $this->bDisabled,
                 'value' => $this->getValue(),
                 'hasFieldset' => $this->hasFieldset,
                 'fieldsetTitle' => $this->fieldsetTitle,
