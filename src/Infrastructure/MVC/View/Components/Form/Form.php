@@ -103,7 +103,9 @@ class Form implements IComponent
                 'route' => $this->sRoute,
                 'isRelatorio' => $this->isRelatorio,
                 'width' => $this->width,
-                'buttons' => $this->buttons
+                'buttons' => array_values(array_map(function ($button) {
+                    return json_encode($button->toArray());
+                }, $this->buttons))
             ]
         ];
 
