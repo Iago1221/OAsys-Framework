@@ -64,7 +64,7 @@ abstract class FormView extends View
     public function render($aData = [])
     {
         $oForm = $this->getViewComponent();
-        $oForm->setComponents($aData);
+        $oForm->setComponents($this->getComponents());
         $oForm->setLayout($this->sFormLayout);
         $oForm->setRoute($this->getRota());
         $oForm->setTitle($this->getTitulo());
