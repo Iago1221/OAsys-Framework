@@ -68,7 +68,7 @@ abstract class FormView extends View
         $oForm->setLayout($this->sFormLayout);
         $oForm->setRoute($this->getRota());
         $oForm->setTitle($this->getTitulo());
-        $oForm->setDisabled($aData['disabled']);
+        $oForm->setDisabled($aData['bDisabled']);
         $oForm->setRelatorio($this->isRelatorio);
 
         if (isset($this->width)) {
