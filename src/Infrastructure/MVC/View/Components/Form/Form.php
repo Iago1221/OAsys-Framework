@@ -17,7 +17,7 @@ class Form implements IComponent
     private $scriptFile = null;
     private $buttons;
 
-    public function __construct(array $aComponents, string $sLayout, string $sRoute, string $sTitle, bool $bDisabled = false)
+    public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false)
     {
         $this->aComponents = $aComponents;
         $this->sLayout = $sLayout;
@@ -27,6 +27,31 @@ class Form implements IComponent
         $this->isRelatorio = false;
         $this->width = 'auto';
         $this->buttons = [];
+    }
+
+    public function setComponents(array $aComponents)
+    {
+        $this->aComponents = $aComponents;
+    }
+
+    public function setLayout(string $sLayout)
+    {
+        $this->sLayout = $sLayout;
+    }
+
+    public function setRoute($route)
+    {
+        $this->sRoute = $route;
+    }
+
+    public function setTitle(string $title)
+    {
+        $this->sTitle = $title;
+    }
+
+    public function setDisabled(bool $disabled)
+    {
+        $this->bDisabled = $disabled;
     }
 
     public function setRelatorio($isRelatorio = true)

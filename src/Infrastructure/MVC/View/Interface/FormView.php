@@ -18,7 +18,7 @@ abstract class FormView extends View
 
     protected function instanciaViewComponent()
     {
-        //$this->setComponent(new Form());
+        $this->setViewComponent(new Form());
     }
 
     protected function addComponent(IComponent $oComponent)
@@ -63,7 +63,12 @@ abstract class FormView extends View
 
     public function render($aData = [])
     {
-        $oForm = new Form($this->getComponents(), $this->sFormLayout, $this->getRota(), $this->getTitulo(), $aData['bDisabled']);
+        $oForm = $this->getViewComponent();
+        $oForm->setComponents($aData);
+        $oForm->setLayout($this->sFormLayout);
+        $oForm->setRoute($this->getRota());
+        $oForm->setTitle($this->getTitulo());
+        $oForm->setDisabled($aData['disabled']);
         $oForm->setRelatorio($this->isRelatorio);
 
         if (isset($this->width)) {
