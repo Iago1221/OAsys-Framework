@@ -40,4 +40,9 @@ class XmlStorage
     {
         return file_exists($this->basePath . $filename);
     }
+
+    public static function lerXmlPeloPath(string $path)
+    {
+        return file_exists($path) ? file_get_contents($path) : false;
+    }
 }
