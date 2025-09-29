@@ -17,6 +17,7 @@ class GridForm extends FormComponent
     protected $fieldsetTitle = [];
     protected $fieldsetFields = [];
     protected $fieldsets = [];
+    protected $afterAddRow;
 
     public function __construct(string $name, string $title)
     {
@@ -60,6 +61,11 @@ class GridForm extends FormComponent
     public function setFieldset(bool $hasFieldset = true): void
     {
         $this->hasFieldset = $hasFieldset;
+    }
+
+    public function afterAddRow($event)
+    {
+        $this->afterAddRow = $event;
     }
 
     public function bean(array $aData): void
@@ -138,6 +144,7 @@ class GridForm extends FormComponent
                 'value' => $this->getValue(),
                 'hasFieldset' => $this->hasFieldset,
                 'fieldsetTitle' => $this->fieldsetTitle,
+                'afterAddRow' => $this->afterAddRow,
                 'fieldsets' => array_map(
                     fn($fieldset) => array_map(
                             fn($oField) => $oField->toArray(),
