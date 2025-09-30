@@ -74,9 +74,14 @@ class Base implements ILayout
     {
         $usuario = $this->getUsuario();
 
-        ?><body><?php
-        $this->getMenu()->render();
+
         ?>
+        <body>
+            <div id="menu-principal">
+                <?php
+                $this->getMenu()->render();
+                ?>
+            </div>
 
         <!-- Menu lateral -->
         <div id="side-menu" class="side-menu">
