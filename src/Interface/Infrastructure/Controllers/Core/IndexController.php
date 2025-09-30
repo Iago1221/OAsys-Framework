@@ -3,6 +3,7 @@
 namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Core\Main;
+use Framework\Infrastructure\MVC\View\Layout\Menu;
 use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Modulo\ModuloRepository;
@@ -32,5 +33,15 @@ class IndexController
         $oView = new IndexView($data);
 
         echo $oView->renderLayout();
+    }
+
+    public function toggleSistema()
+    {
+        $this->moduloRepository->filterBy(['sistema' => $_SESSION['sistema']]);
+        $modulos = $this->moduloRepository->get();;
+        $menu  = new Menu();
+        $menu->setModulos($modulos);
+        $menu->render();
+        exit;
     }
 }

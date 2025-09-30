@@ -56,7 +56,7 @@ class Menu implements ILayout
     public function render()
     {
         ?>
-        <div class="topbar">
+        <div class="topbar" id="menu-principal">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
                 <h1 style="font-size: 1rem;">
                     Oasys <?= $this->getDescricao() ?>
