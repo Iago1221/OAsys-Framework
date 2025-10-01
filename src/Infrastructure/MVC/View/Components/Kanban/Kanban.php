@@ -12,6 +12,7 @@ class Kanban implements IComponent
     private array $actions = [];
     private $addRoute;
     private $getItensRoute;
+    private $trocaCardColunaRoute;
 
     public function addColumn($id, $title, $concluiCard = false)
     {
@@ -33,6 +34,11 @@ class Kanban implements IComponent
         $this->addRoute = $route;
     }
 
+    public function setTrocaCardColunaRoute($route)
+    {
+        $this->trocaCardColunaRoute = $route;
+    }
+
     public function toArray(): array
     {
         $data = [
@@ -42,7 +48,8 @@ class Kanban implements IComponent
                 'cols' => $this->cols,
                 'actions' => $this->actions,
                 'addRoute' => $this->addRoute,
-                'getItensRoute' => $this->getItensRoute
+                'getItensRoute' => $this->getItensRoute,
+                'trocaCardColunaRoute' => $this->trocaCardColunaRoute
             ]
         ];
 

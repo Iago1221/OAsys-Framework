@@ -35,6 +35,11 @@ abstract class KanbanView extends View
         $this->getViewComponent()->setGetItensRoute($route);
     }
 
+    public function trocaCardColunaRoute($route)
+    {
+        $this->getViewComponent()->setTrocaCardColunaRoute($route);
+    }
+
     public function render($aData = [])
     {
         $window = [
