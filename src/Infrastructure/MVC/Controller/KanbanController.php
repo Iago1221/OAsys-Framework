@@ -19,4 +19,6 @@ abstract class KanbanController extends Controller
     }
 
     protected function beforeRender() {}
+
+    public abstract function getItens();
 }

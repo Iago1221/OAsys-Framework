@@ -17,7 +17,7 @@ abstract class KanbanView extends View
 
     protected function addColumn(KanbanCol $col)
     {
-        $this->getViewComponent()->addColumn($col->getId(), $col->getNome(), $col->getItems());
+        $this->getViewComponent()->addColumn($col->getId(), $col->getNome());
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
@@ -28,6 +28,11 @@ abstract class KanbanView extends View
     public function addRoute($route)
     {
         $this->getViewComponent()->setAddRoute($route);
+    }
+
+    public function getItensRoute($route)
+    {
+        $this->getViewComponent()->setGetItensRoute($route);
     }
 
     public function render($aData = [])

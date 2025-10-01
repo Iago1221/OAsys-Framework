@@ -11,15 +11,21 @@ class Kanban implements IComponent
     private array $cols = [];
     private array $actions = [];
     private $addRoute;
+    private $getItensRoute;
 
-    public function addColumn($id, $title, $items = [])
+    public function addColumn($id, $title)
     {
-        $this->cols[] = ['id' => $id, 'title' => $title, 'items' => $items];
+        $this->cols[] = ['id' => $id, 'title' => $title];
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
     {
         $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod, 'blank' => $blank];
+    }
+
+    public function setGetItensRoute($route)
+    {
+        $this->getItensRoute = $route;
     }
 
     public function setAddRoute($route)
@@ -35,7 +41,8 @@ class Kanban implements IComponent
                 'disabled' => false,
                 'cols' => $this->cols,
                 'actions' => $this->actions,
-                'addRoute' => $this->addRoute
+                'addRoute' => $this->addRoute,
+                'getItensRoute' => $this->getItensRoute
             ]
         ];
 
