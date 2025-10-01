@@ -21,7 +21,7 @@ class Kanban implements IComponent
             'component' => 'KanbanComponent',
             'KanbanComponent' => [
                 'disabled' => false,
-                'columns' => $this->cols
+                'cols' => $this->cols
             ]
         ];
 
