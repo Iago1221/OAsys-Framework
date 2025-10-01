@@ -17,7 +17,7 @@ abstract class KanbanView extends View
 
     protected function addColumn(KanbanCol $col)
     {
-        $this->getViewComponent()->addColumn($col->getId(), $col->getNome());
+        $this->getViewComponent()->addColumn($col->getId(), $col->getNome(), $col->getConcluiCard());
     }
 
     public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
