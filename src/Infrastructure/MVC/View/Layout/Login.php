@@ -116,7 +116,7 @@ class Login implements ILayout
                 <?php if ($bUnauthorized): ?>
                     <h3 style="color: red">Usuário ou senha incorretos!</h3>
                 <?php endif; ?>
-                <h2>Login - OAsys ERP</h2>
+                <h2>Login - Oasys</h2>
                 <form action="index.php" method="POST">
                     <input type="email" name="usuario" placeholder="Usuário" required>
                     <input type="password" name="senha" placeholder="Senha" required>
