@@ -12,6 +12,7 @@ class KanbanCol
     {
         $this->id = $id;
         $this->nome = $nome;
+        $this->items = [];
     }
 
     public function setItems($items)
