@@ -40,7 +40,7 @@ class Login implements ILayout
 
             body {
                 font-family: Arial, sans-serif;
-                background: linear-gradient(160deg, #004b8d, #007BFF); /* Cor de fundo azul */
+                background: linear-gradient(160deg, #004b8d, #007BFF);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -48,7 +48,7 @@ class Login implements ILayout
             }
 
             .login-container {
-                background-color: #FFF; /* Fundo branco */
+                background-color: #FFF;
                 padding: 2rem;
                 border-radius: 8px;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -58,7 +58,7 @@ class Login implements ILayout
             }
 
             .login-container h2 {
-                color: #007bff; /* Azul para o título */
+                color: #004b8d;
                 margin-bottom: 1.5rem;
                 font-size: 1.8rem;
             }
@@ -80,8 +80,8 @@ class Login implements ILayout
             .login-container button {
                 width: 100%;
                 padding: 0.75rem;
-                background-color: #007bff; /* Azul para o botão */
-                color: #FFF; /* Texto branco */
+                background: linear-gradient(160deg, #004b8d, #007BFF);
+                color: #FFF;
                 border: none;
                 border-radius: 4px;
                 font-size: 1rem;
