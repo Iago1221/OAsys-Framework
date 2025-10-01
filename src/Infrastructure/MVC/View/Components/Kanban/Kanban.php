@@ -19,9 +19,9 @@ class Kanban implements IComponent
         $this->cols[] = ['id' => $id, 'title' => $title, 'concluiCard' => $concluiCard];
     }
 
-    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
+    public function addAction($name, $label, $hint, $route, $httpMethod = 'GET', $blank = false)
     {
-        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod, 'blank' => $blank];
+        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'hint' => $hint, 'httpMethod' => $httpMethod, 'blank' => $blank];
     }
 
     public function setGetItensRoute($route)
