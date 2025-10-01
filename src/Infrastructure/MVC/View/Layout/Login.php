@@ -40,7 +40,7 @@ class Login implements ILayout
 
             body {
                 font-family: Arial, sans-serif;
-                background-color: #007bff; /* Cor de fundo azul */
+                background: linear-gradient(160deg, #004b8d, #007BFF); /* Cor de fundo azul */
                 display: flex;
                 justify-content: center;
                 align-items: center;
