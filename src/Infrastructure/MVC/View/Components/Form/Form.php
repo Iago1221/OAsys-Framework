@@ -80,9 +80,11 @@ class Form implements IComponent
     public function toArray(): array
     {
         if ($this->bDisabled) {
-            /** @var FormComponent $oComponent */
+            /** @var IComponent $oComponent */
             foreach ($this->aComponents as $oComponent) {
-                $oComponent->setDisabled();
+                if (method_exists($oComponent, 'setDisabled')) {
+                    $oComponent->setDisabled();
+                }
             }
         }
 
