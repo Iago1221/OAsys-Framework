@@ -8,11 +8,17 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class Kanban implements IComponent
 {
+    private $name = 'kanban';
     private array $cols = [];
     private array $actions = [];
     private $addRoute;
     private $getItensRoute;
     private $trocaCardColunaRoute;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
     public function addColumn($id, $title, $concluiCard = false)
     {
