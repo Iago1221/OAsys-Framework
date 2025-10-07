@@ -2,6 +2,8 @@
 
 namespace Framework\Infrastructure\MVC\View\Components\Fields;
 
+use MongoDB\BSON\Type;
+
 abstract class Field extends FormComponent
 {
     const TYPE_NUMBER   = 'number';
@@ -31,6 +33,10 @@ abstract class Field extends FormComponent
         $this->name = $name;
         $this->label = $label;
         $this->type = $type;
+
+        if (in_array($type, [self::TYPE_NUMBER, self::TYPE_REAL, self::TYPE_INTEGER])) {
+            $this->setMaxLength(9);
+        }
     }
 
     public function getName(): string
