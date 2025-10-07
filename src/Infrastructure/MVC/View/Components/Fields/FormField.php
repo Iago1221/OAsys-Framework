@@ -37,6 +37,7 @@ class FormField extends Field
                 'value' => $this->value,
                 'renderLabel' => $this->renderLabel,
                 'maxLength' => $this->maxLength,
+                'decimalsLength' => $this->decimalsLength,
             ]
         ];
     }

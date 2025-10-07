@@ -27,6 +27,7 @@ abstract class Field extends FormComponent
     protected mixed $value = null;
     protected array $options = [];
     protected $maxLength = null;
+    protected $decimalsLength = null;
 
     public function __construct(string $name, string $label, string $type)
     {
@@ -36,6 +37,7 @@ abstract class Field extends FormComponent
 
         if (in_array($type, [self::TYPE_NUMBER, self::TYPE_REAL, self::TYPE_INTEGER])) {
             $this->setMaxLength(9);
+            $this->setDecimalsLength(2);
         }
     }
 
@@ -94,6 +96,11 @@ abstract class Field extends FormComponent
         $this->maxLength = $value;
     }
 
+    public function setDecimalsLength(int $value): void
+    {
+        $this->decimalsLength = $value;
+    }
+
     public function getMaxLength(): ?int
     {
         return $this->maxLength;
@@ -109,6 +116,7 @@ abstract class Field extends FormComponent
                 'type' => $this->type,
                 'options' => $this->options,
                 'maxLength' => $this->maxLength,
+                'decimalsLength' => $this->decimalsLength,
             ]
         ];
     }
