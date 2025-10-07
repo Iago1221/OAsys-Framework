@@ -21,7 +21,8 @@ class Login implements ILayout
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Login - OAsys ERP</title>
+            <title>Login - Oasys</title>
+            <link rel="icon" href="/assets/icon.png" sizes="512x512" type="image/png">
         <?php
         $this->renderStyle();
         ?></head><?php
