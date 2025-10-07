@@ -36,7 +36,7 @@ abstract class Field extends FormComponent
         $this->type = $type;
 
         if (in_array($type, [self::TYPE_NUMBER, self::TYPE_REAL, self::TYPE_INTEGER])) {
-            $this->setMaxLength(9);
+            $this->setMaxLength(8);
             $this->setDecimalsLength(2);
         }
     }
