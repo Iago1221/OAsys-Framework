@@ -10,6 +10,7 @@ class GridWithForm extends FormComponent
     protected string $title;
     protected string $layout = 'form-two-columns';
     protected array $fields = [];
+    protected array $columns = [];
     protected $afterAddRow;
     protected $afterEditRow;
     protected $afterDeleteRow;
@@ -34,6 +35,11 @@ class GridWithForm extends FormComponent
     {
         $this->fields[] = $field;
         return $field;
+    }
+
+    public function addColumn($name, $label)
+    {
+        $this->columns[$name] = $label;
     }
 
     public function afterAddRow($event)
@@ -81,6 +87,7 @@ class GridWithForm extends FormComponent
                     fn($field) => $field->toArray(),
                     $this->fields
                 ),
+                'columns' => $this->columns,
                 'afterAddRow' => $this->afterAddRow,
                 'afterEditRow' => $this->afterEditRow,
                 'afterDeleteRow' => $this->afterDeleteRow
