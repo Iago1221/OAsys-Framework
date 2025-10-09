@@ -10,6 +10,7 @@ class Form implements IComponent
     private $aComponents;
     private $sLayout;
     private $bDisabled;
+    private $criaBotaoSubmit;
     private $sRoute;
     private $sTitle;
     private $isRelatorio;
@@ -17,11 +18,12 @@ class Form implements IComponent
     private $scriptFile = null;
     private $buttons;
 
-    public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false)
+    public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false, bool $criaBotaoSubmit = true)
     {
         $this->aComponents = $aComponents;
         $this->sLayout = $sLayout;
         $this->bDisabled = $bDisabled;
+        $this->criaBotaoSubmit = $criaBotaoSubmit;
         $this->sRoute = $sRoute;
         $this->sTitle = $sTitle;
         $this->isRelatorio = false;
@@ -52,6 +54,11 @@ class Form implements IComponent
     public function setDisabled(bool $disabled)
     {
         $this->bDisabled = $disabled;
+    }
+
+    public function setCriaBotaoSubmit(bool $criaBotaoSubmit)
+    {
+        $this->criaBotaoSubmit = $criaBotaoSubmit;
     }
 
     public function setRelatorio($isRelatorio = true)
@@ -102,6 +109,7 @@ class Form implements IComponent
                 }, $this->aComponents)),
                 'layout' => $this->sLayout,
                 'disabled' => $this->bDisabled,
+                'criaBotaoSubmit' => $this->criaBotaoSubmit,
                 'route' => $this->sRoute,
                 'isRelatorio' => $this->isRelatorio,
                 'width' => $this->width,
