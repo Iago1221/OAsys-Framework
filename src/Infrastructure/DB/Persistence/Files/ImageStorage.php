@@ -84,7 +84,7 @@ class ImageStorage
     /**
      * Retorna o caminho público da imagem (para usar em <img src="...">)
      */
-    public function getPublicPath(string $cliente, string $filename): string
+    public static function getPublicPath(string $cliente, string $filename): string
     {
         return "/var/www/html/storage/image/$cliente/$filename";
     }
