@@ -48,12 +48,99 @@ class ImageStorage
         $filename = ($prefix ? $prefix . '-' : '') . uniqid() . '.' . $ext;
         $destino = $this->basePath . $filename;
 
-        if (!move_uploaded_file($file['tmp_name'], $destino)) {
+        // --- PROCESSAMENTO PARA LIMITE DE 64KB ---
+        $maxSize = 64 * 1024; // 64 KB
+        $imageData = file_get_contents($file['tmp_name']);
+
+        // Cria a imagem GD
+        switch ($ext) {
+            case 'jpg':
+            case 'jpeg':
+                $img = imagecreatefromjpeg($file['tmp_name']);
+                break;
+            case 'png':
+                $img = imagecreatefrompng($file['tmp_name']);
+                break;
+            case 'gif':
+                $img = imagecreatefromgif($file['tmp_name']);
+                break;
+            case 'webp':
+                $img = imagecreatefromwebp($file['tmp_name']);
+                break;
+            default:
+                throw new Mensagem('Formato de imagem não suportado para compressão.');
+        }
+
+        if (!$img) {
+            throw new Mensagem('Falha ao processar a imagem.');
+        }
+
+        $width = imagesx($img);
+        $height = imagesy($img);
+
+        // Redimensionamento proporcional até caber no limite de 64KB
+        $quality = 90; // para JPG/WebP
+        do {
+            ob_start();
+            switch ($ext) {
+                case 'jpg':
+                case 'jpeg':
+                    imagejpeg($img, null, $quality);
+                    break;
+                case 'png':
+                    // PNG usa compressão 0-9, invertido (0 = sem compressão)
+                    imagepng($img, null, 9 - floor($quality / 10));
+                    break;
+                case 'gif':
+                    imagegif($img);
+                    break;
+                case 'webp':
+                    imagewebp($img, null, $quality);
+                    break;
+            }
+            $compressedData = ob_get_clean();
+
+            if (strlen($compressedData) <= $maxSize) {
+                break; // já está abaixo do limite
+            }
+
+            // Reduz qualidade ou tamanho da imagem
+            if ($ext === 'gif') {
+                // Para GIFs só podemos redimensionar
+                $width = (int)($width * 0.9);
+                $height = (int)($height * 0.9);
+            } else {
+                $quality -= 5; // diminui qualidade
+                if ($quality < 10) {
+                    // qualidade mínima, agora reduz tamanho físico
+                    $width = (int)($width * 0.9);
+                    $height = (int)($height * 0.9);
+                    $quality = 90; // reset qualidade
+                }
+            }
+
+            $tmpImg = imagecreatetruecolor($width, $height);
+            if ($ext === 'png' || $ext === 'gif') {
+                // preserva transparência
+                imagecolortransparent($tmpImg, imagecolorallocatealpha($tmpImg, 0, 0, 0, 127));
+                imagealphablending($tmpImg, false);
+                imagesavealpha($tmpImg, true);
+            }
+            imagecopyresampled($tmpImg, $img, 0, 0, 0, 0, $width, $height, imagesx($img), imagesy($img));
+            imagedestroy($img);
+            $img = $tmpImg;
+
+        } while (true);
+
+        // Salva o arquivo final
+        if (file_put_contents($destino, $compressedData) === false) {
             throw new Mensagem('Falha ao salvar o arquivo de imagem.');
         }
 
+        imagedestroy($img);
         return $filename;
     }
+
 
     /**
      * Lê uma imagem (retorna o conteúdo binário).

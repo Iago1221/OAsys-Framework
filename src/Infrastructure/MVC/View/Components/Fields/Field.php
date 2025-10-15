@@ -20,6 +20,8 @@ abstract class Field extends FormComponent
     const TYPE_SUGGEST  = 'suggest';
     const TYPE_INTEGER = 'integer';
     const TYPE_CPF_CNPJ = 'cpf_cnpj';
+    const TYPE_IMAGE    = 'image';
+    const TYPE_HIDDEN   = 'hidden';
 
     protected string $name;
     protected string $label;
