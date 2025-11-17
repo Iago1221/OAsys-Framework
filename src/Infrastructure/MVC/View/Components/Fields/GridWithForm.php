@@ -37,9 +37,9 @@ class GridWithForm extends FormComponent
         return $field;
     }
 
-    public function addColumn($name, $label)
+    public function addColumn($name, $label, $isMoney)
     {
-        $this->columns[$name] = $label;
+        $this->columns[$name] = ['label' => $label, 'isMoney' => $isMoney];
     }
 
     public function afterAddRow($event)
