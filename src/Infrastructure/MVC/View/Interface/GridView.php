@@ -27,27 +27,27 @@ abstract class GridView extends View
         $this->getViewComponent()->addFilter($filter);
     }
 
-    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false)
+    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false, $icon = null)
     {
-        $this->getViewComponent()->addAction($name, $label, $route, $httpMethod, $blank);
+        $this->getViewComponent()->addAction($name, $label, $route, $httpMethod, $blank, $icon);
     }
 
     protected function addDefaultActions($routeName, $add = true, $show = true, $edit = true, $delete = true, $changeStatus = false)
     {
         if ($add) {
-            $this->addGridAction('add', 'Adicionar', 'sys_'.$routeName.'_add');
+            $this->addGridAction('add', 'Adicionar', 'sys_'.$routeName.'_add', 'GET', 'plus');
         }
 
         if ($show) {
-            $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show');
+            $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show', 'GET', false, 'eye');
         }
 
         if ($edit) {
-            $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit');
+            $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit', 'GET', false, 'pencil');
         }
 
         if ($delete) {
-            $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE');
+            $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE', false, 'trash');
         }
 
         if ($changeStatus) {
@@ -55,9 +55,9 @@ abstract class GridView extends View
         }
     }
 
-    protected function addGridAction($name, $label, $route, $httpMethod = 'GET')
+    protected function addGridAction($name, $label, $route, $httpMethod = 'GET', $icon = null)
     {
-        $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod);
+        $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod, $icon);
     }
 
     public function render($aData = [])
