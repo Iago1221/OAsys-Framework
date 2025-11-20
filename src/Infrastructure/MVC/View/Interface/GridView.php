@@ -27,9 +27,9 @@ abstract class GridView extends View
         $this->getViewComponent()->addFilter($filter);
     }
 
-    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false, $icon = null)
+    public function addAction($name, $label, $route, $httpMethod = 'GET', $blank = false, $icon = null, $color = null)
     {
-        $this->getViewComponent()->addAction($name, $label, $route, $httpMethod, $blank, $icon);
+        $this->getViewComponent()->addAction($name, $label, $route, $httpMethod, $blank, $icon, $color);
     }
 
     protected function addDefaultActions($routeName, $add = true, $show = true, $edit = true, $delete = true, $changeStatus = false)
