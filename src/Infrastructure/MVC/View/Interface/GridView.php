@@ -39,15 +39,15 @@ abstract class GridView extends View
         }
 
         if ($show) {
-            $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show', 'GET', false, 'eye');
+            $this->addAction('show', 'Visualizar', 'sys_'.$routeName.'_show', 'GET', false, 'eye', "var(--oasys-oasis)");
         }
 
         if ($edit) {
-            $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit', 'GET', false, 'pencil');
+            $this->addAction('edit', 'Editar', 'sys_'.$routeName.'_edit', 'GET', false, 'pencil', "var(--warning)");
         }
 
         if ($delete) {
-            $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE', false, 'trash');
+            $this->addAction('delete', 'Excluir', 'sys_'.$routeName.'_delete', 'DELETE', false, 'trash', "var(--error");
         }
 
         if ($changeStatus) {
