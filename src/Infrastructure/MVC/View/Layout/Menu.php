@@ -103,7 +103,7 @@ class Menu implements ILayout
         <?php
     }
 
-    function renderIcon(string $nome, int $size = 14): string
+    function renderIcon(string $nome, int $size = 16): string
     {
         $arquivo = $_SERVER['DOCUMENT_ROOT'] . "/assets/icons/{$nome}.svg";
 
