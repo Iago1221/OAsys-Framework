@@ -29,9 +29,27 @@ class Main
     private static Order $order;
     private static ?int $usuarioId;
 
-    public function __construct($route, RotaRepository $oRotaMapper)
+    public function __construct($route, RotaRepository $oRotaMapper, $path_info = null)
     {
         self::$route = $route;
+        $this->initialCall($route, $oRotaMapper, $path_info);
+    }
+
+    public function initialCall($route, RotaRepository $oRotaMapper, $path_info = null) {
+        if (isset($path_info)) {
+            $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+            $path_limpo = ltrim($path, '/');
+            $stripped_path = explode('/', $path_limpo);
+
+            if (isset($stripped_path[0], $stripped_path[1], $stripped_path[2]) && $stripped_path[0] == 'api') {
+                $midleware = new ApiMidleware($stripped_path[1]);
+                $midleware->call($_SERVER['REQUEST_METHOD'], $stripped_path[2], $stripped_path);
+                return;
+            }
+
+            self::setNotFoundException('INVALID PATH');
+        }
+
         $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);
     }
 

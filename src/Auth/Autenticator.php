@@ -75,6 +75,21 @@ class Autenticator
     }
 
     /**
+     * Executa o processo de validação da autenticação na API
+     * @return bool
+     */
+    public static function verifyApiToken()
+    {
+        $token = self::getTokenFromHeaders();
+
+        if (!$token) return false;
+
+        if (self::validateToken($token)) return true;
+
+        return false;
+    }
+
+    /**
      * Obtem o token da variavel de ambiente '$_SESSION'.
      * @return mixed|null
      */
@@ -84,6 +99,20 @@ class Autenticator
             return $_SESSION['oasys-token'];
         }
 
+        return null;
+    }
+
+    /**
+     * Obtem o token da variavel de ambiente dos Headers HTTP
+     * @return mixed|null
+     */
+    private static function getTokenFromHeaders()
+    {
+        $headers = getallheaders();
+        if (isset($headers['auth-token'])) {
+            $token = $headers['auth-token'];
+            return $token;
+        }
         return null;
     }
 
