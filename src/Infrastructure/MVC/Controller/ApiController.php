@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\Controller;
 
+use Framework\Interface\Domain\Router\API;
 use Framework\Interface\Infrastructure\Persistence\Core\APIRepository;
 
 abstract class ApiController extends Controller
@@ -30,6 +31,12 @@ abstract class ApiController extends Controller
     }
 
     abstract function getAplicacao(): string;
+
+    /** @return API[] */
+    protected function getApisFromRecurso(string $recurso): array
+    {
+        return $this->getRepository()->findByRecursoAndHttpMethod($this->getAplicacao(), $recurso, $this->getHttpMethod());
+    }
 
     abstract function execute(string $recurso, string $pathParams);
 }
