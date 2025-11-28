@@ -103,6 +103,29 @@ class Menu implements ILayout
         <?php
     }
 
+    function renderIcon(string $nome, int $size = 14): string
+    {
+        $arquivo = $_SERVER['DOCUMENT_ROOT'] . "/assets/icons/{$nome}.svg";
+
+        if (!file_exists($arquivo)) {
+            return '';
+        }
+
+        $svg = file_get_contents($arquivo);
+
+        $svg = preg_replace('/\s(width|height)="[^"]*"/i', '', $svg);
+        $svg = preg_replace('/style="[^"]*"/i', '', $svg);
+
+        $svg = preg_replace(
+                '/<svg/i',
+                '<svg width="'.$size.'" height="'.$size.'" fill="currentColor" style="vertical-align:middle;"',
+                $svg,
+                1
+        );
+
+        return $svg;
+    }
+
     public function renderModulos()
     {
         foreach ($this->aModulos as $i => $oModulo) {
@@ -117,22 +140,7 @@ class Menu implements ILayout
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
-                                        <script>
-                                            const svgNS = "http://www.w3.org/2000/svg";
-                                            const icon = document.createElementNS(svgNS, "svg");
-                                            const menuIcon = await App.getInstance().loadSVG(`/assets/icons/<?= $oItem->getIcone() ?>.svg`)
-                                            icon.setAttribute("viewBox", menuIcon.viewBox);
-                                            icon.setAttribute("width", "10");
-                                            icon.setAttribute("height", "10");
-
-                                            const path = document.createElementNS(svgNS, "path" );
-                                            path.setAttribute("d", menuIcon.path);
-                                            path.setAttribute("fill", "currentColor");
-
-                                            icon.appendChild(path);
-                                            const scriptAtual = document.currentScript
-                                            scriptAtual.insertAdjacentElement('afterend', icon)
-                                        </script>
+                                        <?= $this->renderIcon($oItem->getIcone(), 12) ?>
                                     <? endif; ?>
                                     <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
                                 </li>
