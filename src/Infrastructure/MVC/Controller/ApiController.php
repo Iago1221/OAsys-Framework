@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\Controller;
 
+use Framework\Infrastructure\Factory;
 use Framework\Interface\Domain\Router\API;
 use Framework\Interface\Infrastructure\Persistence\Core\APIRepository;
 
@@ -36,6 +37,12 @@ abstract class ApiController extends Controller
     protected function getApisFromRecurso(string $recurso): array
     {
         return $this->getRepository()->findByRecursoAndHttpMethod($this->getAplicacao(), $recurso, $this->getHttpMethod());
+    }
+
+    protected function loadController(string $controllerClass): Controller
+    {
+        $controllerClass = 'API' . '\\' . $this->getAplicacao() . '\\' . $controllerClass;
+        return Factory::loadController($controllerClass);
     }
 
     abstract function execute(string $recurso, array $pathParams);
