@@ -28,7 +28,7 @@ class ApiMidleware
     public function call($htpp_method, $recurso, $pathParams)
     {
         if (Autenticator::verifyApiToken()) {
-            $controllerClass = $this->api . 'Controller';
+            $controllerClass = 'API' . '\\' . ucfirst($this->api) . 'Controller';
             /** @var ApiController $apiController */
             $apiController = Factory::loadController('API', $controllerClass);
             $apiController->setHttpMethod($htpp_method);

@@ -38,5 +38,5 @@ abstract class ApiController extends Controller
         return $this->getRepository()->findByRecursoAndHttpMethod($this->getAplicacao(), $recurso, $this->getHttpMethod());
     }
 
-    abstract function execute(string $recurso, string $pathParams);
+    abstract function execute(string $recurso, array $pathParams);
 }
