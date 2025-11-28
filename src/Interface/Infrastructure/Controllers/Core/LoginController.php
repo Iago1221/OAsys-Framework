@@ -4,6 +4,7 @@ namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Auth\Autenticator;
 use Framework\Core\Main;
+use Framework\Infrastructure\Response;
 use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
@@ -11,6 +12,22 @@ use Framework\Interface\Infrastructure\View\Core\LoginView;
 
 class LoginController
 {
+    public function loginApi()
+    {
+        $xUsuario = $_POST['usuario'] ?? null;
+        $xSenha = $_POST['senha'] ?? null;
+        $usuarioRepository = new UsuarioRepository(Main::getConnection());
+        $oAutenticator = new Autenticator($xUsuario, $xSenha, $usuarioRepository);
+
+
+        if ($sToken = $oAutenticator->generateToken()) {
+            Response::success(['token' => $sToken]);
+            return;
+        }
+
+        Response::error("Unauthorized", 401);
+    }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
