@@ -4,18 +4,29 @@ namespace Framework\Interface\Infrastructure\Controllers\Core;
 
 use Framework\Auth\Autenticator;
 use Framework\Core\Main;
+use Framework\Infrastructure\MVC\Controller\Controller;
 use Framework\Infrastructure\Response;
 use Framework\Interface\Domain\Modulo\Modulo;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Core\LoginView;
 
-class LoginController
+class LoginController extends Controller
 {
+    protected function getViewClass(): string|null
+    {
+        return null;
+    }
+
+    protected function getRepositoryClass(): string
+    {
+        return UsuarioRepository::class;
+    }
+
     public function loginApi()
     {
-        $xUsuario = $_POST['usuario'] ?? null;
-        $xSenha = $_POST['senha'] ?? null;
+        $xUsuario = $this->getRequest('usuario');
+        $xSenha = $this->getRequest('senha');
         $usuarioRepository = new UsuarioRepository(Main::getConnection());
         $oAutenticator = new Autenticator($xUsuario, $xSenha, $usuarioRepository);
 
