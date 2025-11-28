@@ -2,6 +2,8 @@
 
 namespace Framework\Infrastructure\MVC\Controller;
 
+use Framework\Interface\Infrastructure\Persistence\Core\APIRepository;
+
 abstract class ApiController extends Controller
 {
     protected $httpMethod;
@@ -10,6 +12,11 @@ abstract class ApiController extends Controller
     protected function getViewClass(): string|null
     {
        return null;
+    }
+
+    protected function getRepositoryClass(): string
+    {
+        return APIRepository::class;
     }
 
     public function setHttpMethod(string $httpMethod): void
@@ -22,5 +29,5 @@ abstract class ApiController extends Controller
         return $this->httpMethod;
     }
 
-    abstract function execute(string $controller, string $pathParams);
+    abstract function execute(string $recurso, string $pathParams);
 }

@@ -25,14 +25,14 @@ class ApiMidleware
         (new LoginController())->loginApi();
     }
 
-    public function call($htpp_method, $calledController, $pathParams)
+    public function call($htpp_method, $recurso, $pathParams)
     {
         if (Autenticator::verifyApiToken()) {
             $controllerClass = $this->api . 'Controller';
             /** @var ApiController $apiController */
             $apiController = Factory::loadController('API', $controllerClass);
             $apiController->setHttpMethod($htpp_method);
-            $apiController->execute($calledController, $pathParams);
+            $apiController->execute($recurso, $pathParams);
             return;
         }
 
