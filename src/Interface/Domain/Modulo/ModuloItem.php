@@ -72,12 +72,12 @@ class ModuloItem extends Model
         return $this->modulo;
     }
 
-    public function setIcone(string $icone)
+    public function setIcone(?string $icone)
     {
         $this->icone = $icone;
     }
 
-    public function getIcone(): string
+    public function getIcone(): ?string
     {
         return $this->icone;
     }
