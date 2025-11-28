@@ -2,6 +2,8 @@
 
 namespace Framework\Infrastructure;
 
+use Framework\Core\Main;
+
 class Factory
 {
     public static function loadModel($module, $model, $dto)
@@ -16,6 +18,10 @@ class Factory
 
         if (strtoupper($sPacote)  == strtoupper('Core') || strtoupper($sPacote) == strtoupper('Sistema')) {
             $class = "\Framework\Interface\Infrastructure\Controllers\\$controller";
+        }
+
+        if (!class_exists($class)) {
+            Main::setNotFoundException('404 Not Found');
         }
 
         return new $class();
