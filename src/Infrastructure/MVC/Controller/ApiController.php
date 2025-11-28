@@ -42,7 +42,7 @@ abstract class ApiController extends Controller
     protected function loadController(string $controllerClass): Controller
     {
         $controllerClass = 'API' . '\\' . $this->getAplicacao() . '\\' . $controllerClass;
-        return Factory::loadController($controllerClass);
+        return Factory::loadController('API', $controllerClass);
     }
 
     abstract function execute(string $recurso, array $pathParams);
