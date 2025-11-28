@@ -99,6 +99,12 @@ class Main
         try {
             self::$order = $factory->make();
             $oProcessing = new OrderProcessing();
+
+            if ($route == 'sys_api_login') {
+                $oProcessing->process(self::$order);
+                return;
+            }
+
             if (Autenticator::verifyToken()) {
                 if (isset($_SESSION['usuario'])) {
                     if ($usuarioId = $_SESSION['usuario']) {
