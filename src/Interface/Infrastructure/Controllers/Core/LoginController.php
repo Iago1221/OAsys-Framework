@@ -52,6 +52,11 @@ class LoginController extends Controller
 
         $xUsuario = $_POST['usuario'] ?? null;
         $xSenha = $_POST['senha'] ?? null;
+
+        if (!$xUsuario || !$xSenha) {
+            Response::error('Unauthorized', 401);
+        }
+
         $usuarioRepository = new UsuarioRepository(Main::getConnection());
         $oAutenticator = new Autenticator($xUsuario, $xSenha, $usuarioRepository);
 
