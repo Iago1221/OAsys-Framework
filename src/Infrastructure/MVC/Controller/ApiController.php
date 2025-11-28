@@ -29,5 +29,7 @@ abstract class ApiController extends Controller
         return $this->httpMethod;
     }
 
+    abstract function getAplicacao(): string;
+
     abstract function execute(string $recurso, string $pathParams);
 }
