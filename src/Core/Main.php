@@ -41,10 +41,13 @@ class Main
             $path_limpo = ltrim($path, '/');
             $stripped_path = explode('/', $path_limpo);
 
-            if (isset($stripped_path[0], $stripped_path[1], $stripped_path[2]) && $stripped_path[0] == 'api') {
+            if (isset($stripped_path[0], $stripped_path[1]) && $stripped_path[0] == 'api') {
                 $midleware = new ApiMidleware($stripped_path[1]);
-                $midleware->call($_SERVER['REQUEST_METHOD'], $stripped_path[2], $stripped_path);
-                return;
+
+                if (isset($stripped_path[2])) {
+                    $midleware->call($_SERVER['REQUEST_METHOD'], $stripped_path[2], $stripped_path);
+                    return;
+                }
             }
 
             self::setNotFoundException('INVALID PATH');

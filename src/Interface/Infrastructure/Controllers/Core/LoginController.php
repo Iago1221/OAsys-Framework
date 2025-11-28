@@ -27,6 +27,11 @@ class LoginController extends Controller
     {
         $xUsuario = $this->getRequest('usuario');
         $xSenha = $this->getRequest('senha');
+
+        if (!$xUsuario || !$xSenha) {
+            Response::error('Unauthorized', 401);
+        }
+
         $usuarioRepository = new UsuarioRepository(Main::getConnection());
         $oAutenticator = new Autenticator($xUsuario, $xSenha, $usuarioRepository);
 
