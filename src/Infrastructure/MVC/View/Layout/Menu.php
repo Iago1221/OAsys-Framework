@@ -132,6 +132,9 @@ class Menu implements ILayout
             if ($oModulo->isSituacao(Modulo::SITUACAO_ATIVO) && $oModulo->isDisponivel(Main::getUsuarioId())) {
                 ?>
                 <li class="menu-item <?= $i ?>">
+                    <? if($oModulo->getIcone()): ?>
+                        <?= $this->renderIcon($oModulo->getIcone()) ?>
+                    <? endif; ?>
                     <?= $oModulo->getTitulo() ?>
                     <ul class="dropdown" id="dropdown<?= $i ?>">
                         <?php
@@ -140,7 +143,7 @@ class Menu implements ILayout
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
-                                        <?= $this->renderIcon($oItem->getIcone(), 12) ?>
+                                        <?= $this->renderIcon($oItem->getIcone()) ?>
                                     <? endif; ?>
                                     <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
                                 </li>

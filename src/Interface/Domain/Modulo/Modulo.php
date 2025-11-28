@@ -21,6 +21,7 @@ class Modulo extends Model
     protected ?array $itens;
     protected ?string $pacote;
     protected $sistema;
+    protected $icone;
 
     public function setId($id)
     {
@@ -101,5 +102,15 @@ class Modulo extends Model
     public function setSistema($sistema)
     {
         $this->sistema = $sistema;
+    }
+
+    public function getIcone()
+    {
+        return $this->icone;
+    }
+
+    public function setIcone($icone)
+    {
+        $this->icone = $icone;
     }
 }
