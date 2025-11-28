@@ -6,6 +6,7 @@ use Framework\Auth\Autenticator;
 use Framework\Infrastructure\Factory;
 use Framework\Infrastructure\MVC\Controller\ApiController;
 use Framework\Infrastructure\Response;
+use Framework\Interface\Infrastructure\Controllers\Core\LoginController;
 
 class ApiMidleware
 {
@@ -14,6 +15,14 @@ class ApiMidleware
     public function __construct($api)
     {
         $this->api = $api;
+        if ($this->api == 'login') {
+            $this->login();
+        }
+    }
+
+    public function login()
+    {
+        (new LoginController())->loginApi();
     }
 
     public function call($htpp_method, $calledController, $pathParams)

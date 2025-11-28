@@ -109,8 +109,8 @@ class Autenticator
     private static function getTokenFromHeaders()
     {
         $headers = getallheaders();
-        if (isset($headers['auth-token'])) {
-            $token = $headers['auth-token'];
+        if (isset($headers['oasys-token'])) {
+            $token = $headers['oasys-token'];
             return $token;
         }
         return null;
