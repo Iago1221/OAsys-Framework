@@ -115,7 +115,27 @@ class Menu implements ILayout
                         foreach ($oModulo->getItens() as $oItem) {
                             if ($oItem->isSituacao(ModuloItem::SITUACAO_ATIVO)) {
                                 ?>
-                                <li><a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a></li>
+                                <li>
+                                    <? if($oItem->getIcone()): ?>
+                                        <script>
+                                            const svgNS = "http://www.w3.org/2000/svg";
+                                            const icon = document.createElementNS(svgNS, "svg");
+                                            const menuIcon = await App.getInstance().loadSVG(`/assets/icons/<?= $oItem->getIcone() ?>.svg`)
+                                            icon.setAttribute("viewBox", menuIcon.viewBox);
+                                            icon.setAttribute("width", "10");
+                                            icon.setAttribute("height", "10");
+
+                                            const path = document.createElementNS(svgNS, "path" );
+                                            path.setAttribute("d", menuIcon.path);
+                                            path.setAttribute("fill", "currentColor");
+
+                                            icon.appendChild(path);
+                                            const scriptAtual = document.currentScript
+                                            scriptAtual.insertAdjacentElement('afterend', icon)
+                                        </script>
+                                    <? endif; ?>
+                                    <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
+                                </li>
                                 <?php
                             }
                         }

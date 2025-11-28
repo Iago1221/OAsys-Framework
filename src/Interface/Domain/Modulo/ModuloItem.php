@@ -15,6 +15,7 @@ class ModuloItem extends Model
     protected $titulo;
     protected $situacao;
     protected $modulo;
+    protected $icone;
 
     public function setId($id)
     {
@@ -69,5 +70,15 @@ class ModuloItem extends Model
     public function getModulo(): int
     {
         return $this->modulo;
+    }
+
+    public function setIcone(string $icone)
+    {
+        $this->icone = $icone;
+    }
+
+    public function getIcone(): string
+    {
+        return $this->icone;
     }
 }
