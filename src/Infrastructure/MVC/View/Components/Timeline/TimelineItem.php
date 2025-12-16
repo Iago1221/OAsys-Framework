@@ -15,7 +15,7 @@ class TimelineItem implements IComponent
         string $titulo,
         ?string $descricao = null,
         ?string $data = null,
-        ?string $color = '#007bff'
+        ?string $color = 'var(--oasys-primary)'
     ) {
         $this->data = $data;
         $this->titulo = $titulo;
