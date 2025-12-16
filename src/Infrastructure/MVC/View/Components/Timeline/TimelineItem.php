@@ -6,7 +6,7 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class TimelineItem implements IComponent
 {
-    private string $data;
+    private ?string $data;
     private string $titulo;
     private ?string $descricao;
     private ?string $color;
