@@ -18,12 +18,20 @@ class GridForm extends FormComponent
     protected $fieldsetFields = [];
     protected $fieldsets = [];
     protected $afterAddRow;
+    protected $exibeControls;
 
     public function __construct(string $name, string $title)
     {
         $this->name = $name;
         $this->title = $title;
+        $this->exibeControls = true;
     }
+
+    public function disableControls(bool $disable = true)
+    {
+        $this->exibeControls = !$disable;
+    }
+
 
     public function addFieldset($name, $title) {
         $this->fieldsets[] = $name;
@@ -141,6 +149,7 @@ class GridForm extends FormComponent
                 'rows' => $this->rows,
                 'maxRows' => $this->maxRows,
                 'disabled' => $this->bDisabled,
+                'exibeControls' => $this->exibeControls,
                 'value' => $this->getValue(),
                 'hasFieldset' => $this->hasFieldset,
                 'fieldsetTitle' => $this->fieldsetTitle,
