@@ -17,6 +17,8 @@ class Timeline implements IComponent
         $this->titulo = $titulo;
     }
 
+    public function bean() {}
+
     public function getName(): string
     {
         return $this->name;
