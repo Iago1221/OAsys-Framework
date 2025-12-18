@@ -18,6 +18,7 @@ class Timeline implements IComponent
     }
 
     public function bean() {}
+    public function setDisabled() {}
 
     public function getName(): string
     {
