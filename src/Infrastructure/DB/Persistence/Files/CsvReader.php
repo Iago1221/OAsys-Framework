@@ -30,6 +30,10 @@ class CsvReader
         // Lê o cabeçalho
         $this->header = fgetcsv($this->handle, 0, $this->delimiter);
 
+        if (isset($this->header[0])) {
+            $this->header[0] = preg_replace('/^\xEF\xBB\xBF/', '', $this->header[0]);
+        }
+
         if (!$this->header || count($this->header) === 0) {
             throw new CsvReaderException("Cabeçalho do CSV vazio ou inválido.");
         }
