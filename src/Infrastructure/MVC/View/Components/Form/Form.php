@@ -17,7 +17,7 @@ class Form implements IComponent
     private $width;
     private $scriptFile = null;
     private $buttons;
-    private $callbacks;
+    private $callbacks = [];
 
     public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false, bool $criaBotaoSubmit = true)
     {
