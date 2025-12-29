@@ -34,8 +34,8 @@ abstract class FormController extends Controller
             $this->instanciaModelById(isset($_GET['id']) ? $_GET['id'] : null);
         }
 
-        $this->getView()->setTitulo(Main::getOrder()->getTitle());
-        $this->getView()->setRota(Main::getOrder()->getRoute());
+        $this->getView()->setTitulo($this->title ?? Main::getOrder()->getTitle());
+        $this->getView()->setRota($this->route ?? Main::getOrder()->getRoute());
 
         $aData['bDisabled'] = $bDisabled;
 
@@ -147,7 +147,7 @@ abstract class FormController extends Controller
     protected function beforeAdd($model) {}
     protected function afterAdd($model) {
         if ($this->gravaLog) {
-            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
+            $log = Log::comRotaUsuarioEDados($this->route ?? Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
             $this->getLogRepository()->save($log);
         }
     }
@@ -156,7 +156,7 @@ abstract class FormController extends Controller
 
     protected function afterEdit($model) {
         if ($this->gravaLog) {
-            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
+            $log = Log::comRotaUsuarioEDados($this->route ?? Main::getOrder()->getRoute(), Main::getUsuarioId(), json_encode($model));
             $this->getLogRepository()->save($log);
         }
     }
@@ -164,7 +164,7 @@ abstract class FormController extends Controller
     protected function beforeDelete($model) {}
     protected function afterDelete($model) {
         if ($this->gravaLog) {
-            $log = Log::comRotaUsuarioEDados(Main::getOrder()->getRoute(), Main::getUsuarioId());
+            $log = Log::comRotaUsuarioEDados($this->route ?? Main::getOrder()->getRoute(), Main::getUsuarioId());
             $this->getLogRepository()->save($log);
         }
     }
