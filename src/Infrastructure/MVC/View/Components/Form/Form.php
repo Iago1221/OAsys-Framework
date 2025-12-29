@@ -17,6 +17,7 @@ class Form implements IComponent
     private $width;
     private $scriptFile = null;
     private $buttons;
+    private $callbacks;
 
     public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false, bool $criaBotaoSubmit = true)
     {
@@ -29,6 +30,11 @@ class Form implements IComponent
         $this->isRelatorio = false;
         $this->width = 'auto';
         $this->buttons = [];
+    }
+
+    public function on($event, $functionJs)
+    {
+        $this->callbacks[$event] = $functionJs;
     }
 
     public function setComponents(array $aComponents)
@@ -84,6 +90,11 @@ class Form implements IComponent
         $this->buttons[] = $button;
     }
 
+    public function onSubmit(string $onSubmit)
+    {
+        $this->onSubmit = $onSubmit;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -115,7 +126,8 @@ class Form implements IComponent
                 'width' => $this->width,
                 'buttons' => array_values(array_map(function ($button) {
                     return json_encode($button->toArray());
-                }, $this->buttons))
+                }, $this->buttons)),
+                'callbacks' => $this->callbacks
             ]
         ];
 
