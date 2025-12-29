@@ -15,6 +15,18 @@ abstract class FormController extends Controller
     protected $model = null;
     protected bool $gravaLog = true;
     protected $controlaPersistencia = false;
+    protected ?string $title = null;
+    protected ?string $route = null;
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setRoute(string $route): void
+    {
+        $this->route = $route;
+    }
 
     public function show($bDisabled = true, $instanciaModel = true)
     {
