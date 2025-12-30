@@ -28,6 +28,7 @@ class Main
     private static ?string $route;
     private static Order $order;
     private static ?int $usuarioId;
+    private static ?string $tenant;
 
     public function __construct($route, RotaRepository $oRotaMapper, $path_info = null)
     {
@@ -65,6 +66,25 @@ class Main
     {
         return self::$usuarioId;
     }
+
+    public static function setTenant(string $tenant)
+    {
+        self::$tenant = $tenant;
+    }
+
+    public static function getTenant()
+    {
+        if (isset($_SESSION['cliente'])) {
+            return $_SESSION['cliente'];
+        }
+
+        if (isset(self::$tenant)) {
+            return self::$tenant;
+        }
+
+        return null;
+    }
+
 
     public static function setBdConfig($aBDConfig)
     {
