@@ -85,6 +85,19 @@ class Main
         throw new \BadMethodCallException("Não é possível sobrescrever as configurações do ambiente!");
     }
 
+    public static function getConfig(?string $config = null)
+    {
+        if (!$config) {
+            return self::$config;
+        }
+
+        if (isset(self::$config[$config])) {
+            return self::$config[$config];
+        }
+
+        return null;
+    }
+
     /**
      * Verifica se a rota passada por parâmetro é igual a rota requisitada.
      * @param $route
