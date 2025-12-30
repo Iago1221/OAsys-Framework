@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\CLI\Scheduler;
 
+use Framework\Core\Main;
 use Framework\Infrastructure\Tenant\TenantLoader;
 
 class Scheduler
@@ -21,6 +22,7 @@ class Scheduler
         foreach (array_keys($tenants) as $tenant) {
             echo "\n>> Executando tarefas para: {$tenant} \n";
             TenantLoader::conectar($tenant);
+            Main::setTenant($tenant);
 
             foreach ($this->tasks as $name => $task) {
                 if ($taskName && $taskName !== $name) continue;
