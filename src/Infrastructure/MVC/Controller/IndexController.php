@@ -10,7 +10,7 @@ use Framework\Auth\General;
 class IndexController
 {
     public static function setHeaders() {
-        header('Access-Control-Allow-Origin: ' .  General::$URL);
+        header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
         header('Access-Control-Allow-Headers: Content-Type, oasys-token');
         header('Access-Control-Allow-Credentials: false');
