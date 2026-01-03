@@ -10,6 +10,7 @@ abstract class ApiController extends Controller
 {
     protected $httpMethod;
     protected $method;
+    protected $publicRecursos = [];
 
     protected function getViewClass(): string|null
     {
@@ -19,6 +20,16 @@ abstract class ApiController extends Controller
     protected function getRepositoryClass(): string
     {
         return APIRepository::class;
+    }
+
+    protected function addPublicRecurso($recurso)
+    {
+        $this->publicRecursos[] = $recurso;
+    }
+
+    public function recursoIsPublic($recurso)
+    {
+        return in_array($recurso, $this->publicRecursos);
     }
 
     public function setHttpMethod(string $httpMethod): void
