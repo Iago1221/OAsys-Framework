@@ -4,14 +4,14 @@ namespace Framework\Infrastructure;
 
 class Response
 {
-    public static function success($data = null)
+    public static function success($data = null, $status = 200)
     {
         $response = [
             'success' => true,
-            'status' => 200,
+            'status' => $status,
             'info' => $data
         ];
-        self::sendResponse($response);
+        self::sendResponse($response, $status);
     }
 
     public static function error($message, $status = 400)
@@ -31,9 +31,9 @@ class Response
         exit();
     }
 
-    private static function sendResponse($data)
+    private static function sendResponse($data, $status = 200)
     {
-        http_response_code(200);
+        http_response_code($status);
         header('Content-Type: application/json');
         echo json_encode($data);
         exit();
