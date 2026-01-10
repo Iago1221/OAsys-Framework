@@ -22,7 +22,7 @@ use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
 class Main
 {
     private static $dBConfig;
-    private static $envClass;
+    private static EnvUtils $env;
     private static \PDO $connection;
     private static PdoStorage $pdoStorage;
 
@@ -97,12 +97,8 @@ class Main
         throw new \BadMethodCallException("Não é possível sobrescrever as configurações de banco de dados!");
     }
 
-    public static function setEnvClass(string $envClass) {
-        if (!is_subclass_of($envClass, EnvUtils::class)) {
-            throw new \InvalidArgumentException("A classe {$envClass} deve extender " . EnvUtils::class);
-        }
-
-        self::$envClass = $envClass;
+    public static function setEnvClass(EnvUtils $envClass) {
+        self::$env = $envClass;
     }
 
     /**
@@ -174,9 +170,14 @@ class Main
     }
 
     public static function isAmbienteDesenvolvimento() {
-        return self::$envClass::getAmbiente() == 'DEV';
+        return self::$env->getAmbiente() == 'DEV';
     }
 
+    public static function getEnv(string $name)
+    {
+        $method = 'get' . ucfirst($name);
+        return self::$env->{$method}();
+    }
 
     /**
      * Define o retorno caso o processamento da rota seja interrompido por falha na autenticação.
