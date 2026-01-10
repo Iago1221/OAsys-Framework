@@ -3,7 +3,7 @@
 namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
-use Framework\Infrastructure\Exceptions\Mensagem;
+use Framework\Infrastructure\Mensagem;
 use Framework\Infrastructure\MVC\Model\StatusModel;
 use Framework\Infrastructure\MVC\View\Components\Callaback\Aviso;
 use Framework\Infrastructure\MVC\View\Components\Fields\FormField;

@@ -2,7 +2,7 @@
 
 namespace Framework\Infrastructure\DB\Persistence\Files;
 
-use Framework\Infrastructure\Exceptions\Mensagem;
+use Framework\Infrastructure\Mensagem;
 
 class ImageStorage
 {

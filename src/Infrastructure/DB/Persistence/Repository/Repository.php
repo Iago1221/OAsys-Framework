@@ -2,7 +2,7 @@
 
 namespace Framework\Infrastructure\DB\Persistence\Repository;
 
-use Framework\Infrastructure\Exceptions\Mensagem;
+use Framework\Infrastructure\Mensagem;
 use Throwable;
 
 /**

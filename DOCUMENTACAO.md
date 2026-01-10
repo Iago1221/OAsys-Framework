@@ -1271,7 +1271,7 @@ VALUES ('produto_edit', 'ProdutoFormController', 'edit', 'Produto', 'Editar Prod
 ```php
 try {
     // Operação
-} catch (\Framework\Infrastructure\Exceptions\Mensagem $e) {
+} catch (\Framework\Infrastructure\Mensagem $e) {
     // Erro esperado do framework
     $this->setAvisoRetorno($e->getMessage(), Aviso::TIPO_ERRO);
 } catch (\Exception $e) {
