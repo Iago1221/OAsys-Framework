@@ -6,7 +6,8 @@ use Framework\Auth\Autenticator;
 use Framework\Core\Router\OrderFactory;
 use Framework\Core\Router\OrderProcessing;
 use Framework\Infrastructure\DB\Persistence\Storage\PdoStorage;
-use Framework\Infrastructure\Mensagem;
+use Framework\Infrastructure\ENV\EnvUtils;
+use Framework\Infrastructure\Exceptions\IException;
 use Framework\Interface\Domain\Router\Order;
 use Framework\Interface\Domain\Router\Rota;
 use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
@@ -21,7 +22,7 @@ use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
 class Main
 {
     private static $dBConfig;
-    private static $config;
+    private static $envClass;
     private static \PDO $connection;
     private static PdoStorage $pdoStorage;
 
@@ -96,26 +97,12 @@ class Main
         throw new \BadMethodCallException("Não é possível sobrescrever as configurações de banco de dados!");
     }
 
-    public static function setConfig($config) {
-        if (!self::$config) {
-            self::$config = $config;
-            return;
+    public static function setEnvClass(string $envClass) {
+        if (!is_subclass_of($envClass, EnvUtils::class)) {
+            throw new \InvalidArgumentException("A classe {$envClass} deve extender " . EnvUtils::class);
         }
 
-        throw new \BadMethodCallException("Não é possível sobrescrever as configurações do ambiente!");
-    }
-
-    public static function getConfig(?string $config = null)
-    {
-        if (!$config) {
-            return self::$config;
-        }
-
-        if (isset(self::$config[$config])) {
-            return self::$config[$config];
-        }
-
-        return null;
+        self::$envClass = $envClass;
     }
 
     /**
@@ -172,7 +159,7 @@ class Main
             $factory->setRota(new Rota('sys_login', 'Core', 'LoginController', 'login', 'Login'));
             $oProcessing->process($factory->make());
         } catch (\Throwable $t) {
-            if ($t instanceof Mensagem) {
+            if ($t instanceof IException) {
                 $this->setExceptionReturn($t->getMessage());
                 return;
             }
@@ -187,16 +174,9 @@ class Main
     }
 
     public static function isAmbienteDesenvolvimento() {
-        return self::$config['ambiente'] == 'DEV';
+        return self::$envClass::getAmbiente() == 'DEV';
     }
 
-    public static function isAmbienteQualidade() {
-        return self::$config['ambiente'] == 'QA';
-    }
-
-    public static function isAmbienteProducao() {
-        return self::$config['ambiente'] == 'PROD';
-    }
 
     /**
      * Define o retorno caso o processamento da rota seja interrompido por falha na autenticação.

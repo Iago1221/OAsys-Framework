@@ -14,7 +14,6 @@ class Menu implements ILayout
 {
     /** @var Modulo[] */
     private $aModulos;
-    private $mudaSistema = false;
 
     public function setModulos($aModulos)
     {
@@ -26,11 +25,6 @@ class Menu implements ILayout
     public function addModulo($oModulo)
     {
         $this->aModulos[] = $oModulo;
-    }
-
-    public function setMudaSistema($mudaSistema = true)
-    {
-        $this->mudaSistema = $mudaSistema;
     }
 
     private function getDescricao()

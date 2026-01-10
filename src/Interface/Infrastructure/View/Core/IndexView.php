@@ -13,7 +13,7 @@ class IndexView extends View
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->setLayout(new Base($this->getMenu(), $this->data['possuiAcessoErp'], $this->data['possuiAcessoCrm']));
+        $this->setLayout(new Base($this->getMenu()));
     }
 
     private function getMenu()

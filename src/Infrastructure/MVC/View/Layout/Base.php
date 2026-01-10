@@ -4,25 +4,16 @@ namespace Framework\Infrastructure\MVC\View\Layout;
 
 use Framework\Auth\General;
 use Framework\Core\Main;
-use Framework\Infrastructure\MVC\View\Layout\ILayout;
 use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
 class Base implements ILayout
 {
     private Menu $oMenu;
-    private $acessoErp;
-    private $acessoCrm;
 
-    public function __construct($oMenu, $acessoErp, $acessoCrm)
+    public function __construct($oMenu)
     {
         $this->oMenu = $oMenu;
-        $this->acessoErp = $acessoErp;
-        $this->acessoCrm = $acessoCrm;
-
-        if ($this->acessoErp && $this->acessoCrm) {
-            $this->oMenu->setMudaSistema();
-        }
     }
 
     public function setMenu($oMenu)
