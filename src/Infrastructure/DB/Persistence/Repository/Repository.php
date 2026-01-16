@@ -104,7 +104,7 @@ abstract class Repository {
                     $column = $this->table . '.' . $column;
                 }
 
-                $this->filters[] = "{$column} {$this->translateOperator($operator)} ?";
+                $this->filters[] = "{$column} {$this->translateOperator($operator)}" . (strtoupper($operator) === 'EM' ? '' : ' ?');
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
                 $key = $this->pathToDotNotation($key);
@@ -128,6 +128,11 @@ abstract class Repository {
             $value = "%{$value}%";
         }
 
+        if (strtoupper($operator) == 'EM') {
+            $value = is_array($value) ? $value : [$value];
+            $value = '{' . implode(',', $value) . '}';
+        }
+
         return $value;
     }
 
@@ -141,7 +146,7 @@ abstract class Repository {
             'MENOR' => '<',
             'MAIOR IGUAL' => '>=',
             'MENOR IGUAL' => '<=',
-            'EM' => 'IN'
+            'EM' => ' = ANY(?::int[])'
         ];
 
         return $operators[strtoupper($operator)];
