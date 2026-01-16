@@ -140,7 +140,8 @@ abstract class Repository {
             'MAIOR' => '>',
             'MENOR' => '<',
             'MAIOR IGUAL' => '>=',
-            'MENOR IGUAL' => '<='
+            'MENOR IGUAL' => '<=',
+            'EM' => 'IN'
         ];
 
         return $operators[strtoupper($operator)];
