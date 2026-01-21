@@ -55,18 +55,20 @@ abstract class GridController extends Controller
         $this->beforeSetRegistros();
         $this->getRepository()->filterBy($this->getFiltros());
 
-        $totalPages = intdiv($this->getQuantidadeRegistros(), $this->getLimite() ?? 1);
+        if (!$this->getRequest('exportar')) {
+            $totalPages = intdiv($this->getQuantidadeRegistros(), $this->getLimite());
 
-        if ($totalPages < 1) {
-            $totalPages = 1;
-        }
+            if ($totalPages < 1) {
+                $totalPages = 1;
+            }
 
-        if ($this->getQuantidadeRegistros() % $this->getLimite()) {
-            $totalPages++;
-        }
+            if ($this->getQuantidadeRegistros() % $this->getLimite()) {
+                $totalPages++;
+            }
 
-        if ($this->getPagina() > $totalPages) {
-            $this->setPagina($totalPages);
+            if ($this->getPagina() > $totalPages) {
+                $this->setPagina($totalPages);
+            }
         }
 
         if ($this->getLimite()) {
