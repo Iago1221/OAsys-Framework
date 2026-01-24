@@ -173,6 +173,10 @@ class Main
         return self::$env->getAmbiente() == 'DEV';
     }
 
+    public static function isAmbienteProducao() {
+        return self::$env->getAmbiente() == 'PROD';
+    }
+
     public static function getEnv(string $name)
     {
         $method = 'get' . ucfirst($name);
