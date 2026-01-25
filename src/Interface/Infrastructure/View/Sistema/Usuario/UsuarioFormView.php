@@ -21,6 +21,7 @@ class UsuarioFormView extends FormView
 
     protected function create()
     {
+        $this->setFormLayout(self::FORM_LAYOUT_ONE_COLUMN);
         $this->tab = new Tab('usuario');
         $this->tab->addTab('Geral');
 
