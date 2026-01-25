@@ -111,6 +111,10 @@ class UsuarioFormView extends FormView
 
                 $values["{$item->getId()}ItemId"]      = $item->getId();
                 $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
+
+                if ($item->getId() == 24) {
+                    var_dump($itemPermitido);
+                }
                 $values["{$item->getId()}ItemPermitido"]  = $itemPermitido ?? null;
             }
 
