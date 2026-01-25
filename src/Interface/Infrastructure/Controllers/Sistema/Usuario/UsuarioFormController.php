@@ -152,9 +152,6 @@ class UsuarioFormController extends FormController
         $permissaoModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $oModel->getId());
         $permissaoItens = $this->getUsuarioModuloItemRepository()->findAllBy('usuario', $oModel->getId());
 
-        var_dump($oModel);
-        var_dump($permissaoItens);
-
         $this->getView()->setPrivilegioFields($modulos, $permissaoModulos, $permissaoItens);
     }
 }

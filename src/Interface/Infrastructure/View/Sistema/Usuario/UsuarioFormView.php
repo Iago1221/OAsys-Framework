@@ -106,15 +106,12 @@ class UsuarioFormView extends FormView
 
                 $itemPermitido = true;
                 if (isset($permissaoItemMap[$item->getId()])) {
-                    if ($item->getId() == 24) {
-                        var_dump($permissaoItemMap[$item->getId()]->getPermitido());
-                    }
                     $itemPermitido = $permissaoItemMap[$item->getId()]->getPermitido();
                 }
 
                 $values["{$item->getId()}ItemId"]      = $item->getId();
                 $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
-                $values["{$item->getId()}ItemPermitido"]  = $itemPermitido;
+                $values["{$item->getId()}ItemPermitido"]  = $itemPermitido ?? null;
             }
 
             $grid->setValue([$values]);
