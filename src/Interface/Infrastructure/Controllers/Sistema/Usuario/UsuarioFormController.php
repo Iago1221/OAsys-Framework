@@ -60,7 +60,12 @@ class UsuarioFormController extends FormController
         parent::beforeAdd($oModel);
         $this->validaAdicionar();
         $oModel->setSenha($this->getRequest('senha'));
-        $this->inserePrivilegiosUsuario($oModel);
+    }
+
+    protected function afterAdd($model)
+    {
+        parent::afterAdd($model);
+        $this->inserePrivilegiosUsuario($model);
     }
 
     protected function beforeEdit($oModel)
@@ -68,13 +73,18 @@ class UsuarioFormController extends FormController
         parent::beforeEdit($oModel);
         $this->validaEditar();
         $this->apagarPrivilegiosUsuario($oModel);
-        $this->inserePrivilegiosUsuario($oModel);
     }
 
-    protected function apagarPrivilegiosUsuario($oModel)
+    protected function afterEdit($model)
     {
-        $privilegioModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $oModel->getId());
-        $privilegioItens = $this->getUsuarioModuloItemRepository()->findAllBy('usuario', $oModel->getId());
+        parent::afterEdit($model);
+        $this->inserePrivilegiosUsuario($model);
+    }
+
+    protected function apagarPrivilegiosUsuario($model)
+    {
+        $privilegioModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $model->getId());
+        $privilegioItens = $this->getUsuarioModuloItemRepository()->findAllBy('usuario', $model->getId());
 
         foreach ($privilegioItens as $privilegioItem) {
             $this->getUsuarioModuloItemRepository()->remove($privilegioItem);
@@ -85,7 +95,7 @@ class UsuarioFormController extends FormController
         }
     }
 
-    protected function inserePrivilegiosUsuario($oModel)
+    protected function inserePrivilegiosUsuario($model)
     {
         /** @var Modulo[] $modulos */
         $modulos = $this->getModuloRepository()->get();
@@ -97,7 +107,7 @@ class UsuarioFormController extends FormController
                 $requestData = $requestData[0];
 
                 $moduloPermissao = new UsuarioModulo();
-                $moduloPermissao->setUsuario($oModel->getId());
+                $moduloPermissao->setUsuario($model->getId());
                 $moduloPermissao->setModulo($modulo->getId());
                 $moduloPermissao->setPermitido($requestData['moduloPermitido']);
                 $this->getUsuarioModuloRepository()->save($moduloPermissao);
@@ -105,7 +115,7 @@ class UsuarioFormController extends FormController
                 foreach ($modulo->getItens() as $item) {
                     if (isset($requestData["{$item->getId()}ItemPermitido"])) {
                         $itemPermissao = new UsuarioModuloItem();
-                        $itemPermissao->setUsuario($oModel->getId());
+                        $itemPermissao->setUsuario($model->getId());
                         $itemPermissao->setModuloItem($item->getId());
                         $itemPermissao->setPermitido($requestData["{$item->getId()}ItemPermitido"]);
                         $this->getUsuarioModuloItemRepository()->save($itemPermissao);
