@@ -58,7 +58,7 @@ abstract class GridController extends Controller
         if (!$this->getRequest('exportar')) {
             $totalPages = intdiv($this->getQuantidadeRegistros(), $this->getLimite());
 
-            if ($totalPages < 1) {
+            if ($totalPages <= 1) {
                 $totalPages = 1;
             }
 
