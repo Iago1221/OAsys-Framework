@@ -75,9 +75,18 @@ class UsuarioFormView extends FormView
      * @param UsuarioModulo[] $permissaoModulos
      * @param UsuarioModuloItem[] $permissaoItens
      */
-    public function setPrivilegioFields(array $modulos, array $permissaoModulos, array $permissaoItens): void {
-        $permissaoModuloMap = $this->indexPermissaoModulo($permissaoModulos);
-        $permissaoItemMap   = $this->indexPermissaoItem($permissaoItens);
+    public function setPrivilegioFields(array $modulos, array $permissaoModulos, array $permissaoItens): void
+    {
+        // Indexa permissões para acesso rápido
+        $permissaoModuloMap = [];
+        foreach ($permissaoModulos as $pm) {
+            $permissaoModuloMap[$pm->getModulo()] = $pm;
+        }
+
+        $permissaoItemMap = [];
+        foreach ($permissaoItens as $pi) {
+            $permissaoItemMap[$pi->getModuloItem()] = $pi;
+        }
 
         foreach ($modulos as $modulo) {
             $grid = new GridForm($modulo->getId(), $modulo->getTitulo());
@@ -88,10 +97,10 @@ class UsuarioFormView extends FormView
             $grid->addField(new FormField('permitido', 'Permitido', Field::TYPE_CHECK, false));
             $grid->setFieldset();
 
-            $permissaoModulo = $permissaoModuloMap[$modulo->getId()] ?? null;
-            $moduloPermitido = $permissaoModulo
-                ? $permissaoModulo->getPermitido()
-                : true;
+            $moduloPermitido = true;
+            if (isset($permissaoModuloMap[$modulo->getId()])) {
+                $moduloPermitido = $permissaoModuloMap[$modulo->getId()]->getPermitido();
+            }
 
             $values = [
                 'moduloId'     => $modulo->getId(),
@@ -101,23 +110,26 @@ class UsuarioFormView extends FormView
 
             foreach ($modulo->getItens() as $item) {
                 $grid->addFieldset($item->getId(), $item->getTitulo());
+
                 $grid->addFieldsetField(
                     $item->getId(),
                     new FormField("{$item->getId()}ItemId", 'Item', Field::TYPE_INTEGER, true, true)
                 );
+
                 $grid->addFieldsetField(
                     $item->getId(),
                     new FormField("{$item->getId()}ItemTitulo", 'Título do Item', Field::TYPE_TEXT, true, true)
                 );
+
                 $grid->addFieldsetField(
                     $item->getId(),
                     new FormField("{$item->getId()}Permitido", 'Permitido', Field::TYPE_CHECK, false)
                 );
 
-                $permissaoItem = $permissaoItemMap[$item->getId()] ?? null;
-                $itemPermitido = $permissaoItem
-                    ? $permissaoItem->getPermitido()
-                    : true;
+                $itemPermitido = true;
+                if (isset($permissaoItemMap[$item->getId()])) {
+                    $itemPermitido = $permissaoItemMap[$item->getId()]->getPermitido();
+                }
 
                 $values["{$item->getId()}ItemId"]      = $item->getId();
                 $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
