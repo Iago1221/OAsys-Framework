@@ -149,8 +149,15 @@ class UsuarioFormController extends FormController
         parent::beforeRender($oModel, $aData);
 
         $modulos = $this->getModuloRepository()->get();
-        $permissaoModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $oModel->getId());
-        $permissaoItens = $this->getUsuarioModuloItemRepository()->findAllBy('usuario', $oModel->getId());
+
+        $permissaoModulos = [];
+        $permissaoItens = [];
+
+        if (is_object($oModel)) {
+            $permissaoModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $oModel->getId());
+            $permissaoItens = $this->getUsuarioModuloItemRepository()->findAllBy('usuario', $oModel->getId());
+        }
+
 
         $this->getView()->setPrivilegioFields($modulos, $permissaoModulos, $permissaoItens);
     }
