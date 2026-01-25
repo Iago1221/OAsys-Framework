@@ -57,14 +57,14 @@ class AuthorizationService
         $this->usuarioModuloItemRepository->filterBy(['usuario' => $usuarioId, 'moduloItem' => $moduloItem->getId()]);
         $result = $this->usuarioModuloItemRepository->get();
 
-        if (!isset($result)) {
+        if (!isset($result) || !isset($result[0])) {
             return true;
         }
 
         /** @var UsuarioModuloItem $permissao */
         $permissao = $result[0];
 
-        if (!isset($permissao) || !isset($result[0])) {
+        if (!isset($permissao)) {
             return true;
         }
 
