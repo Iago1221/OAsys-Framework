@@ -93,7 +93,9 @@ class UsuarioFormController extends FormController
         foreach ($modulos as $modulo) {
             $requestData = $this->getRequest($modulo->getId());
 
-            if ($requestData) {
+            if (isset($requestData) && isset($requestData[0])) {
+                $requestData = $requestData[0];
+
                 $moduloPermissao = new UsuarioModulo();
                 $moduloPermissao->setUsuario($oModel->getId());
                 $moduloPermissao->setModulo($modulo->getId());
