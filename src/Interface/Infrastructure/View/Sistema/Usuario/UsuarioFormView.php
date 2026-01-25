@@ -48,28 +48,6 @@ class UsuarioFormView extends FormView
         $this->addComponent($this->tab);
     }
 
-    private function indexPermissaoModulo(array $permissoes): array
-    {
-        $map = [];
-
-        foreach ($permissoes as $permissao) {
-            $map[$permissao->getModulo()] = $permissao;
-        }
-
-        return $map;
-    }
-
-    private function indexPermissaoItem(array $permissoes): array
-    {
-        $map = [];
-
-        foreach ($permissoes as $permissao) {
-            $map[$permissao->getModuloItem()] = $permissao;
-        }
-
-        return $map;
-    }
-
     /**
      * @param Modulo[] $modulos
      * @param UsuarioModulo[] $permissaoModulos
@@ -128,6 +106,9 @@ class UsuarioFormView extends FormView
 
                 $itemPermitido = true;
                 if (isset($permissaoItemMap[$item->getId()])) {
+                    if ($item->getId() == 104) {
+                        var_dump($permissaoItemMap[$item->getId()]->getPermitido());
+                    }
                     $itemPermitido = $permissaoItemMap[$item->getId()]->getPermitido();
                 }
 
