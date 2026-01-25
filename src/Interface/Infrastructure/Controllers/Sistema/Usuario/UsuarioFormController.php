@@ -67,7 +67,7 @@ class UsuarioFormController extends FormController
     {
         parent::beforeRender($oModel, $aData);
 
-        $modulos = (new ModuloRepository(Main::getConnection()))->get();
+        $modulos = (new ModuloRepository(Main::getConnection(), false))->get();
         $permissaoModulos = (new UsuarioModuloRepository(Main::getConnection()))->findAllBy('usuario', $oModel->getId());
         $permissaoItens = (new UsuarioModuloItemRepository(Main::getConnection()))->findAllBy('usuario', $oModel->getId());
 

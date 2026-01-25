@@ -7,6 +7,14 @@ use Framework\Interface\Domain\Modulo\Modulo;
 
 class ModuloRepository extends Repository
 {
+    protected $filtroSistema;
+
+    public function __construct(\PDO $pdo, $filtroSistema = true)
+    {
+        parent::__construct($pdo);
+        $this->filtroSistema = $filtroSistema;
+    }
+
     protected function getSchema(): ?string
     {
         return 'oasys';
@@ -15,7 +23,11 @@ class ModuloRepository extends Repository
     protected function queryBuilder()
     {
         parent::queryBuilder();
-        $this->filterBy(['sistema' => $_SESSION['sistema']]);
+
+        if ($this->filtroSistema) {
+            $this->filterBy(['sistema' => $_SESSION['sistema']]);
+        }
+
         $this->with(['itens']);
     }
 
