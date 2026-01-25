@@ -106,7 +106,7 @@ class UsuarioFormView extends FormView
 
                 $itemPermitido = true;
                 if (isset($permissaoItemMap[$item->getId()])) {
-                    if ($item->getId() == 104) {
+                    if ($item->getId() == 24) {
                         var_dump($permissaoItemMap[$item->getId()]->getPermitido());
                     }
                     $itemPermitido = $permissaoItemMap[$item->getId()]->getPermitido();
