@@ -2,7 +2,11 @@
 
 namespace Framework\Interface\Infrastructure\Controllers\Sistema\Usuario;
 
+use Framework\Core\Main;
 use Framework\Infrastructure\MVC\Controller\FormController;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Modulo\ModuloRepository;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioModuloItemRepository;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioModuloRepository;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 use Framework\Interface\Infrastructure\View\Sistema\Usuario\UsuarioFormView;
 use Framework\Interface\Domain\Usuario\Usuario;
@@ -57,5 +61,16 @@ class UsuarioFormController extends FormController
                 }
             }
         }
+    }
+
+    protected function beforeRender($oModel, &$aData)
+    {
+        parent::beforeRender($oModel, $aData);
+
+        $modulos = (new ModuloRepository(Main::getConnection()))->get();
+        $permissaoModulos = (new UsuarioModuloRepository(Main::getConnection()))->findAllBy('usuario', $oModel->getId());
+        $permissaoItens = (new UsuarioModuloItemRepository(Main::getConnection()))->findAllBy('usuario', $oModel->getId());
+
+        $this->getView()->setPrivilegioFields($modulos, $permissaoModulos, $permissaoItens);
     }
 }

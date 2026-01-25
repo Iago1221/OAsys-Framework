@@ -3,8 +3,8 @@
 namespace Framework\Infrastructure\MVC\View\Layout;
 
 use Framework\Core\Main;
+use Framework\Interface\Application\Auth\AuthorizationService;
 use Framework\Interface\Domain\Modulo\Modulo;
-use Framework\Interface\Domain\Modulo\ModuloItem;
 
 /**
  * @since 20/03/2025
@@ -14,6 +14,12 @@ class Menu implements ILayout
 {
     /** @var Modulo[] */
     private $aModulos;
+    protected AuthorizationService $auth;
+
+    public function __construct(AuthorizationService $auth)
+    {
+        $this->auth = $auth;
+    }
 
     public function setModulos($aModulos)
     {
@@ -123,7 +129,7 @@ class Menu implements ILayout
     public function renderModulos()
     {
         foreach ($this->aModulos as $i => $oModulo) {
-            if ($oModulo->isSituacao(Modulo::SITUACAO_ATIVO) && $oModulo->isDisponivel(Main::getUsuarioId())) {
+            if ($oModulo->isDisponivel(Main::getUsuarioId()) && $this->auth->podeAcessarModulo(Main::getUsuarioId(), $oModulo)) {
                 ?>
                 <li class="menu-item <?= $i ?>">
                     <? if($oModulo->getIcone()): ?>
@@ -133,7 +139,7 @@ class Menu implements ILayout
                     <ul class="dropdown" id="dropdown<?= $i ?>">
                         <?php
                         foreach ($oModulo->getItens() as $oItem) {
-                            if ($oItem->isSituacao(ModuloItem::SITUACAO_ATIVO)) {
+                            if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oItem)) {
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
