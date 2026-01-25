@@ -48,14 +48,37 @@ class UsuarioFormView extends FormView
         $this->addComponent($this->tab);
     }
 
+    private function indexPermissaoModulo(array $permissoes): array
+    {
+        $map = [];
+
+        foreach ($permissoes as $permissao) {
+            $map[$permissao->getModulo()] = $permissao;
+        }
+
+        return $map;
+    }
+
+    private function indexPermissaoItem(array $permissoes): array
+    {
+        $map = [];
+
+        foreach ($permissoes as $permissao) {
+            $map[$permissao->getModuloItem()] = $permissao;
+        }
+
+        return $map;
+    }
+
     /**
      * @param Modulo[] $modulos
      * @param UsuarioModulo[] $permissaoModulos
      * @param UsuarioModuloItem[] $permissaoItens
-     * @return void
      */
-    public function setPrivilegioFields(array $modulos, array $permissaoModulos, array $permissaoItens): void
-    {
+    public function setPrivilegioFields(array $modulos, array $permissaoModulos, array $permissaoItens): void {
+        $permissaoModuloMap = $this->indexPermissaoModulo($permissaoModulos);
+        $permissaoItemMap   = $this->indexPermissaoItem($permissaoItens);
+
         foreach ($modulos as $modulo) {
             $grid = new GridForm($modulo->getId(), $modulo->getTitulo());
             $grid->disableControls();
@@ -65,35 +88,43 @@ class UsuarioFormView extends FormView
             $grid->addField(new FormField('permitido', 'Permitido', Field::TYPE_CHECK, false));
             $grid->setFieldset();
 
+            $permissaoModulo = $permissaoModuloMap[$modulo->getId()] ?? null;
+            $moduloPermitido = $permissaoModulo
+                ? $permissaoModulo->getPermitido()
+                : true;
+
+            $values = [
+                'moduloId'     => $modulo->getId(),
+                'moduloTitulo' => $modulo->getTitulo(),
+                'permitido'    => $moduloPermitido,
+            ];
+
             foreach ($modulo->getItens() as $item) {
                 $grid->addFieldset($item->getId(), $item->getTitulo());
-                $grid->addFieldsetField($item->getId(), new FormField("{$item->getId()}ItemId", 'Item', Field::TYPE_INTEGER, true, true));
-                $grid->addFieldsetField($item->getId(), new FormField("{$item->getId()}ItemTitulo", 'Título do Item', Field::TYPE_TEXT, true, true));
-                $grid->addFieldsetField($item->getId(), new FormField("{$item->getId()}Permitido", 'Permitido', Field::TYPE_CHECK, false));
-            }
+                $grid->addFieldsetField(
+                    $item->getId(),
+                    new FormField("{$item->getId()}ItemId", 'Item', Field::TYPE_INTEGER, true, true)
+                );
+                $grid->addFieldsetField(
+                    $item->getId(),
+                    new FormField("{$item->getId()}ItemTitulo", 'Título do Item', Field::TYPE_TEXT, true, true)
+                );
+                $grid->addFieldsetField(
+                    $item->getId(),
+                    new FormField("{$item->getId()}Permitido", 'Permitido', Field::TYPE_CHECK, false)
+                );
 
-            $values = [];
+                $permissaoItem = $permissaoItemMap[$item->getId()] ?? null;
+                $itemPermitido = $permissaoItem
+                    ? $permissaoItem->getPermitido()
+                    : true;
 
-            foreach ($permissaoModulos as $permissaoModulo) {
-                if ($permissaoModulo->getModulo() == $modulo->getId()) {
-                    $values['moduloId'] = $permissaoModulo->getModulo();
-                    $values['moduloTitulo'] = $modulo->getTitulo();
-                    $values['permitido'] = $permissaoModulo->getPermitido();
-
-                    foreach ($modulo->getItens() as $item) {
-                        foreach ($permissaoItens as $permissaoItem) {
-                            if ($permissaoItem->getModuloItem() == $item->getId()) {
-                                $values["{$item->getId()}ItemId"] = $item->getId();
-                                $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
-                                $values["{$item->getId()}Permitido"] = $permissaoItem->getPermitido();
-                            }
-                        }
-                    }
-                }
+                $values["{$item->getId()}ItemId"]      = $item->getId();
+                $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
+                $values["{$item->getId()}Permitido"]  = $itemPermitido;
             }
 
             $grid->setValue($values);
-
             $this->tab->addComponent($grid);
         }
     }
