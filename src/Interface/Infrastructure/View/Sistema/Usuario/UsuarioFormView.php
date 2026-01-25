@@ -136,8 +136,7 @@ class UsuarioFormView extends FormView
                 $values["{$item->getId()}Permitido"]  = $itemPermitido;
             }
 
-            var_dump($values);
-            $grid->setValue($values);
+            $grid->setValue([$values]);
             $this->tab->addComponent($grid);
         }
     }
