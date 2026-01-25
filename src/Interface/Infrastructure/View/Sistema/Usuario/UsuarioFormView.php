@@ -94,7 +94,7 @@ class UsuarioFormView extends FormView
 
             $grid->addField(new FormField('moduloId', 'Modulo', Field::TYPE_INTEGER, true, true));
             $grid->addField(new FormField('moduloTitulo', 'Título do Modulo', Field::TYPE_TEXT, true, true));
-            $grid->addField(new FormField('permitido', 'Permitido', Field::TYPE_CHECK, false));
+            $grid->addField(new FormField('moduloPermitido', 'Permitido', Field::TYPE_CHECK, false));
             $grid->setFieldset();
 
             $moduloPermitido = true;
@@ -105,7 +105,7 @@ class UsuarioFormView extends FormView
             $values = [
                 'moduloId'     => $modulo->getId(),
                 'moduloTitulo' => $modulo->getTitulo(),
-                'permitido'    => $moduloPermitido,
+                'moduloPermitido'    => $moduloPermitido,
             ];
 
             foreach ($modulo->getItens() as $item) {
@@ -123,7 +123,7 @@ class UsuarioFormView extends FormView
 
                 $grid->addFieldsetField(
                     $item->getId(),
-                    new FormField("{$item->getId()}Permitido", 'Permitido', Field::TYPE_CHECK, false)
+                    new FormField("{$item->getId()}ItemPermitido", 'Permitido', Field::TYPE_CHECK, false)
                 );
 
                 $itemPermitido = true;
@@ -133,7 +133,7 @@ class UsuarioFormView extends FormView
 
                 $values["{$item->getId()}ItemId"]      = $item->getId();
                 $values["{$item->getId()}ItemTitulo"] = $item->getTitulo();
-                $values["{$item->getId()}Permitido"]  = $itemPermitido;
+                $values["{$item->getId()}ItemPermitido"]  = $itemPermitido;
             }
 
             $grid->setValue([$values]);
