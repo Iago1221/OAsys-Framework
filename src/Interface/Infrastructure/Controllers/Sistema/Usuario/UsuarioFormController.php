@@ -81,6 +81,12 @@ class UsuarioFormController extends FormController
         $this->inserePrivilegiosUsuario($model);
     }
 
+    protected function beforeDelete($model)
+    {
+        parent::beforeDelete($model);
+        $this->apagarPrivilegiosUsuario($model);
+    }
+
     protected function apagarPrivilegiosUsuario($model)
     {
         $privilegioModulos = $this->getUsuarioModuloRepository()->findAllBy('usuario', $model->getId());
