@@ -224,6 +224,7 @@ class Main
     {
         self::$dBConfig = $dbConfig;
         self::$connection = new \PDO(self::$dBConfig['dsn'], self::$dBConfig['user'], self::$dBConfig['password']);
+        self::$pdoStorage = new PdoStorage(self::getConnection());
     }
 
     /**
