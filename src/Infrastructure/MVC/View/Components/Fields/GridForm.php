@@ -18,6 +18,7 @@ class GridForm extends FormComponent
     protected $fieldsetFields = [];
     protected $fieldsets = [];
     protected $afterAddRow;
+    protected $afterRemoveRow;
     protected $exibeControls;
 
     public function __construct(string $name, string $title)
@@ -74,6 +75,11 @@ class GridForm extends FormComponent
     public function afterAddRow($event)
     {
         $this->afterAddRow = $event;
+    }
+
+    public function afterRemoveRow($event)
+    {
+        $this->afterRemoveRow = $event;
     }
 
     public function bean(array $aData): void
@@ -154,6 +160,7 @@ class GridForm extends FormComponent
                 'hasFieldset' => $this->hasFieldset,
                 'fieldsetTitle' => $this->fieldsetTitle,
                 'afterAddRow' => $this->afterAddRow,
+                'afterRemoveRow' => $this->afterRemoveRow,
                 'fieldsets' => array_map(
                     fn($fieldset) => array_map(
                             fn($oField) => $oField->toArray(),
