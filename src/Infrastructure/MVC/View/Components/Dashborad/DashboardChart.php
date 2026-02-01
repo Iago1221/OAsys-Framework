@@ -13,6 +13,7 @@ class DashboardChart implements IComponent
     private $labels = [];
     private $route;
     private $colors = [];
+    private bool $money = false;
 
     public function __construct($tipo, $titulo)
     {
@@ -35,6 +36,11 @@ class DashboardChart implements IComponent
         $this->colors[$nome] = $color;
     }
 
+    public function setMoney(bool $money)
+    {
+        $this->money = $money;
+    }
+
     public function toArray(): array
     {
         return [
@@ -42,7 +48,8 @@ class DashboardChart implements IComponent
             'titulo' => $this->titulo,
             'labels' => $this->labels,
             'route' => $this->route,
-            'colors' => $this->colors
+            'colors' => $this->colors,
+            'money' => $this->money
         ];
     }
 }
