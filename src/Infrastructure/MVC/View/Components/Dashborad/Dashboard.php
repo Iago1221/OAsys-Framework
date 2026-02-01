@@ -11,6 +11,7 @@ class Dashboard implements IComponent
     private $metricas = [];
     private $charts = [];
     private $metricaRoute;
+    private $lazyCall;
 
     public function __construct($name, $titulo)
     {
@@ -38,6 +39,12 @@ class Dashboard implements IComponent
         $this->metricaRoute = $route;
     }
 
+    /** Evento customizado que deverá ser chaamdo no JS para renderizar o dashboard */
+    public function setLazyCall(string $lazyCall)
+    {
+        $this->lazyCall = $lazyCall;
+    }
+
     public function toArray(): array
     {
         return [
@@ -45,6 +52,7 @@ class Dashboard implements IComponent
             'DashboardComponent' => [
                 'titulo' => $this->titulo,
                 'metricaRoute' => $this->metricaRoute,
+                'lazyCall' => $this->lazyCall,
                 'metricas' => array_values(array_map(function ($metrica) {
                     return json_encode($metrica->toArray());
                 }, $this->metricas)),
