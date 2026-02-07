@@ -9,7 +9,7 @@ use Framework\Infrastructure\MVC\View\Interface\GridView;
 abstract class GridController extends Controller
 {
     protected GridView $view;
-    private array $filtros;
+    protected array $filtros;
     private ?int $pagina;
     private ?int $limite;
     private int $quantidadeRegistros;
