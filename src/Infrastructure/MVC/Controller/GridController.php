@@ -128,37 +128,44 @@ abstract class GridController extends Controller
         $fixedFilters = $grid->getFixedFilters();
 
         $merged = [];
+        $usedRequestIndexes = [];
 
-        // Indexa filtros do request por name
-        $requestByName = [];
-        foreach ($requestFilters as $filter) {
-            $requestByName[$filter['name']] = $filter;
-        }
+        foreach ($fixedFilters as $fixedIndex => $fixed) {
+            $applied = false;
 
-        foreach ($fixedFilters as $fixed) {
-            $name = $fixed['name'];
+            foreach ($requestFilters as $i => $req) {
+                if (
+                    !$applied &&
+                    ($req['name'] ?? null) === $fixed['name'] &&
+                    ($req['operator'] ?? null) === $fixed['operator']
+                ) {
+                    // Aplica o valor do request no filtro fixo
+                    $merged[] = array_merge($fixed, [
+                        'value' => $req['value']
+                    ]);
 
-            if (isset($requestByName[$name])) {
-                // Usuário filtrou → aplica valor no filtro fixo
-                $merged[] = array_merge($fixed, [
-                    'value' => $requestByName[$name]['value'],
-                    'operator' => $requestByName[$name]['operator'],
-                ]);
+                    $usedRequestIndexes[] = $i;
+                    $applied = true;
+                    break;
+                }
+            }
 
-                unset($requestByName[$name]);
-            } else {
-                // Mantém filtro fixo sem valor
+            if (!$applied) {
+                // Mantém filtro fixo original
                 $merged[] = $fixed;
             }
         }
 
-        // Adiciona filtros dinâmicos que não são fixos
-        foreach ($requestByName as $filter) {
-            $merged[] = $filter;
+        // Adiciona filtros do usuário que NÃO foram usados
+        foreach ($requestFilters as $i => $req) {
+            if (!in_array($i, $usedRequestIndexes, true)) {
+                $merged[] = $req;
+            }
         }
 
         return $merged;
     }
+
 
     public function list() {
         $this->setAtributosFromRequest();
