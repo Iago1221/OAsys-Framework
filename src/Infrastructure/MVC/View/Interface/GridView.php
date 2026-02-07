@@ -60,6 +60,20 @@ abstract class GridView extends View
         $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod, $icon);
     }
 
+    protected function addFixedFilter(
+        string $field,
+        string $operator,
+               $value = null,
+        bool $removable = false
+    ) {
+        $this->getViewComponent()->addFixedFilter(
+            $field,
+            $operator,
+            $value,
+            $removable
+        );
+    }
+
     public function render($aData = [])
     {
         $window = [

@@ -12,6 +12,8 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 class GridFilter extends Field
 {
     private $operator;
+    protected bool $fixed = false;
+    protected bool $removable = true;
 
     public static function fromGridField(GridField $gridField)
     {
@@ -26,6 +28,24 @@ class GridFilter extends Field
     public function getOperator()
     {
         return $this->operator;
+    }
+
+    public function setFixed(bool $fixed = true): self {
+        $this->fixed = $fixed;
+        return $this;
+    }
+
+    public function setRemovable(bool $removable): self {
+        $this->removable = $removable;
+        return $this;
+    }
+
+    public function isFixed(): bool {
+        return $this->fixed;
+    }
+
+    public function isRemovable(): bool {
+        return $this->removable;
     }
 
     public function toArray(): array

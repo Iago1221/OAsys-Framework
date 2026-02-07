@@ -36,6 +36,17 @@ class Grid implements IComponent
         }
     }
 
+    public function addFixedFilter(string $name, string $operator, $value = null, bool $removable = false)
+    {
+        $this->filtersRows[] = [
+            'name' => $name,
+            'operator' => $operator,
+            'value' => $value,
+            'fixed' => true,
+            'removable' => $removable
+        ];
+    }
+
     public function getFiltersRows()
     {
         return $this->filtersRows;
