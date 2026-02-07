@@ -122,6 +122,44 @@ abstract class GridController extends Controller
 
     protected function beforeBeanRegistro(&$registro) {}
 
+    protected function mergeFixedFilters(array $requestFilters): array
+    {
+        $grid = $this->getView()->getViewComponent();
+        $fixedFilters = $grid->getFixedFilters();
+
+        $merged = [];
+
+        // Indexa filtros do request por name
+        $requestByName = [];
+        foreach ($requestFilters as $filter) {
+            $requestByName[$filter['name']] = $filter;
+        }
+
+        foreach ($fixedFilters as $fixed) {
+            $name = $fixed['name'];
+
+            if (isset($requestByName[$name])) {
+                // Usuário filtrou → aplica valor no filtro fixo
+                $merged[] = array_merge($fixed, [
+                    'value' => $requestByName[$name]['value'],
+                    'operator' => $requestByName[$name]['operator'],
+                ]);
+
+                unset($requestByName[$name]);
+            } else {
+                // Mantém filtro fixo sem valor
+                $merged[] = $fixed;
+            }
+        }
+
+        // Adiciona filtros dinâmicos que não são fixos
+        foreach ($requestByName as $filter) {
+            $merged[] = $filter;
+        }
+
+        return $merged;
+    }
+
     public function list() {
         $this->setAtributosFromRequest();
         $data = $this->bean();
@@ -134,7 +172,8 @@ abstract class GridController extends Controller
         $this->beforeBindView();
         $this->getView()->getViewComponent()->setRows($data);
         $this->getView()->getViewComponent()->setInformacoes($this->getGridInformations($this->getLimite(), $this->getPagina(), $this->getQuantidadeRegistros()));
-        $this->getView()->getViewComponent()->setFiltersRows($this->getFiltros());
+        $filtersRows = $this->mergeFixedFilters($this->getFiltros());
+        $this->getView()->getViewComponent()->setFiltersRows($filtersRows);
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 
