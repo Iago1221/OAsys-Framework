@@ -29,11 +29,9 @@ class Grid implements IComponent
         $this->rows = $rows;
     }
 
-    public function setFiltersRows(array $filtros)
+    public function setFiltersRows(array $filtros): void
     {
-        foreach ($filtros as $filtro) {
-            $this->filtersRows[] = $filtro;
-        }
+        $this->filtersRows = array_values($filtros);
     }
 
     public function getFixedFilters(): array
