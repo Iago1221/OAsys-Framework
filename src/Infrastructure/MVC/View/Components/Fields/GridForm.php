@@ -20,6 +20,8 @@ class GridForm extends FormComponent
     protected $afterAddRow;
     protected $afterRemoveRow;
     protected $exibeControls;
+    private $lazyAddCall;
+
 
     public function __construct(string $name, string $title)
     {
@@ -124,6 +126,12 @@ class GridForm extends FormComponent
         return $this->name;
     }
 
+    /** Evento customizado que deverá ser chaamdo no JS para adicionar uma linha */
+    public function setLazyAddCall(string $lazyAddCall)
+    {
+        $this->lazyAddCall = $lazyAddCall;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -154,6 +162,7 @@ class GridForm extends FormComponent
                 ),
                 'rows' => $this->rows,
                 'maxRows' => $this->maxRows,
+                'lazyAddCall' => $this->lazyAddCall,
                 'disabled' => $this->bDisabled,
                 'exibeControls' => $this->exibeControls,
                 'value' => $this->getValue(),
