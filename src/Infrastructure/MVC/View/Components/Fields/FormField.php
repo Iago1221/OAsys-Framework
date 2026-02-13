@@ -7,6 +7,7 @@ class FormField extends Field
     protected bool $required;
     protected bool $renderLabel;
     protected ?string $onChange;
+    protected string $width;
 
     public function __construct(string $field, string $label, string $type, bool $required = true, bool $disabled = false, mixed $value = null)
     {
@@ -28,6 +29,11 @@ class FormField extends Field
         $this->onChange = $onChange;
     }
 
+    public function setWidth(string $width): void
+    {
+        $this->width = $width;
+    }
+
     public function toArray(): array
     {
         return [
@@ -43,7 +49,8 @@ class FormField extends Field
                 'renderLabel' => $this->renderLabel,
                 'maxLength' => $this->maxLength,
                 'decimalsLength' => $this->decimalsLength,
-                'onChange' => $this->onChange
+                'onChange' => $this->onChange,
+                'width' => $this->width
             ]
         ];
     }
