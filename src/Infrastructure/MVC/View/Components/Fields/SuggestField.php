@@ -95,4 +95,14 @@ class SuggestField extends Field
             ]
         ];
     }
+
+    public function setIdFieldWidth($width)
+    {
+        $this->field->setWidth($width);
+    }
+
+    public function setDescriptionFieldWidth($width)
+    {
+        $this->descriptionField->setWidth($width);
+    }
 }
