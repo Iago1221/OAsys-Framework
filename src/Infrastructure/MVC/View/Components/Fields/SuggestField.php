@@ -7,8 +7,8 @@ use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
 
 class SuggestField extends Field
 {
-    private FormField $field;
-    private FormField $descriptionField;
+    protected FormField $field;
+    protected FormField $descriptionField;
     private $sRoute;
     private $callbacks = [];
     private $params = [];
