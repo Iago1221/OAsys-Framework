@@ -7,7 +7,7 @@ class FormField extends Field
     protected bool $required;
     protected bool $renderLabel;
     protected ?string $onChange;
-    protected string $width;
+    protected ?string $width;
 
     public function __construct(string $field, string $label, string $type, bool $required = true, bool $disabled = false, mixed $value = null)
     {
@@ -17,6 +17,7 @@ class FormField extends Field
         $this->value = $value;
         $this->renderLabel = true;
         $this->onChange = null;
+        $this->width = null;
     }
 
     public function setRenderLabel(bool $renderLabel = true): void
