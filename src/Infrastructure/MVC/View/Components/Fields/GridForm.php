@@ -21,6 +21,7 @@ class GridForm extends FormComponent
     protected $afterRemoveRow;
     protected $exibeControls;
     private $lazyAddCall;
+    private $flex;
 
 
     public function __construct(string $name, string $title)
@@ -28,6 +29,7 @@ class GridForm extends FormComponent
         $this->name = $name;
         $this->title = $title;
         $this->exibeControls = true;
+        $this->flex = true;
     }
 
     public function disableControls(bool $disable = true)
@@ -50,6 +52,11 @@ class GridForm extends FormComponent
     public function setLayout(string $layout): void
     {
         $this->layout = $layout;
+    }
+
+    public function setFlex(bool $flex): void
+    {
+        $this->flex = $flex;
     }
 
     public function setMaxRows(int $maxRows): void
@@ -170,6 +177,7 @@ class GridForm extends FormComponent
                 'fieldsetTitle' => $this->fieldsetTitle,
                 'afterAddRow' => $this->afterAddRow,
                 'afterRemoveRow' => $this->afterRemoveRow,
+                'flex' => $this->flex,
                 'fieldsets' => array_map(
                     fn($fieldset) => array_map(
                             fn($oField) => $oField->toArray(),
