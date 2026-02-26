@@ -175,7 +175,7 @@ class Base implements ILayout
         <script src="$sBase/js/Components/DashboardComponent.js"></script>
         <script src="$sBase/js/Components/GridWithFormComponent.js"></script>
         <script src="$sBase/js/Components/TimelineComponent.js"></script>
-        <script src="$sBase/js/Components/AgendaComponent.js"></script>
+        <script src="$sBase/js/Components/CalendarComponent.js"></script>
         <script src="$sBase/js/app.js"></script>
         <script src="$sBase/js/Components/Chatbot.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
