@@ -140,9 +140,15 @@ abstract class GridController extends Controller
                     ($fixed['operator'] == null || ($req['operator'] ?? null) === $fixed['operator'])
                 ) {
                     // Aplica o valor do request no filtro fixo
-                    $merged[] = array_merge($fixed, [
+                    $filter = array_merge($fixed, [
                         'value' => $req['value']
                     ]);
+
+                    if ($fixed['operator'] == null) {
+                        $filter['operator'] = $req['operator'];
+                    }
+
+                    $merged[] = $filter;
 
                     $usedRequestIndexes[] = $i;
                     $applied = true;
