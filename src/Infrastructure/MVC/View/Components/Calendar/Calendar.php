@@ -18,7 +18,7 @@ class Calendar implements IComponent
     protected $callbacks = [
         'onDayClick' => null,
         'onEventClick' => null,
-        'onscheduleChange' => null
+        'onScheduleChange' => null
     ];
 
     public function setRouteGetSchedules(string $routeGetschedules)
@@ -56,7 +56,7 @@ class Calendar implements IComponent
         $this->on('eventClick', $func);
     }
 
-    public function onscheduleChange(string $func)
+    public function onScheduleChange(string $func)
     {
         $this->on('scheduleChange', $func);
     }
