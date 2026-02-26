@@ -137,7 +137,7 @@ abstract class GridController extends Controller
                 if (
                     !$applied &&
                     ($req['name'] ?? null) === $fixed['name'] &&
-                    ($req['operator'] ?? null) === $fixed['operator']
+                    ($fixed['operator'] == null || ($req['operator'] ?? null) === $fixed['operator'])
                 ) {
                     // Aplica o valor do request no filtro fixo
                     $merged[] = array_merge($fixed, [
