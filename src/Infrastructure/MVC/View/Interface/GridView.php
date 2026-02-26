@@ -62,7 +62,7 @@ abstract class GridView extends View
 
     protected function addFixedFilter(
         string $field,
-        string $operator,
+        ?string $operator,
                $value = null,
         bool $removable = false
     ) {
