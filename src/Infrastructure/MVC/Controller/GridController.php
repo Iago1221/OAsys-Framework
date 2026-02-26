@@ -145,7 +145,7 @@ abstract class GridController extends Controller
                     ]);
 
                     if ($fixed['operator'] == null) {
-                        $filter['operator'] = $req['operator'];
+                        $filter['newOperator'] = $req['operator'];
                     }
 
                     $merged[] = $filter;
