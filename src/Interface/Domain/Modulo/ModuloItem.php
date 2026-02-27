@@ -84,12 +84,12 @@ class ModuloItem extends Model
         return $this->icone;
     }
 
-    public function setItemPai(int $itemPai)
+    public function setItemPai(?int $itemPai)
     {
         $this->itemPai = $itemPai;
     }
 
-    public function getItemPai(): int
+    public function getItemPai(): ?int
     {
         return $this->itemPai;
     }
