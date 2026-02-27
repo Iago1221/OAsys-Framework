@@ -34,7 +34,7 @@ class ModuloItem extends Model
         $this->titulo = $titulo;
     }
 
-    public function setRota(int|Rota $rota)
+    public function setRota(int|Rota|null $rota)
     {
         $this->rota = $rota;
     }
@@ -49,7 +49,7 @@ class ModuloItem extends Model
         return $this->titulo;
     }
 
-    public function getRota(): int|Rota
+    public function getRota(): int|Rota|null
     {
         return $this->rota;
     }
