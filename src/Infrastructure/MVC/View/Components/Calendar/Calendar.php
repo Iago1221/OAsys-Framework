@@ -69,10 +69,10 @@ class Calendar implements IComponent
                 'routeGetschedules' => $this->routeGetschedules,
                 'routeGetevents' => $this->routeGetevents,
                 'schedules' => array_values(array_map(function ($schedule) {
-                    return json_encode($schedule->toArray());
+                    return $schedule->toArray();
                 }, $this->schedules)),
                 'events' => array_values(array_map(function ($event) {
-                    return json_encode($event->toArray());
+                    return $event->toArray();
                 }, $this->events)),
                 'callbacks' => json_encode($this->callbacks)
             ]
