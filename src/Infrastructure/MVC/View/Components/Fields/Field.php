@@ -22,6 +22,7 @@ abstract class Field extends FormComponent
     const TYPE_CPF_CNPJ = 'cpf_cnpj';
     const TYPE_IMAGE    = 'image';
     const TYPE_HIDDEN   = 'hidden';
+    const TYPE_TIME     = 'time';
 
     protected string $name;
     protected string $label;
