@@ -148,7 +148,8 @@ class Menu implements ILayout
                                     <? if ($oItem->getRota()): ?>
                                         <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
                                     <? else: ?>
-                                        <?= $oItem->getTitulo() ?>
+                                        <a> <?=$oItem->getTitulo() ?> </a>
+                                        <?= $this->renderIcon('caret-right') ?>
                                         <ul class="dropdown-item" id="dropdown-item<?= $i ?>">
                                             <?php
                                                 foreach ($oItem->getItens() as $oSubItem) {
