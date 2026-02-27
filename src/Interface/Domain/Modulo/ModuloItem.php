@@ -18,6 +18,7 @@ class ModuloItem extends Model
     protected $icone;
     protected $itemPai;
     protected $itens;
+    protected $ordenacao;
 
     public function setId($id)
     {
@@ -103,5 +104,15 @@ class ModuloItem extends Model
     public function getItens()
     {
         return $this->itens;
+    }
+
+    public function setOrdenacao(?int $ordenacao)
+    {
+        $this->ordenacao = $ordenacao;
+    }
+
+    public function getOrdenacao()
+    {
+        return $this->ordenacao;
     }
 }

@@ -17,6 +17,7 @@ class ModuloItemRepository extends Repository
     {
         parent::queryBuilder();
         $this->with(['rota', 'itens']);
+        $this->orderBy('ordenacao', 'ASC');
     }
 
     protected function loadModulo(ModuloItem $item)
