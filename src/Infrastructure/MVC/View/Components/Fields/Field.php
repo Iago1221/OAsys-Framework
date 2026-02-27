@@ -23,6 +23,7 @@ abstract class Field extends FormComponent
     const TYPE_IMAGE    = 'image';
     const TYPE_HIDDEN   = 'hidden';
     const TYPE_TIME     = 'time';
+    const TYPE_COLOR    = 'color';
 
     protected string $name;
     protected string $label;
