@@ -32,7 +32,7 @@ class IndexController
     public function toggleSistema()
     {
         $this->moduloRepository->filterBy(['sistema' => $_SESSION['sistema']]);
-        $modulos = $this->moduloRepository->get();;
+        $modulos = $this->moduloRepository->get();
         $menu  = new Menu(new AuthorizationService(new UsuarioModuloRepository(Main::getConnection()), new UsuarioModuloItemRepository(Main::getConnection())));
         $menu->setModulos($modulos);
         $menu->render();

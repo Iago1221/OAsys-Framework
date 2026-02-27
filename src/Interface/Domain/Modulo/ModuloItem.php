@@ -16,6 +16,8 @@ class ModuloItem extends Model
     protected $situacao;
     protected $modulo;
     protected $icone;
+    protected $itemPai;
+    protected $itens;
 
     public function setId($id)
     {
@@ -80,5 +82,26 @@ class ModuloItem extends Model
     public function getIcone(): ?string
     {
         return $this->icone;
+    }
+
+    public function setItemPai(int $itemPai)
+    {
+        $this->itemPai = $itemPai;
+    }
+
+    public function getItemPai(): int
+    {
+        return $this->itemPai;
+    }
+
+    public function setItens(?array $itens)
+    {
+        $this->itens = $itens;
+    }
+
+    /** @return ModuloItem[] */
+    public function getItens()
+    {
+        return $this->itens;
     }
 }

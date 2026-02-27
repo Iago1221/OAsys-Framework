@@ -16,7 +16,7 @@ class ModuloItemRepository extends Repository
     protected function queryBuilder()
     {
         parent::queryBuilder();
-        $this->with(['rota']);
+        $this->with(['rota', 'itens']);
     }
 
     protected function loadModulo(ModuloItem $item)
@@ -27,6 +27,11 @@ class ModuloItemRepository extends Repository
     protected function loadRota(ModuloItem $item)
     {
         $this->hasOne($item, 'Rota', 'id', new RotaRepository($this->pdo), 'rota');
+    }
+
+    protected function loadItens(ModuloItem $model)
+    {
+        $this->hasMany($model, 'itens', 'itemPai', new ModuloItemRepository($this->pdo));
     }
 
     public function getTableName(): string

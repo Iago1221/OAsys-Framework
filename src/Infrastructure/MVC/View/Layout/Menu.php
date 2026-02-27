@@ -139,14 +139,34 @@ class Menu implements ILayout
                     <ul class="dropdown" id="dropdown<?= $i ?>">
                         <?php
                         foreach ($oModulo->getItens() as $oItem) {
-                            if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oItem)) {
+                            if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oItem) && !$oItem->getItemPai()) {
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
                                         <?= $this->renderIcon($oItem->getIcone()) ?>
                                     <? endif; ?>
-                                    <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
-                                </li>
+                                    <? if ($oItem->getRota()): ?>
+                                        <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
+                                    <? else: ?>
+                                        <?= $oItem->getTitulo() ?>
+                                        <ul class="dropdown-item" id="dropdown-item<?= $i ?>">
+                                            <?php
+                                                foreach ($oItem->getItens() as $oSubItem) {
+                                                    if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oSubItem)) {
+                                                        ?>
+                                                            <li>
+                                                                <? if($oSubItem->getIcone()): ?>
+                                                                    <?= $this->renderIcon($oSubItem->getIcone()) ?>
+                                                                <? endif; ?>
+                                                                <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
+                                                            </li>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </ul>
+                                    <? endif; ?>
+                                 </li>
                                 <?php
                             }
                         }
