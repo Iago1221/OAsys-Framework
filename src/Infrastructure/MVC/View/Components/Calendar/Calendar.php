@@ -6,8 +6,8 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class Calendar implements IComponent
 {
-    protected $routeGetschedules = null;
-    protected $routeGetevents = null;
+    protected $routeGetSchedules = null;
+    protected $routeGetEvents = null;
 
     /** @var CalendarSchedule[] */
     protected $schedules = [];
@@ -21,14 +21,14 @@ class Calendar implements IComponent
         'onScheduleChange' => null
     ];
 
-    public function setRouteGetSchedules(string $routeGetschedules)
+    public function setRouteGetSchedules(string $routeGetSchedules)
     {
-        $this->routeGetschedules = $routeGetschedules;
+        $this->routeGetSchedules = $routeGetSchedules;
     }
 
-    public function setRouteGetEvents(string $routeGetevents)
+    public function setRouteGetEvents(string $routeGetEvents)
     {
-        $this->routeGetevents = $routeGetevents;
+        $this->routeGetEvents = $routeGetEvents;
     }
 
     public function addSchedule(CalendarSchedule $schedule)
@@ -66,8 +66,8 @@ class Calendar implements IComponent
         return [
             'component' => 'CalendarComponent',
             'CalendarComponent' => [
-                'routeGetschedules' => $this->routeGetschedules,
-                'routeGetevents' => $this->routeGetevents,
+                'routeGetSchedules' => $this->routeGetSchedules,
+                'routeGetEvents' => $this->routeGetEvents,
                 'schedules' => array_values(array_map(function ($schedule) {
                     return $schedule->toArray();
                 }, $this->schedules)),
