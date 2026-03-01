@@ -521,7 +521,15 @@ abstract class Repository {
     {
         $this->queryBuilder();
         $column = $this->camelToSnake($column);
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE $column = ? ORDER BY $column DESC");
+        $query = "SELECT * FROM {$this->table} WHERE $column = ?";
+
+        if ($this->orderBy && $this->orderDir) {
+            $query .= " ORDER BY $this->orderBy $this->orderDir";
+        } else {
+            $query .= " ORDER BY $column DESC";
+        }
+
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$value]);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $models = array_map([$this, 'mapToModel'], $results);
