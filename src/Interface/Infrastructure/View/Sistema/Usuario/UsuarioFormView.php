@@ -34,7 +34,7 @@ class UsuarioFormView extends FormView
         $this->tab->addComponent(new FormField('email', 'Email', Field::TYPE_EMAIL));
         $situacao = new FormField('situacao', 'Situação', Field::TYPE_LIST);
         $situacao->addOption(Usuario::SITUACAO_ATIVO, 'Ativo');
-        $situacao->addOption(Usuario::SITUACAO_INATIVO, 'Intivo');
+        $situacao->addOption(Usuario::SITUACAO_INATIVO, 'Inativo');
         $this->tab->addComponent($situacao);
 
         if (Main::isRoute('sys_usuario_add')) {
