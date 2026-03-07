@@ -2,12 +2,12 @@
 
 namespace Framework\Interface\Domain\Usuario;
 
-use Framework\Infrastructure\MVC\Model\Model;
+use Framework\Infrastructure\MVC\Model\StatusModel;
 
 /**
  * @author Iago Oliveira <prog.iago.oliveira@gmail.com>
  */
-class Usuario extends Model
+class Usuario extends StatusModel
 {
     protected ?int $id;
     protected ?string $nome;

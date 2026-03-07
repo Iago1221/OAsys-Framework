@@ -38,7 +38,7 @@ class Autenticator
         /** @var Usuario $oUsuario */
         $oUsuario = $this->repository->findBy('email', $this->login);
 
-        if (!$oUsuario) return false;
+        if (!$oUsuario || $oUsuario->isInativo()) return false;
 
         return (password_verify($this->password, $oUsuario->getSenha()));
     }

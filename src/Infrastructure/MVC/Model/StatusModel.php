@@ -9,6 +9,16 @@ class StatusModel extends Model
 
     protected $situacao;
 
+    public function isAtivo()
+    {
+        return $this->situacao == self::SITUACAO_ATIVO;
+    }
+
+    public function isInativo()
+    {
+        return $this->situacao == self::SITUACAO_INATIVO;
+    }
+
     public function getSituacao()
     {
         return $this->situacao;

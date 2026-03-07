@@ -9,6 +9,7 @@ use Framework\Infrastructure\MVC\View\Components\Fields\GridForm;
 use Framework\Infrastructure\MVC\View\Components\Fields\Tab;
 use Framework\Infrastructure\MVC\View\Interface\FormView;
 use Framework\Interface\Domain\Modulo\Modulo;
+use Framework\Interface\Domain\Usuario\Usuario;
 use Framework\Interface\Domain\Usuario\UsuarioModulo;
 use Framework\Interface\Domain\Usuario\UsuarioModuloItem;
 
@@ -31,6 +32,14 @@ class UsuarioFormView extends FormView
         }
         $this->tab->addComponent(new FormField('nome', 'Nome', Field::TYPE_TEXT));
         $this->tab->addComponent(new FormField('email', 'Email', Field::TYPE_EMAIL));
+        $situacao = new FormField('situacao', 'Situação', Field::TYPE_LIST);
+        $situacao->addOption(Usuario::SITUACAO_ATIVO, 'Ativo');
+        $situacao->addOption(Usuario::SITUACAO_INATIVO, 'Intivo');
+        $this->tab->addComponent($situacao);
+
+        if (Main::isRoute('sys_usuario_add')) {
+            $situacao->setValue(Usuario::SITUACAO_ATIVO);
+        }
 
         $this->tab->addComponent(new FormField('acessoErp', 'Possui acesso ERP?', Field::TYPE_CHECK, false));
         $this->tab->addComponent(new FormField('acessoCrm', 'Possui acesso CRM?', Field::TYPE_CHECK, false));
