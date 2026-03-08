@@ -23,9 +23,9 @@ class Calendar implements IComponent
         'onScheduleChange' => null
     ];
 
-    public function addAction($name, $label, $hint, $route, $httpMethod = 'GET', $blank = false)
+    public function addAction($name, $label, $hint, $route, $httpMethod = 'GET', $blank = false, $confirmMessage = null)
     {
-        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'hint' => $hint, 'httpMethod' => $httpMethod, 'blank' => $blank];
+        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'hint' => $hint, 'httpMethod' => $httpMethod, 'blank' => $blank, 'confirmMessage' => $confirmMessage];
     }
 
     public function setRouteGetSchedules(string $routeGetSchedules)
