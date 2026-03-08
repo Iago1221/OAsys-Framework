@@ -15,11 +15,18 @@ class Calendar implements IComponent
     /** @var CalendarEvent[] */
     protected $events = [];
 
+    protected $actions = [];
+
     protected $callbacks = [
         'onDayClick' => null,
         'onEventClick' => null,
         'onScheduleChange' => null
     ];
+
+    public function addAction($name, $label, $hint, $route, $httpMethod = 'GET', $blank = false)
+    {
+        $this->actions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'hint' => $hint, 'httpMethod' => $httpMethod, 'blank' => $blank];
+    }
 
     public function setRouteGetSchedules(string $routeGetSchedules)
     {
@@ -68,6 +75,7 @@ class Calendar implements IComponent
             'CalendarComponent' => [
                 'routeGetSchedules' => $this->routeGetSchedules,
                 'routeGetEvents' => $this->routeGetEvents,
+                'actions' => $this->actions,
                 'schedules' => array_values(array_map(function ($schedule) {
                     return $schedule->toArray();
                 }, $this->schedules)),

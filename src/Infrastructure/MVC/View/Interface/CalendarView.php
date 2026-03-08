@@ -18,6 +18,11 @@ abstract class CalendarView extends View
         return parent::getViewComponent();
     }
 
+    public function addAction($name, $label, $hint, $route, $httpMethod = 'GET', $blank = false)
+    {
+        $this->getViewComponent()->addAction($name, $label, $hint, $route, $httpMethod, $blank);
+    }
+
     public function render($aData = [])
     {
         $window = [
