@@ -233,14 +233,22 @@ abstract class GridController extends Controller
 
             foreach ($aData as $aLinha) {
                 $aPut = [];
+
                 foreach ($aKeys as $sKey) {
                     $aSplitKeys = explode('/', $sKey);
-                    if (is_array($aLinha[$aSplitKeys[0]])) {
-                        $aPut[] = $aLinha[$aSplitKeys[0]][$aSplitKeys[1]];
-                        continue;
+
+                    $value = $aLinha;
+
+                    foreach ($aSplitKeys as $key) {
+                        if (!is_array($value) || !array_key_exists($key, $value)) {
+                            $value = null;
+                            break;
+                        }
+
+                        $value = $value[$key];
                     }
 
-                    $aPut[] = $aLinha[$sKey];
+                    $aPut[] = $value;
                 }
 
                 fputcsv($out, $aPut);
