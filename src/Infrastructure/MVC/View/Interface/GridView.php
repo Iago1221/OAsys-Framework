@@ -55,9 +55,9 @@ abstract class GridView extends View
         }
     }
 
-    protected function addGridAction($name, $label, $route, $httpMethod = 'GET', $icon = null)
+    protected function addGridAction($name, $label, $route, $httpMethod = 'GET', $icon = null, $requiresSelection = null, $selectionParamName = null)
     {
-        $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod, $icon);
+        $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod, $icon, $requiresSelection, $selectionParamName);
     }
 
     protected function addFixedFilter(
