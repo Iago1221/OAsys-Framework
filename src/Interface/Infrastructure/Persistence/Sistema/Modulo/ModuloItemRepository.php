@@ -44,4 +44,10 @@ class ModuloItemRepository extends Repository
     {
         return ModuloItem::class;
     }
+
+    protected function setIgnorePropertys()
+    {
+        parent::setIgnorePropertys();
+        $this->addIgonreProperty(['itens']);
+    }
 }
