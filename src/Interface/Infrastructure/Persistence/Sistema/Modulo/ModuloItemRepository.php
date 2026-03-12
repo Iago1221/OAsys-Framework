@@ -48,6 +48,6 @@ class ModuloItemRepository extends Repository
     protected function setIgnorePropertys()
     {
         parent::setIgnorePropertys();
-        $this->addIgonreProperty(['itens']);
+        $this->addIgonreProperty('itens');
     }
 }
