@@ -161,6 +161,7 @@ class Grid implements IComponent
                 'actions' => $this->getActions(),
                 'gridActions' => $this->getGridActions(),
                 'rows' => $this->getRows(),
+                'rowSelectableWhen' => $this->rowSelectableWhen,
                 'pagination' => [
                     'page' => $this->getInformacao('page'),
                     'total' => $this->getInformacao('total'),
