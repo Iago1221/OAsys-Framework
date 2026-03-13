@@ -18,6 +18,7 @@ class Grid implements IComponent
     private array $gridActions = [];
     private array $rows = [];
     private array $informacoes = [];
+    private array $rowSelectableWhen = [];
 
     public function getName(): string
     {
@@ -87,6 +88,10 @@ class Grid implements IComponent
     public function addGridAction($name, $label, $route, $httpMethod = 'GET', $icon = null,  $requiresSelection = null, $selectionParamName = null)
     {
         $this->gridActions[] = ['route' => $route, 'name' => $name, 'label' => $label, 'httpMethod' => $httpMethod, 'icon' => $icon, 'requiresSelection' => $requiresSelection, 'selectionParamName' => $selectionParamName];
+    }
+
+    public function addRowSelectableWhen($field, $value) {
+        $this->rowSelectableWhen[] = ['field' => $field, 'value' => $value];
     }
 
     public function getGridActions()
