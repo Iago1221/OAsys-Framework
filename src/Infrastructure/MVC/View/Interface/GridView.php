@@ -74,6 +74,10 @@ abstract class GridView extends View
         );
     }
 
+    public function setRowSelectableWhen($field, $value) {
+        $this->getViewComponent()->setRowSelectableWhen($field, $value);
+    }
+
     public function render($aData = [])
     {
         $window = [
