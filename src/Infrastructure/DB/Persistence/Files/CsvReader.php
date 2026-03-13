@@ -113,7 +113,7 @@ class CsvReader
 
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mime = $finfo->file($file['tmp_name']);
-        $validMimes = ['text/plain', 'text/csv', 'application/vnd.ms-excel'];
+        $validMimes = ['text/plain', 'text/csv', 'application/vnd.ms-excel', 'application/octet-stream'];
 
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
