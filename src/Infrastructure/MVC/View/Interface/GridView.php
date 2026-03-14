@@ -60,7 +60,7 @@ abstract class GridView extends View
         $this->getViewComponent()->addGridAction($name, $label, $route, $httpMethod, $icon, $requiresSelection, $selectionParamName);
     }
 
-    protected function addMetric($label, $value, $format = null)
+    public function addMetric($label, $value, $format = null)
     {
         $this->getViewComponent()->addMetric($label, $value, $format);
     }
