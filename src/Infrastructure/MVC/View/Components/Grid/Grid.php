@@ -19,6 +19,7 @@ class Grid implements IComponent
     private array $rows = [];
     private array $informacoes = [];
     private array $rowSelectableWhen = ['field' => null, 'value' => null];
+    private array $metrics = [];
 
     public function getName(): string
     {
@@ -53,6 +54,11 @@ class Grid implements IComponent
             'fixed' => true,
             'removable' => $removable
         ];
+    }
+
+    public function addMetric(string $label, $value, $format = null)
+    {
+        $this->metrics[] = ['label' => $label, 'value' => $value, 'format' => $format];
     }
 
     public function getFiltersRows()
@@ -162,6 +168,7 @@ class Grid implements IComponent
                 'gridActions' => $this->getGridActions(),
                 'rows' => $this->getRows(),
                 'rowSelectableWhen' => $this->rowSelectableWhen,
+                'metrics' => $this->metrics,
                 'pagination' => [
                     'page' => $this->getInformacao('page'),
                     'total' => $this->getInformacao('total'),
