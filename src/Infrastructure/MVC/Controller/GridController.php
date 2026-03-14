@@ -206,6 +206,7 @@ abstract class GridController extends Controller
 
         return [
             'page' => $page,
+            'limit' => $limit,
             'totalPages' => $totalPages,
             'total' => $total
         ];
