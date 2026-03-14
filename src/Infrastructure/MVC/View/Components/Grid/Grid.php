@@ -171,6 +171,7 @@ class Grid implements IComponent
                 'metrics' => $this->metrics,
                 'pagination' => [
                     'page' => $this->getInformacao('page'),
+                    'limit' => $this->getInformacao('limit'),
                     'total' => $this->getInformacao('total'),
                     'totalPages' => $this->getInformacao('totalPages'),
                 ],
