@@ -18,6 +18,7 @@ class Form implements IComponent
     private $scriptFile = null;
     private $buttons;
     private $callbacks = [];
+    private $fullscreen = false;
 
     public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false, bool $criaBotaoSubmit = true)
     {
@@ -95,6 +96,11 @@ class Form implements IComponent
         $this->onSubmit = $onSubmit;
     }
 
+    public function setFullscreen(bool $fullscreen = true)
+    {
+        $this->fullscreen = $fullscreen;
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -111,6 +117,7 @@ class Form implements IComponent
                 'title' => $this->sTitle,
                 'route' => $this->sRoute,
                 'width' => $this->width,
+                'fullscreen' => $this->fullscreen,
             ],
             'scriptFile' => $this->scriptFile,
             'component' => 'FormComponent',
