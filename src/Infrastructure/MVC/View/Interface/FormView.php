@@ -14,6 +14,7 @@ abstract class FormView extends View
     private $aComponents = [];
     private $sFormLayout = self::FORM_LAYOUT_TWO_COLUMNS;
     private $isRelatorio = false;
+    private $keepOpenOnSuccess = false;
     private $width;
 
     protected function instanciaViewComponent()
@@ -56,6 +57,11 @@ abstract class FormView extends View
         $this->isRelatorio = true;
     }
 
+    public function setKeepOpenOnSuccess(bool $keepOpenOnSuccess)
+    {
+        $this->keepOpenOnSuccess = $keepOpenOnSuccess;
+    }
+
     public function setWidth($width)
     {
         $this->width = $width;
@@ -70,6 +76,7 @@ abstract class FormView extends View
         $oForm->setTitle($this->getTitulo());
         $oForm->setDisabled($aData['bDisabled']);
         $oForm->setRelatorio($this->isRelatorio);
+        $oForm->setKeepOpenOnSuccess($this->keepOpenOnSuccess);
 
         if (isset($this->width)) {
             $oForm->setWidth($this->width);

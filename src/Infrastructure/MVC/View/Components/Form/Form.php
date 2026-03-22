@@ -19,6 +19,7 @@ class Form implements IComponent
     private $buttons;
     private $callbacks = [];
     private $fullscreen = false;
+    private $keepOpenOnSuccess = false;
 
     public function __construct(array $aComponents = [], string $sLayout = null, string $sRoute = null, string $sTitle = null, bool $bDisabled = false, bool $criaBotaoSubmit = true)
     {
@@ -71,6 +72,11 @@ class Form implements IComponent
     public function setRelatorio($isRelatorio = true)
     {
         $this->isRelatorio = $isRelatorio;
+    }
+
+    public function setKeepOpenOnSuccess(bool $keepOpenOnSuccess = true)
+    {
+        $this->keepOpenOnSuccess = $keepOpenOnSuccess;
     }
 
     public function setWidth($width)
@@ -130,6 +136,7 @@ class Form implements IComponent
                 'criaBotaoSubmit' => $this->criaBotaoSubmit,
                 'route' => $this->sRoute,
                 'isRelatorio' => $this->isRelatorio,
+                'keepOpenOnSuccess' => $this->keepOpenOnSuccess,
                 'width' => $this->width,
                 'buttons' => array_values(array_map(function ($button) {
                     return json_encode($button->toArray());
