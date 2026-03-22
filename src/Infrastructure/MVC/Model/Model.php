@@ -11,6 +11,11 @@ abstract class Model implements JsonSerializable
         $this->initializeProperties();
     }
 
+    public function canPersist(): bool
+    {
+        return true;
+    }
+
     protected function initializeProperties(): void
     {
         $reflection = new \ReflectionClass($this);

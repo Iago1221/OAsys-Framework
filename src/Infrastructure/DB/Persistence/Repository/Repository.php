@@ -616,6 +616,10 @@ abstract class Repository {
      */
     public function save($model): bool
     {
+        if (!$model->canPersist()) {
+            throw new Mensagem("O model " . get_class($model) . " é somente leitura e não pode ser salvo.");
+        }
+
         try {
             [$fields, $values, $placeholders, $updates, $id] = $this->mapToArray($model);
 
@@ -651,6 +655,10 @@ abstract class Repository {
      */
     public function saveWithRelations($model): bool
     {
+        if (!$model->canPersist()) {
+            throw new Mensagem("O model " . get_class($model) . " é somente leitura e não pode ser salvo.");
+        }
+
         try {
             $this->begin();
             $this->save($model); // insert/update principal
@@ -695,6 +703,10 @@ abstract class Repository {
      */
     public function remove(object $model): bool
     {
+        if (!$model->canPersist()) {
+            throw new Mensagem("O model " . get_class($model) . " é somente leitura e não pode ser removido.");
+        }
+
         if (!method_exists($model, 'getId')) {
             throw new \InvalidArgumentException("O modelo não possui o método getId().");
         }
