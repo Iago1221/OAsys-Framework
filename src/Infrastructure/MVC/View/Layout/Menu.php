@@ -63,13 +63,15 @@ class Menu implements ILayout
                 </h1>
             </div>
 
-            <span id="'oasys-header-novidades-slot'" class="header-novidades-slot">
-                <a id="oasys-novidades-link" class="header-novidades-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')">
-                    Novidades
-                </a>
-            </span>
+            <div>
+                <span id="'oasys-header-novidades-slot'" class="header-novidades-slot">
+                    <a id="oasys-novidades-link" class="header-novidades-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')">
+                        Novidades
+                    </a>
+                </span>
 
-            <h2><a class="logout" onclick="App.getInstance().logout()">Sair</a></h2>
+                <h2><a class="logout" onclick="App.getInstance().logout()">Sair</a></h2>
+            </div>
 
         </div>
         <nav class="menu">
