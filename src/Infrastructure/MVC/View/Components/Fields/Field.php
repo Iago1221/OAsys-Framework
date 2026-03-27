@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\View\Components\Fields;
 
+use Framework\Infrastructure\Mensagem;
 use MongoDB\BSON\Type;
 
 abstract class Field extends FormComponent
@@ -24,6 +25,7 @@ abstract class Field extends FormComponent
     const TYPE_HIDDEN   = 'hidden';
     const TYPE_TIME     = 'time';
     const TYPE_COLOR    = 'color';
+    const TYPE_RICHEXT    = 'richext';
 
     protected string $name;
     protected string $label;
@@ -32,6 +34,7 @@ abstract class Field extends FormComponent
     protected array $options = [];
     protected $maxLength = null;
     protected $decimalsLength = null;
+    protected $allowHtml = false;
 
     public function __construct(string $name, string $label, string $type)
     {
@@ -110,6 +113,15 @@ abstract class Field extends FormComponent
         return $this->maxLength;
     }
 
+    public function setAllowHtml(bool $allowHtml = true): void
+    {
+        if ($this->getType() != self::TYPE_RICHEXT) {
+            throw new Mensagem("O campo deve ser richext para permitir HTML");
+        }
+
+        $this->allowHtml = $allowHtml;
+    }
+
     public function toArray(): array
     {
         return [
@@ -121,6 +133,7 @@ abstract class Field extends FormComponent
                 'options' => $this->options,
                 'maxLength' => $this->maxLength,
                 'decimalsLength' => $this->decimalsLength,
+                'allowHtml' => $this->allowHtml
             ]
         ];
     }
