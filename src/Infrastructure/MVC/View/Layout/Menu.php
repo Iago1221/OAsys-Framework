@@ -64,7 +64,7 @@ class Menu implements ILayout
             </div>
 
             <div style="display: flex; flex-direction: row; align-items: center;">
-                <h2 id="'oasys-header-novidades-slot'" class="header-novidades-slot">
+                <h2 id="oasys-header-novidades-slot" class="header-novidades-slot">
                     <a id="oasys-novidades-link" class="header-novidades-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')">
                         Novidades
                     </a>
