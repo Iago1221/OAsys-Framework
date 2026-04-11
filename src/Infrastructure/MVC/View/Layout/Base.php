@@ -34,8 +34,8 @@ class Base implements ILayout
     public function render()
     {
         ?>
-            <!DOCTYPE html>
-            <html lang="pt-BR">
+        <!DOCTYPE html>
+        <html lang="pt-BR">
         <?php
         $this->renderHead();
         $this->renderBody();
@@ -69,11 +69,11 @@ class Base implements ILayout
 
         ?>
         <body>
-            <div id="menu-principal">
-                <?php
-                $this->getMenu()->render();
-                ?>
-            </div>
+        <div id="menu-principal">
+            <?php
+            $this->getMenu()->render();
+            ?>
+        </div>
 
         <!-- Menu lateral -->
         <div id="side-menu" class="side-menu">
@@ -106,6 +106,11 @@ class Base implements ILayout
                         <i class="fi fi-tr-industry-alt"></i>
                     </li>
                 <? endif; ?>
+                <? if ($usuario->getAcessoNeuron()): ?>
+                    <li onclick="App.getInstance().openRoute('sys_oasys_neuron')" title="Oasys Neuron">
+                        <i class="fi fi-tr-sparkles"></i>
+                    </li>
+                <? endif; ?>
             </ul>
         </div>
 
@@ -128,27 +133,6 @@ class Base implements ILayout
         <div id="loading-overlay" class="loading-overlay">
             <div class="loading-spinner"></div>
         </div>
-
-        <? if ($usuario->getAcessoNeuron()): ?>
-            <!-- Botão flutuante -->
-            <div id="chatbot-button">
-                💬
-            </div>
-
-            <!-- Janela do Chat -->
-            <div id="chatbot-window" class="hidden">
-                <div class="chatbot-header">
-                    <span>Oasys Neuron</span>
-                    <button onclick="App.getInstance().toggleChat()">✖</button>
-                </div>
-                <div id="chatbot-messages" class="chatbot-messages"></div>
-                <div class="chatbot-input-area">
-                    <input id="chatbot-input" type="text" placeholder="Digite sua mensagem..."
-                           onkeydown="if(event.key==='Enter'){App.getInstance().sendMessage();}">
-                    <button onclick="App.getInstance().sendMessage()">Enviar</button>
-                </div>
-            </div>
-        <? endif; ?>
 
         <?php
         $this->loadJs();
@@ -179,9 +163,9 @@ class Base implements ILayout
         <script src="$sBase/js/Components/MapComponent.js"></script>
         <script src="$sBase/js/Components/HtmlRenderComponent.js"></script>
         <script src="$sBase/js/Components/PortalAtualizacaoDetalheComponent.js"></script>
+        <script src="$sBase/js/Components/NeuronComponent.js"></script>
         <script src="$sBase/js/app.js"></script>
         <script src="$sBase/js/portal-atualizacoes-boot.js"></script>
-        <script src="$sBase/js/Components/Chatbot.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
         HTML;
     }
