@@ -76,14 +76,16 @@ abstract class Repository {
      * @param string $type - Tipo da junção
      * @param string $alias - Alias da tabela estrangeia
      * @param boolean $lateral - Define se é uma junção lateral
+     * @param string $tableFrom - Tabela que define a agregação de origem - se não informada, considera-se a tabela do repositório
      * @return $this
      */
-    public function addJoin(string $schema, string $table, string $localColumn, string $foreignColumn, string $type = 'INNER', string $alias = null, bool $lateral = false): self
+    public function addJoin(string $schema, string $table, string $localColumn, string $foreignColumn, string $type = 'INNER', string $alias = null, bool $lateral = false, string $tableFrom = null): self
     {
         $join = $lateral ? 'JOIN LATERAL' : 'JOIN';
         $alias = $alias ?: $table;
         $table = $schema ? $schema . '.' . $table : $table;
-        $this->joins[] = strtoupper($type) . " $join $table AS $alias ON {$this->table}.{$this->camelToSnake($localColumn)} = $alias.{$this->camelToSnake($foreignColumn)}";
+        $tableFrom = $tableFrom ?: $this->table;
+        $this->joins[] = strtoupper($type) . " $join $table AS $alias ON {$tableFrom}.{$this->camelToSnake($localColumn)} = $alias.{$this->camelToSnake($foreignColumn)}";
         return $this;
     }
 
