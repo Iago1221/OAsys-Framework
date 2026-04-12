@@ -799,6 +799,9 @@ abstract class Repository {
     }
 
     protected function pathToDotNotation(string $input): string {
-        return str_replace('/', '.', $input);
+        $parts = explode('/', $input);
+        $lastParts = array_slice($parts, -2);
+
+        return implode('.', $lastParts);
     }
 }
