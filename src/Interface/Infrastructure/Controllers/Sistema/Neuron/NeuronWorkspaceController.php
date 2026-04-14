@@ -25,15 +25,17 @@ class NeuronWorkspaceController extends Controller
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             'window' => [
-                'title' => 'Oasys Neuron — Estoque',
+                'title' => 'Oasys Neuron',
                 'route' => 'sys_oasys_neuron',
-                'width' => 'min(1100px, 96vw)',
+                'width' => 'min(1180px, 96vw)',
                 'fullscreen' => false,
             ],
             'component' => 'NeuronComponent',
             'NeuronComponent' => [
                 'modules' => [
-                    ['id' => 'estoque', 'label' => 'Estoque (IPLNM)', 'enabled' => true],
+                    ['id' => 'estoque', 'label' => 'Estoque', 'enabled' => true],
+                    ['id' => 'financeiro', 'label' => 'Financeiro', 'enabled' => false],
+                    ['id' => 'vendas', 'label' => 'Vendas', 'enabled' => false],
                 ],
                 'agentRoute' => 'sys_oasys_neuron_agent',
                 'intentsRoute' => 'sys_oasys_neuron_intents',
