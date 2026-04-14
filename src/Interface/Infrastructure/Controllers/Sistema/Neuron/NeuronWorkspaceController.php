@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Interface\Infrastructure\Controllers\Sistema\Neuron;
+namespace ERP\Infrastructure\Controllers\Sistema\Neuron;
 
-use ERP\Application\Neuron\EstoqueNeuronToolExecutor;
-use Framework\Core\Main;
 use Framework\Infrastructure\MVC\Controller\Controller;
-use Framework\Infrastructure\Response;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
+/**
+ * Abre a janela Oasys Neuron (web component) com rotas do agente IPLNM (proxy no ERP).
+ */
 class NeuronWorkspaceController extends Controller
 {
     protected function getViewClass(): ?string
@@ -22,42 +22,29 @@ class NeuronWorkspaceController extends Controller
 
     public function show(): void
     {
-        $this->assertNeuronAccess();
-
-        $allowedOpenRoutes = array_column(EstoqueNeuronToolExecutor::allowedOpenRoutesList(), 'route');
-
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             'window' => [
-                'title' => 'Oasys Neuron',
+                'title' => 'Oasys Neuron — Estoque',
                 'route' => 'sys_oasys_neuron',
-                'width' => 'min(1100px, 98vw)',
-                'fullscreen' => true,
+                'width' => 'min(1100px, 96vw)',
+                'fullscreen' => false,
             ],
             'component' => 'NeuronComponent',
             'NeuronComponent' => [
-                'chatRoute' => 'sys_oasys_neuron_chat',
                 'modules' => [
-                    ['id' => 'estoque', 'label' => 'Estoque', 'enabled' => true],
-                    ['id' => 'vendas', 'label' => 'Vendas', 'enabled' => false],
-                    ['id' => 'financeiro', 'label' => 'Financeiro', 'enabled' => false],
+                    ['id' => 'estoque', 'label' => 'Estoque (IPLNM)', 'enabled' => true],
                 ],
-                'allowedOpenRoutes' => $allowedOpenRoutes,
+                'agentRoute' => 'sys_oasys_neuron_agent',
+                'intentsRoute' => 'sys_oasys_neuron_intents',
+                'allowedOpenRoutes' => [
+                    'sys_saldo_list',
+                    'sys_estoque_report_list',
+                    'sys_deposito_list',
+                    'sys_produto_list',
+                    'sys_estoque_relatorio_dinamico_def_list',
+                ],
             ],
         ], JSON_UNESCAPED_UNICODE);
-    }
-
-    private function assertNeuronAccess(): void
-    {
-        $uid = Main::getUsuarioId();
-        if ($uid === null) {
-            Response::error('Não autenticado', 401);
-        }
-
-        /** @var \Framework\Interface\Domain\Usuario\Usuario|null $u */
-        $u = $this->getRepository()->findBy('id', $uid);
-        if ($u === null || !$u->getAcessoNeuron()) {
-            Response::error('Sem acesso ao Oasys Neuron', 403);
-        }
     }
 }

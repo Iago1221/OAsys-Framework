@@ -1,15 +1,17 @@
 <?php
 
-namespace Framework\Interface\Infrastructure\Controllers\Sistema\Neuron;
+namespace ERP\Infrastructure\Controllers\Sistema\Neuron;
 
 use ERP\Application\Neuron\EstoqueNeuronToolExecutor;
 use ERP\Application\Neuron\NeuronLlmClient;
 use ERP\Application\Neuron\NeuronOrchestrator;
-use Framework\Core\Main;
 use Framework\Infrastructure\MVC\Controller\Controller;
 use Framework\Infrastructure\Response;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
+/**
+ * Chat legado (LLM + tools ERP). A UI principal do Neuron usa o agente IPLNM via {@see NeuronAgentController}.
+ */
 class NeuronChatController extends Controller
 {
     protected function getViewClass(): ?string
@@ -24,50 +26,40 @@ class NeuronChatController extends Controller
 
     public function chat(): void
     {
-        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-            Response::error('Use POST', 405);
+        $raw = file_get_contents('php://input');
+        if ($raw === false || $raw === '') {
+            Response::error('Corpo da requisição vazio');
+
+            return;
         }
 
-        $uid = Main::getUsuarioId();
-        if ($uid === null) {
-            Response::error('Não autenticado', 401);
+        $data = json_decode($raw, true);
+        if (!is_array($data)) {
+            Response::error('JSON inválido');
+
+            return;
         }
 
-        /** @var \Framework\Interface\Domain\Usuario\Usuario|null $u */
-        $u = $this->getRepository()->findBy('id', $uid);
-        if ($u === null || !$u->getAcessoNeuron()) {
-            Response::error('Sem acesso ao Oasys Neuron', 403);
+        $module = (string) ($data['module'] ?? '');
+        $messages = $data['messages'] ?? null;
+        if (!is_array($messages)) {
+            Response::error('messages inválido');
+
+            return;
         }
 
-        $req = $this->getRequest();
-        if (!is_array($req)) {
-            Response::error('JSON inválido', 400);
-        }
+        $clientContext = $data['clientContext'] ?? null;
+        $clientContext = is_array($clientContext) ? $clientContext : null;
 
-        $module = isset($req['module']) ? (string) $req['module'] : '';
-        $messages = $req['messages'] ?? null;
-        $clientContext = $req['clientContext'] ?? null;
+        $orchestrator = new NeuronOrchestrator(
+            NeuronLlmClient::fromEnv(),
+            new EstoqueNeuronToolExecutor()
+        );
 
-        if ($module === '' || !is_array($messages)) {
-            Response::error('Informe module e messages', 400);
-        }
-
-        if (!is_array($clientContext)) {
-            $clientContext = null;
-        }
-
-        try {
-            $llm = NeuronLlmClient::fromEnv();
-            $tools = new EstoqueNeuronToolExecutor();
-            $orch = new NeuronOrchestrator($llm, $tools);
-            $result = $orch->run($module, $messages, $clientContext);
-        } catch (\Throwable $e) {
-            if (Main::isAmbienteDesenvolvimento()) {
-                Response::error('Neuron: ' . $e->getMessage(), 500);
-            }
-            Response::error('Falha ao processar a conversa.', 500);
-        }
-
-        Response::success($result);
+        $out = $orchestrator->run($module, $messages, $clientContext);
+        Response::success([
+            'reply' => $out['reply'],
+            'actions' => $out['actions'],
+        ]);
     }
 }
