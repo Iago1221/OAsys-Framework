@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP\Infrastructure\Controllers\Sistema\Neuron;
+namespace Framework\Interface\Infrastructure\Controllers\Sistema\Neuron;
 
 use ERP\Application\Neuron\EstoqueNeuronToolExecutor;
 use ERP\Application\Neuron\NeuronLlmClient;

@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP\Infrastructure\Controllers\Sistema\Neuron;
+namespace Framework\Interface\Infrastructure\Controllers\Sistema\Neuron;
 
 use Framework\Infrastructure\MVC\Controller\Controller;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
