@@ -20,4 +20,9 @@ class NeuronWorkspaceController extends Controller
     {
         return UsuarioRepository::class;
     }
+
+    public function show(): void
+    {
+        $this->getView()->render();
+    }
 }
