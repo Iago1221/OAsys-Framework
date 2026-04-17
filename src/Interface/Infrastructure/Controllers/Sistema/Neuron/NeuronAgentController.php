@@ -21,10 +21,8 @@ abstract class NeuronAgentController extends Controller
         return UsuarioRepository::class;
     }
 
-    public function intents(): void
-    {
-        $this->call('GET', $this->intentsUrl(), null);
-    }
+    abstract public function intents(): void;
+
 
     public function invoke(): void
     {
@@ -41,7 +39,6 @@ abstract class NeuronAgentController extends Controller
         $this->call('POST', $this->agentUrl(), $data);
     }
 
-    protected abstract function intentsUrl(): string;
     protected abstract function agentUrl(): string;
 
     private function call(string $method, string $url, ?string $postBody): void
