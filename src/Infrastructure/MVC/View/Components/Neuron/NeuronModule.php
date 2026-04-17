@@ -13,6 +13,16 @@ class NeuronModule implements IComponent
     protected $intentsRoute;
     protected $allowedOpenRoutes = [];
 
+    public function __construct($id, $label, $enable, $agentRoute, $intentsRoute, $allowedOpenRoutes = [])
+    {
+        $this->id = $id;
+        $this->label = $label;
+        $this->enable = $enable;
+        $this->agentRoute = $agentRoute;
+        $this->intentsRoute = $intentsRoute;
+        $this->allowedOpenRoutes = $allowedOpenRoutes;
+    }
+
     public function addAllowedOpenRoute(string $route, string $label) {
         $this->allowedOpenRoutes[] = ['route' => $route, 'label' => $label];
     }
