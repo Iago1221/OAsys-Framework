@@ -9,10 +9,8 @@ use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioReposi
 /**
  * Proxy para o serviço do agente de estoque (IPLNM): POST /v1/erp/agent e GET /v1/erp/intents.
  */
-class NeuronAgentController extends Controller
+abstract class NeuronAgentController extends Controller
 {
-    private const DEFAULT_AGENT_BASE = 'http://127.0.0.1:8000';
-
     protected function getViewClass(): ?string
     {
         return null;
@@ -25,53 +23,32 @@ class NeuronAgentController extends Controller
 
     public function intents(): void
     {
-        $base = $this->agentBaseUrl();
-        $url = rtrim($base, '/') . '/v1/erp/intents';
-        $this->proxyJson('GET', $url, null);
+        $this->call('GET', $this->intentsUrl(), null);
     }
 
     public function invoke(): void
     {
-        $raw = file_get_contents('php://input');
-        if ($raw === false || $raw === '') {
+        $data = $this->getRequest();
+        if ($data === false || $data === '') {
             Response::error('Corpo da requisição vazio');
-
-            return;
         }
 
-        $decoded = json_decode($raw, true);
-        if (!is_array($decoded)) {
-            Response::error('JSON inválido');
-
-            return;
-        }
-
-        $intent = $decoded['intent'] ?? null;
+        $intent = $data['intent'] ?? null;
         if (!is_string($intent) || $intent === '') {
             Response::error('Campo intent é obrigatório');
-
-            return;
         }
 
-        $base = $this->agentBaseUrl();
-        $url = rtrim($base, '/') . '/v1/erp/agent';
-        $this->proxyJson('POST', $url, $raw);
+        $this->call('POST', $this->agentUrl(), $data);
     }
 
-    private function agentBaseUrl(): string
-    {
-        $env = $_ENV['OASYS_NEURON_AGENT_URL'] ?? getenv('OASYS_NEURON_AGENT_URL');
+    protected abstract function intentsUrl(): string;
+    protected abstract function agentUrl(): string;
 
-        return is_string($env) && $env !== '' ? $env : self::DEFAULT_AGENT_BASE;
-    }
-
-    private function proxyJson(string $method, string $url, ?string $postBody): void
+    private function call(string $method, string $url, ?string $postBody): void
     {
         $ch = curl_init($url);
         if ($ch === false) {
             Response::error('Falha ao contatar o agente de estoque');
-
-            return;
         }
 
         $opts = [
@@ -95,15 +72,11 @@ class NeuronAgentController extends Controller
 
         if ($errno !== 0) {
             Response::error('Agente indisponível: ' . $err);
-
-            return;
         }
 
         $parsed = json_decode((string) $raw, true);
         if (!is_array($parsed)) {
             Response::error('Resposta inválida do agente (HTTP ' . $status . ')');
-
-            return;
         }
 
         if ($status >= 400) {
@@ -112,8 +85,6 @@ class NeuronAgentController extends Controller
                 $detail = json_encode($parsed, JSON_UNESCAPED_UNICODE);
             }
             Response::error($detail);
-
-            return;
         }
 
         Response::success($parsed);
