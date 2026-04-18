@@ -10,14 +10,19 @@ class NeuronIntent implements IComponent
     protected string $intent;
     protected string $label;
     protected ?NeuronIntentForm $form;
-    protected NeuronService $service;
+    protected ?NeuronService $service = null;
 
-    public function __construct(string $intent, string $label, NeuronService $service, ?NeuronIntentForm $form = null)
+    public function __construct(string $intent, string $label, ?NeuronService $service = null, ?NeuronIntentForm $form = null)
     {
         $this->intent = $intent;
         $this->label = $label;
         $this->service = $service;
         $this->form = $form;
+    }
+
+    public function getService(): ?NeuronService
+    {
+        return $this->service;
     }
 
     public function toArray(): array
