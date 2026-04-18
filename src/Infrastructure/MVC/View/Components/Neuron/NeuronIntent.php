@@ -20,6 +20,11 @@ class NeuronIntent implements IComponent
         $this->form = $form;
     }
 
+    public function getIntent(): string
+    {
+        return $this->intent;
+    }
+
     public function getService(): ?NeuronService
     {
         return $this->service;
