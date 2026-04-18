@@ -3,17 +3,20 @@
 namespace Framework\Infrastructure\MVC\View\Components\Neuron;
 
 use Framework\Infrastructure\MVC\View\Components\IComponent;
+use Framework\Interface\Application\Neuron\NeuronService;
 
 class NeuronIntent implements IComponent
 {
     protected string $intent;
     protected string $label;
     protected ?NeuronIntentForm $form;
+    protected NeuronService $service;
 
-    public function __construct(string $intent, string $label, ?NeuronIntentForm $form = null)
+    public function __construct(string $intent, string $label, NeuronService $service, ?NeuronIntentForm $form = null)
     {
         $this->intent = $intent;
         $this->label = $label;
+        $this->service = $service;
         $this->form = $form;
     }
 
