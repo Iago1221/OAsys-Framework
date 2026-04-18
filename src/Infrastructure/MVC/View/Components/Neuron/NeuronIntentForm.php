@@ -2,22 +2,21 @@
 
 namespace Framework\Infrastructure\MVC\View\Components\Neuron;
 
-use Framework\Infrastructure\MVC\View\Components\Fields\FormField;
 use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 abstract class NeuronIntentForm implements IComponent
 {
-    /** @var FormField[] */
-    protected array $fields = [];
+    /** @var IComponent[] */
+    protected array $components = [];
 
     public function __construct()
     {
         $this->create();
     }
 
-    public function addField(FormField $field)
+    public function addComponent(IComponent $component)
     {
-        $this->fields[] = $field;
+        $this->components[] = $component;
     }
 
     abstract protected function create(): void;
@@ -27,9 +26,9 @@ abstract class NeuronIntentForm implements IComponent
         return [
             'component' => 'NeuronIntentFormComponent',
             'NeuronIntentFormComponent' => [
-                'fields' => array_map(function (FormField $field) {
-                    return $field->toArray();
-                }, $this->fields),
+                'components' => array_map(function (IComponent $component) {
+                    return $component->toArray();
+                }, $this->components),
             ],
         ];
     }
