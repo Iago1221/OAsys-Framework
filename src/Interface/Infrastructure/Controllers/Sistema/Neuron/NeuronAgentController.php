@@ -3,6 +3,7 @@
 namespace Framework\Interface\Infrastructure\Controllers\Sistema\Neuron;
 
 use Framework\Infrastructure\MVC\Controller\Controller;
+use Framework\Infrastructure\MVC\View\Components\Neuron\NeuronIntent;
 use Framework\Infrastructure\Response;
 use Framework\Interface\Infrastructure\Persistence\Sistema\Usuario\UsuarioRepository;
 
@@ -21,7 +22,8 @@ abstract class NeuronAgentController extends Controller
         return UsuarioRepository::class;
     }
 
-    abstract public function intents(): void;
+    /** @return NeuronIntent[] */
+    abstract public static function intents(): array;
 
 
     public function invoke(): void
