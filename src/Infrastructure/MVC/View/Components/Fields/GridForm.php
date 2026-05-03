@@ -22,6 +22,8 @@ class GridForm extends FormComponent
     protected $exibeControls;
     private $lazyAddCall;
     private $flex;
+    /** @var list<array{title: string, handler: string, iconHtml?: string}> */
+    protected array $rowActionButtons = [];
 
 
     public function __construct(string $name, string $title)
@@ -139,6 +141,23 @@ class GridForm extends FormComponent
         $this->lazyAddCall = $lazyAddCall;
     }
 
+    /**
+     * Botão por linha do grid (ex.: ação rápida). O handler é uma função global (ex.: MinhaView.minhaFuncao);
+     * o JS chama callFunctionByString(handler, indiceDaLinha).
+     *
+     * @param string $title Hint / acessibilidade (title do botão)
+     * @param string $handler Nome qualificado da função JS
+     * @param string|null $iconHtml HTML interno do botão (ícone); se vazio, usa "·"
+     */
+    public function addRowActionButton(string $title, string $handler, ?string $iconHtml = null): void
+    {
+        $this->rowActionButtons[] = [
+            'title' => $title,
+            'handler' => $handler,
+            'iconHtml' => $iconHtml,
+        ];
+    }
+
     public function toArray(): array
     {
         if ($this->bDisabled) {
@@ -180,11 +199,12 @@ class GridForm extends FormComponent
                 'flex' => $this->flex,
                 'fieldsets' => array_map(
                     fn($fieldset) => array_map(
-                            fn($oField) => $oField->toArray(),
-                            $this->fieldsetFields[$fieldset]
-                        ),
+                        fn($oField) => $oField->toArray(),
+                        $this->fieldsetFields[$fieldset]
+                    ),
                     $this->fieldsets
                 ),
+                'rowActionButtons' => $this->rowActionButtons,
             ]
         ];
     }
