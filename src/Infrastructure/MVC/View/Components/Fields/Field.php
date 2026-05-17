@@ -26,6 +26,7 @@ abstract class Field extends FormComponent
     const TYPE_TIME     = 'time';
     const TYPE_COLOR    = 'color';
     const TYPE_RICHEXT    = 'richext';
+    const TYPE_HINT       = 'hint';
 
     protected string $name;
     protected string $label;

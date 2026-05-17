@@ -2,6 +2,7 @@
 
 namespace Framework\Infrastructure\MVC\View\Components\Grid;
 
+use Framework\Infrastructure\MVC\View\Components\Fields\Field;
 use Framework\Infrastructure\MVC\View\Components\Fields\GridField;
 use Framework\Infrastructure\MVC\View\Components\Fields\GridFilter;
 use Framework\Infrastructure\MVC\View\Components\IComponent;
@@ -146,12 +147,18 @@ class Grid implements IComponent
             'component' => 'GridComponent',
             'GridComponent' => [
                 'columns' => array_values(array_map(function ($oColumn) {
-                    return [
+                    $column = [
                         'name' => $oColumn->getName(),
                         'label' => $oColumn->getLabel(),
                         'type' => $oColumn->getType(),
-                        'options' => $oColumn->getOptions()
+                        'options' => $oColumn->getOptions(),
                     ];
+
+                    if ($oColumn->getType() === Field::TYPE_HINT) {
+                        $column['hintIcon'] = $oColumn->getHintIcon();
+                    }
+
+                    return $column;
                 }, $this->getColumns())),
                 'filters' => array_values(array_map(function ($filter) {
                     return [
@@ -160,7 +167,7 @@ class Grid implements IComponent
                         'type' => $filter->getType(),
                         'options' => $filter->getOptions(),
                         'value' => $filter->getValue(),
-                        'operator' => $filter->getOperator()
+                        'operator' => $filter->getOperator(),
                     ];
                 }, $this->getFilters())),
                 'filtersRows' => $this->getFiltersRows(),

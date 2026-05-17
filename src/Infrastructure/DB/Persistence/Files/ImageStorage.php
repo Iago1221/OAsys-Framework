@@ -9,6 +9,15 @@ class ImageStorage
     private string $basePath;
     private array $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
+    /** @var array<string, list<string>> */
+    private array $mimePorExtensao = [
+        'jpg' => ['image/jpeg'],
+        'jpeg' => ['image/jpeg'],
+        'png' => ['image/png', 'image/x-png'],
+        'gif' => ['image/gif'],
+        'webp' => ['image/webp'],
+    ];
+
     public function __construct(string $cliente)
     {
         $this->basePath = "/var/www/html/storage/image/$cliente/";
@@ -33,10 +42,19 @@ class ImageStorage
             throw new Mensagem('Erro no upload da imagem.');
         }
 
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!isset($file['tmp_name'], $file['name']) || !is_uploaded_file($file['tmp_name'])) {
+            throw new Mensagem('Arquivo de upload inválido.');
+        }
+
+        $tmpPath = trim((string) $file['tmp_name']);
+        $ext = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
 
         if (!in_array($ext, $this->allowedExtensions, true)) {
             throw new Mensagem('Tipo de arquivo inválido. Permitidos: ' . implode(', ', $this->allowedExtensions));
+        }
+
+        if (!is_readable($tmpPath) || filesize($tmpPath) === 0) {
+            throw new Mensagem('Arquivo de imagem vazio ou ilegível.');
         }
 
         if (!is_dir($this->basePath)) {
@@ -50,30 +68,7 @@ class ImageStorage
 
         // --- PROCESSAMENTO PARA LIMITE DE 64KB ---
         $maxSize = 64 * 1024; // 64 KB
-        $imageData = file_get_contents($file['tmp_name']);
-
-        // Cria a imagem GD
-        switch ($ext) {
-            case 'jpg':
-            case 'jpeg':
-                $img = imagecreatefromjpeg($file['tmp_name']);
-                break;
-            case 'png':
-                $img = imagecreatefrompng($file['tmp_name']);
-                break;
-            case 'gif':
-                $img = imagecreatefromgif($file['tmp_name']);
-                break;
-            case 'webp':
-                $img = imagecreatefromwebp($file['tmp_name']);
-                break;
-            default:
-                throw new Mensagem('Formato de imagem não suportado para compressão.');
-        }
-
-        if (!$img) {
-            throw new Mensagem('Falha ao processar a imagem.');
-        }
+        $img = $this->criarImagemGd($tmpPath, $ext);
 
         $width = imagesx($img);
         $height = imagesy($img);
@@ -141,6 +136,56 @@ class ImageStorage
         return $filename;
     }
 
+    /**
+     * @return \GdImage
+     */
+    private function criarImagemGd(string $tmpPath, string $ext): \GdImage
+    {
+        $img = match ($ext) {
+            'jpg', 'jpeg' => @imagecreatefromjpeg($tmpPath),
+            'png' => @imagecreatefrompng($tmpPath),
+            'gif' => @imagecreatefromgif($tmpPath),
+            'webp' => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($tmpPath) : false,
+            default => false,
+        };
+
+        if ($img === false) {
+            $blob = file_get_contents($tmpPath);
+            if ($blob !== false && $blob !== '') {
+                $img = @imagecreatefromstring($blob);
+            }
+        }
+
+        if ($img === false) {
+            $mime = $this->detectarMime($tmpPath);
+            $esperados = $this->mimePorExtensao[$ext] ?? [];
+
+            if ($mime !== null && $esperados !== [] && !in_array($mime, $esperados, true)) {
+                throw new Mensagem(
+                    "O conteúdo do arquivo não é uma imagem .$ext válida (tipo detectado: $mime)."
+                );
+            }
+
+            throw new Mensagem(
+                'Não foi possível processar a imagem. Verifique se o arquivo não está corrompido '
+                . 'e se a extensão corresponde ao formato real (PNG, JPEG, GIF ou WebP).'
+            );
+        }
+
+        return $img;
+    }
+
+    private function detectarMime(string $path): ?string
+    {
+        if (!function_exists('finfo_open')) {
+            return null;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($path);
+
+        return is_string($mime) && $mime !== '' ? $mime : null;
+    }
 
     /**
      * Lê uma imagem (retorna o conteúdo binário).

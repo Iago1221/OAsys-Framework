@@ -106,6 +106,26 @@ abstract class Repository {
                     $column = $this->table . '.' . $column;
                 }
 
+                if (strtoupper($operator) === 'ENTRE') {
+                    $parts = is_array($value) ? $value : array_map('trim', explode(',', (string) $value, 2));
+                    if (count($parts) >= 2 && $parts[0] !== '' && $parts[1] !== '') {
+                        $this->filters[] = "{$column} BETWEEN ? AND ?";
+                        $this->bindings[] = $parts[0];
+                        $this->bindings[] = $parts[1];
+                    }
+                    continue;
+                }
+
+                if (strtoupper($operator) === 'COMPETENCIA') {
+                    $period = $this->parseCompetenciaPeriod($value);
+                    if ($period !== null) {
+                        $this->filters[] = "{$column} BETWEEN ? AND ?";
+                        $this->bindings[] = $period['from'];
+                        $this->bindings[] = $period['to'];
+                    }
+                    continue;
+                }
+
                 $this->filters[] = "{$column} {$this->translateOperator($operator)}" . (strtoupper($operator) === 'EM' ? '' : ' ?');
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
@@ -136,6 +156,38 @@ abstract class Repository {
         }
 
         return $value;
+    }
+
+    /**
+     * Converte valor de competência (YYYY-MM ou YYYY-MM-DD) no intervalo do mês.
+     *
+     * @return array{from: string, to: string}|null
+     */
+    private function parseCompetenciaPeriod($value): ?array
+    {
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        if (preg_match('/^(\d{4})-(\d{2})$/', $value, $matches)) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+        } elseif (preg_match('/^(\d{4})-(\d{2})-\d{2}/', $value, $matches)) {
+            $year = (int) $matches[1];
+            $month = (int) $matches[2];
+        } else {
+            return null;
+        }
+
+        if ($month < 1 || $month > 12) {
+            return null;
+        }
+
+        $from = sprintf('%04d-%02d-01', $year, $month);
+        $to = sprintf('%04d-%02d-%02d', $year, $month, (int) date('t', strtotime($from)));
+
+        return ['from' => $from, 'to' => $to];
     }
 
     private function translateOperator($operator)
