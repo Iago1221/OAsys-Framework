@@ -69,13 +69,15 @@ abstract class GridView extends View
         string $field,
         ?string $operator,
                $value = null,
-        bool $removable = false
+        bool $removable = false,
+        bool $lockedValue = false
     ) {
         $this->getViewComponent()->addFixedFilter(
             $field,
             $operator,
             $value,
-            $removable
+            $removable,
+            $lockedValue
         );
     }
 

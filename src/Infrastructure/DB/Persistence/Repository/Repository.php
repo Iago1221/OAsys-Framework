@@ -159,7 +159,7 @@ abstract class Repository {
     }
 
     /**
-     * Converte valor de competência (YYYY-MM ou YYYY-MM-DD) no intervalo do mês.
+     * Converte valor de competência (YYYY, YYYY-MM ou YYYY-MM-DD) no intervalo correspondente.
      *
      * @return array{from: string, to: string}|null
      */
@@ -176,6 +176,13 @@ abstract class Repository {
         } elseif (preg_match('/^(\d{4})-(\d{2})-\d{2}/', $value, $matches)) {
             $year = (int) $matches[1];
             $month = (int) $matches[2];
+        } elseif (preg_match('/^(\d{4})$/', $value, $matches)) {
+            $year = (int) $matches[1];
+
+            return [
+                'from' => sprintf('%04d-01-01', $year),
+                'to' => sprintf('%04d-12-31', $year),
+            ];
         } else {
             return null;
         }

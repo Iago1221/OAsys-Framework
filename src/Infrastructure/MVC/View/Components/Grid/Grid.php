@@ -46,14 +46,20 @@ class Grid implements IComponent
         return array_filter($this->filtersRows, fn ($f) => ($f['fixed'] ?? false) === true);
     }
 
-    public function addFixedFilter(string $name, ?string $operator, $value = null, bool $removable = false)
-    {
+    public function addFixedFilter(
+        string $name,
+        ?string $operator,
+        $value = null,
+        bool $removable = false,
+        bool $lockedValue = false
+    ) {
         $this->filtersRows[] = [
             'name' => $name,
             'operator' => $operator,
             'value' => $value,
             'fixed' => true,
-            'removable' => $removable
+            'removable' => $removable,
+            'lockedValue' => $lockedValue,
         ];
     }
 

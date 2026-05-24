@@ -16,7 +16,8 @@ abstract class GridController extends Controller
     private array $registros;
 
     protected function setAtributosFromRequest() {
-        $this->setFiltros($this->getRequest('filters') ?: []);
+        $requestFilters = $this->getRequest('filters') ?: [];
+        $this->setFiltros($this->buildQueryFilters($requestFilters));
         $this->setPagina($this->getRequest('page') ?: 1);
         $this->setLimite($this->getRequest('limit') ?: 10);
         $this->setQuantidadeRegistros();
@@ -122,6 +123,68 @@ abstract class GridController extends Controller
 
     protected function beforeBeanRegistro(&$registro) {}
 
+    protected function hasLockedFixedFilterValue(array $fixed): bool
+    {
+        return ($fixed['lockedValue'] ?? false) === true;
+    }
+
+    protected function matchesFixedFilter(array $fixed, array $req): bool
+    {
+        return ($req['name'] ?? null) === $fixed['name']
+            && ($fixed['operator'] == null || ($req['operator'] ?? null) === $fixed['operator']);
+    }
+
+    protected function buildQueryFilters(array $requestFilters): array
+    {
+        $grid = $this->getView()->getViewComponent();
+        $fixedFilters = $grid->getFixedFilters();
+        $queryFilters = [];
+        $usedRequestIndexes = [];
+
+        foreach ($fixedFilters as $fixed) {
+            $operator = $fixed['operator'];
+            $value = $fixed['value'] ?? null;
+
+            if (!$this->hasLockedFixedFilterValue($fixed)) {
+                foreach ($requestFilters as $i => $req) {
+                    if ($this->matchesFixedFilter($fixed, $req)) {
+                        $value = $req['value'] ?? null;
+
+                        if ($fixed['operator'] == null) {
+                            $operator = $req['operator'] ?? null;
+                        }
+
+                        $usedRequestIndexes[] = $i;
+                        break;
+                    }
+                }
+            } else {
+                foreach ($requestFilters as $i => $req) {
+                    if ($this->matchesFixedFilter($fixed, $req)) {
+                        $usedRequestIndexes[] = $i;
+                        break;
+                    }
+                }
+            }
+
+            if ($operator != null && $value !== null && $value !== '') {
+                $queryFilters[] = [
+                    'name' => $fixed['name'],
+                    'operator' => $operator,
+                    'value' => $value,
+                ];
+            }
+        }
+
+        foreach ($requestFilters as $i => $req) {
+            if (!in_array($i, $usedRequestIndexes, true)) {
+                $queryFilters[] = $req;
+            }
+        }
+
+        return $queryFilters;
+    }
+
     protected function mergeFixedFilters(array $requestFilters): array
     {
         $grid = $this->getView()->getViewComponent();
@@ -130,18 +193,29 @@ abstract class GridController extends Controller
         $merged = [];
         $usedRequestIndexes = [];
 
-        foreach ($fixedFilters as $fixedIndex => $fixed) {
+        foreach ($fixedFilters as $fixed) {
+            if ($this->hasLockedFixedFilterValue($fixed)) {
+                foreach ($requestFilters as $i => $req) {
+                    if ($this->matchesFixedFilter($fixed, $req)) {
+                        $usedRequestIndexes[] = $i;
+                        break;
+                    }
+                }
+
+                $merged[] = $fixed;
+                continue;
+            }
+
             $applied = false;
 
             foreach ($requestFilters as $i => $req) {
                 if (
                     !$applied &&
-                    ($req['name'] ?? null) === $fixed['name'] &&
-                    ($fixed['operator'] == null || ($req['operator'] ?? null) === $fixed['operator'])
+                    $this->matchesFixedFilter($fixed, $req)
                 ) {
-                    // Aplica o valor do request no filtro fixo
                     $filter = array_merge($fixed, [
-                        'value' => $req['value']
+                        'value' => $req['value'],
+                        'lockedValue' => false,
                     ]);
 
                     if ($fixed['operator'] == null) {
@@ -157,12 +231,10 @@ abstract class GridController extends Controller
             }
 
             if (!$applied) {
-                // Mantém filtro fixo original
                 $merged[] = $fixed;
             }
         }
 
-        // Adiciona filtros do usuário que NÃO foram usados
         foreach ($requestFilters as $i => $req) {
             if (!in_array($i, $usedRequestIndexes, true)) {
                 $merged[] = $req;
@@ -185,7 +257,7 @@ abstract class GridController extends Controller
         $this->beforeBindView();
         $this->getView()->getViewComponent()->setRows($data);
         $this->getView()->getViewComponent()->setInformacoes($this->getGridInformations($this->getLimite(), $this->getPagina(), $this->getQuantidadeRegistros()));
-        $filtersRows = $this->mergeFixedFilters($this->getFiltros());
+        $filtersRows = $this->mergeFixedFilters($this->getRequest('filters') ?: []);
         $this->getView()->getViewComponent()->setFiltersRows($filtersRows);
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
