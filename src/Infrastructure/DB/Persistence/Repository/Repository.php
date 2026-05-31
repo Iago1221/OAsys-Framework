@@ -11,6 +11,9 @@ use Throwable;
  * @since 16/05/2025
  */
 abstract class Repository {
+    private const ACCENT_FROM = 'ÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÇçÑñÝý';
+    private const ACCENT_TO = 'AAAAAAaaaaaaEEEEeeeeIIIIiiiiOOOOOOooooooUUUUuuuuCcNnYy';
+
     protected \PDO $pdo;
     protected string $modelClass;
     protected string $table;
@@ -126,6 +129,12 @@ abstract class Repository {
                     continue;
                 }
 
+                if (strtoupper($operator) === 'IGUAL' && $this->shouldCompareIgualAsText($value)) {
+                    $this->filters[] = $this->buildIgualSqlExpression($column);
+                    $this->bindings[] = $this->normalizeTextForComparison((string) $value);
+                    continue;
+                }
+
                 $this->filters[] = "{$column} {$this->translateOperator($operator)}" . (strtoupper($operator) === 'EM' ? '' : ' ?');
                 $this->bindings[] = $this->trataFiltroValue($value, $operator);
             } else {
@@ -156,6 +165,52 @@ abstract class Repository {
         }
 
         return $value;
+    }
+
+    private function shouldCompareIgualAsText($value): bool
+    {
+        if (!is_string($value) || $value === '') {
+            return false;
+        }
+
+        if (is_numeric($value)) {
+            return false;
+        }
+
+        if (preg_match('/^\d{4}-\d{2}-\d{2}/', $value)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function normalizeTextForComparison(string $value): string
+    {
+        static $accentMap = null;
+
+        if ($accentMap === null) {
+            $accentMap = array_combine(
+                mb_str_split(self::ACCENT_FROM),
+                mb_str_split(self::ACCENT_TO)
+            ) ?: [];
+        }
+
+        $value = mb_strtolower($value, 'UTF-8');
+        $normalized = '';
+
+        foreach (mb_str_split($value) as $char) {
+            $normalized .= $accentMap[$char] ?? $char;
+        }
+
+        return $normalized;
+    }
+
+    private function buildIgualSqlExpression(string $column): string
+    {
+        $from = self::ACCENT_FROM;
+        $to = self::ACCENT_TO;
+
+        return "LOWER(TRANSLATE({$column}::text, '{$from}', '{$to}')) = LOWER(TRANSLATE(?::text, '{$from}', '{$to}'))";
     }
 
     /**
