@@ -160,7 +160,7 @@ class Main
                 return;
             }
 
-            if (self::isAmbienteDesenvolvimento()) {
+            if (self::isAmbienteDesenvolvimento() || self::getUsuarioId() == 1) {
                 $this->setExceptionReturn('Erro:' . $t->getMessage() . ' Arquivo: '  . $t->getFile() . 'Linha: ' . $t->getLine());
                 return;
             }
