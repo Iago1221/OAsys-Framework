@@ -17,7 +17,6 @@ abstract class ReportBase
 
     /** Acima disso o Dompdf estoura memória; emite HTML para impressão via navegador. */
     protected const MAX_LINHAS_PDF_DOMPDF = 400;
-    protected const MEMORIA_LIMITE_LINHAS = 80;
     protected const HTML5_PARSER_LIMITE_LINHAS = 150;
 
     public function __construct(array $data = [])
@@ -36,23 +35,37 @@ abstract class ReportBase
     abstract protected function renderTemplate(): string;
 
     /**
-     * Quantidade de registros do relatório. Retorne null para sempre gerar PDF (padrão).
-     * Subclasses tabulares devem sobrescrever para habilitar fallback HTML em listagens grandes.
+     * Quantidade de registros do relatório. Detecta automaticamente chaves tabulares em {@see $data}.
+     * Subclasses podem sobrescrever; retorne null para ignorar fallback HTML por contagem.
      */
     protected function getRecordCount(): ?int
     {
+        foreach ([
+            'rows',
+            'itens',
+            'linhas',
+            'movimentacoes',
+            'titulos',
+            'pagamentos',
+            'receitas',
+            'situacoes',
+            'registros',
+        ] as $key) {
+            if (isset($this->data[$key]) && is_array($this->data[$key])) {
+                return count($this->data[$key]);
+            }
+        }
+
         return null;
     }
 
     public function generate(bool $download = false, string $filename = 'relatorio.pdf'): void
     {
+        ini_set('memory_limit', '512M');
+
         $n = $this->getRecordCount();
         if ($n !== null && $n > self::MAX_LINHAS_PDF_DOMPDF) {
             $this->emitirHtmlParaNavegador($filename, $download);
-        }
-
-        if ($n !== null && $n > self::MEMORIA_LIMITE_LINHAS && $n <= self::MAX_LINHAS_PDF_DOMPDF) {
-            ini_set('memory_limit', '512M');
         }
 
         $html = $this->renderTemplate();
