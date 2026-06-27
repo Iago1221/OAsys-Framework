@@ -14,12 +14,21 @@ abstract class GridController extends Controller
     private ?int $limite;
     private int $quantidadeRegistros;
     private array $registros;
+    private ?string $sortColumn = null;
+    private string $sortDirection = 'ASC';
 
     protected function setAtributosFromRequest() {
         $requestFilters = $this->getRequest('filters') ?: [];
         $this->setFiltros($this->buildQueryFilters($requestFilters));
         $this->setPagina($this->getRequest('page') ?: 1);
         $this->setLimite($this->getRequest('limit') ?: 10);
+
+        $sort = $this->getRequest('sort');
+        if (is_array($sort) && !empty($sort['column'])) {
+            $this->sortColumn = $sort['column'];
+            $this->sortDirection = strtoupper($sort['direction'] ?? 'ASC') === 'DESC' ? 'DESC' : 'ASC';
+        }
+
         $this->setQuantidadeRegistros();
         $this->setRegistros();
     }
@@ -54,6 +63,7 @@ abstract class GridController extends Controller
 
     protected function setRegistros() {
         $this->beforeSetRegistros();
+        $this->applyUserSort();
         $this->getRepository()->filterBy($this->getFiltros());
 
         if (!$this->getRequest('exportar')) {
@@ -82,6 +92,29 @@ abstract class GridController extends Controller
 
     protected function beforeSetRegistros() {
         $this->getRepository()->orderBy('id', 'DESC');
+    }
+
+    private function applyUserSort(): void
+    {
+        $column = $this->getValidatedSortColumn();
+        if ($column === null) {
+            return;
+        }
+        $this->getRepository()->orderBy($column, $this->sortDirection);
+    }
+
+    private function getValidatedSortColumn(): ?string
+    {
+        if (!$this->sortColumn) {
+            return null;
+        }
+        $columns = $this->getView()->getViewComponent()->getColumns();
+        foreach ($columns as $column) {
+            if ($column->getName() === $this->sortColumn && $column->isSortable()) {
+                return $this->sortColumn;
+            }
+        }
+        return null;
     }
 
     protected function getFiltros() {
@@ -259,6 +292,7 @@ abstract class GridController extends Controller
         $this->getView()->getViewComponent()->setInformacoes($this->getGridInformations($this->getLimite(), $this->getPagina(), $this->getQuantidadeRegistros()));
         $filtersRows = $this->mergeFixedFilters($this->getRequest('filters') ?: []);
         $this->getView()->getViewComponent()->setFiltersRows($filtersRows);
+        $this->getView()->getViewComponent()->setSort($this->getValidatedSortColumn(), strtolower($this->sortDirection));
         $this->getView()->setTitulo(Main::getOrder()->getTitle());
         $this->getView()->setRota(Main::getOrder()->getRoute());
 

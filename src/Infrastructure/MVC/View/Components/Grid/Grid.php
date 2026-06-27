@@ -21,6 +21,7 @@ class Grid implements IComponent
     private array $informacoes = [];
     private array $rowSelectableWhen = ['field' => null, 'value' => null];
     private array $metrics = [];
+    private array $sort = ['column' => null, 'direction' => 'asc'];
 
     public function getName(): string
     {
@@ -61,6 +62,16 @@ class Grid implements IComponent
             'removable' => $removable,
             'lockedValue' => $lockedValue,
         ];
+    }
+
+    public function setSort(?string $column, string $direction = 'asc'): void
+    {
+        $this->sort = ['column' => $column, 'direction' => $direction];
+    }
+
+    public function getSort(): array
+    {
+        return $this->sort;
     }
 
     public function addMetric(string $label, $value, $format = null)
@@ -158,6 +169,7 @@ class Grid implements IComponent
                         'label' => $oColumn->getLabel(),
                         'type' => $oColumn->getType(),
                         'options' => $oColumn->getOptions(),
+                        'sortable' => $oColumn->isSortable(),
                     ];
 
                     if ($oColumn->getType() === Field::TYPE_HINT) {
@@ -182,6 +194,7 @@ class Grid implements IComponent
                 'rows' => $this->getRows(),
                 'rowSelectableWhen' => $this->rowSelectableWhen,
                 'metrics' => $this->metrics,
+                'sort' => $this->sort,
                 'pagination' => [
                     'page' => $this->getInformacao('page'),
                     'limit' => $this->getInformacao('limit'),
