@@ -10,8 +10,10 @@ class RouteLogGridView extends GridView
 {
     protected function create()
     {
-        $this->addColumn(new GridField('usuario', 'Usuário ID', Field::TYPE_INTEGER));
-        $this->addColumn(new GridField('rota', 'Rota ID', Field::TYPE_INTEGER));
+        $this->addColumn(new GridField('usuario/id', 'Usuário ID', Field::TYPE_INTEGER));
+        $this->addColumn(new GridField('usuario/nome', 'Usuário', Field::TYPE_TEXT));
+        $this->addColumn(new GridField('rota/id', 'Rota ID', Field::TYPE_INTEGER));
+        $this->addColumn(new GridField('rota/nome', 'Rota', Field::TYPE_TEXT));
         $this->addColumn(new GridField('data', 'Data', Field::TYPE_DATETIME));
 
         $this->addAction('show', 'Visualizar', 'sys_route_log_show');

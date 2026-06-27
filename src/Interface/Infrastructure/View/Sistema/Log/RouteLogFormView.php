@@ -10,8 +10,10 @@ class RouteLogFormView extends FormView
 {
     protected function create()
     {
-        $this->addComponent(new FormField('usuario', 'Usuário ID', Field::TYPE_INTEGER));
-        $this->addComponent(new FormField('rota', 'Rota ID', Field::TYPE_INTEGER));
+        $this->addComponent(new FormField('usuario/id', 'Usuário ID', Field::TYPE_INTEGER));
+        $this->addComponent(new FormField('usuario/nome', 'Usuário', Field::TYPE_TEXT));
+        $this->addComponent(new FormField('rota/id', 'Rota ID', Field::TYPE_INTEGER));
+        $this->addComponent(new FormField('rota/nome', 'Rota', Field::TYPE_TEXT));
         $this->addComponent(new FormField('data', 'Data', Field::TYPE_DATETIME));
     }
 }
