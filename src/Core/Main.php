@@ -8,9 +8,13 @@ use Framework\Core\Router\OrderProcessing;
 use Framework\Infrastructure\DB\Persistence\Storage\PdoStorage;
 use Framework\Infrastructure\ENV\EnvUtils;
 use Framework\Infrastructure\Exceptions\IException;
+use Framework\Interface\Domain\Log\ErrorLog;
+use Framework\Interface\Domain\Log\RouteLog;
 use Framework\Interface\Domain\Router\Order;
 use Framework\Interface\Domain\Router\Rota;
 use Framework\Interface\Infrastructure\Persistence\Core\RotaRepository;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Log\ErrorLogRepository;
+use Framework\Interface\Infrastructure\Persistence\Sistema\Log\RouteLogRepository;
 
 /**
  * Classe principal.
@@ -27,6 +31,7 @@ class Main
     private static PdoStorage $pdoStorage;
 
     private static ?string $route;
+    private static ?Rota $rota = null;
     private static Order $order;
     private static ?int $usuarioId;
     private static ?string $tenant;
@@ -55,7 +60,8 @@ class Main
             self::setNotFoundException('INVALID PATH');
         }
 
-        $this->execute(new OrderFactory($oRotaMapper->findByRoute(self::$route)), $route);
+        self::$rota = $oRotaMapper->findByRoute(self::$route);
+        $this->execute(new OrderFactory(self::$rota), $route);
     }
 
     protected function setUsuarioId($usuarioId)
@@ -66,6 +72,11 @@ class Main
     public static function getUsuarioId()
     {
         return self::$usuarioId;
+    }
+
+    public static function getRota(): ?Rota
+    {
+        return self::$rota;
     }
 
     public static function setTenant(string $tenant)
@@ -143,6 +154,7 @@ class Main
                     }
 
                     $oProcessing->process(self::$order);
+                    $this->registrarRouteLog();
                     return;
                 }
             }
@@ -156,9 +168,13 @@ class Main
             $oProcessing->process($factory->make());
         } catch (\Throwable $t) {
             if ($t instanceof IException) {
+                $this->registrarRouteLog();
                 $this->setExceptionReturn($t->getMessage());
                 return;
             }
+
+            $this->registrarRouteLog();
+            $this->registrarErrorLog($t);
 
             if (self::isAmbienteDesenvolvimento() || self::getUsuarioId() == 1) {
                 $this->setExceptionReturn('Erro:' . $t->getMessage() . ' Arquivo: '  . $t->getFile() . 'Linha: ' . $t->getLine());
@@ -166,6 +182,35 @@ class Main
             }
 
             $this->setExceptionReturn('Houve um erro ao executar a ação, tente novamente mais tarde, ou contate o suporte.');
+        }
+    }
+
+    private function registrarRouteLog(): void
+    {
+        if (!self::$usuarioId) {
+            return;
+        }
+
+        try {
+            $routeLog = new RouteLog(self::$usuarioId, self::$rota?->getId());
+            (new RouteLogRepository(self::getConnection()))->save($routeLog);
+        } catch (\Throwable) {
+        }
+    }
+
+    private function registrarErrorLog(\Throwable $t): void
+    {
+        try {
+            $arquivo = $t->getFile() . ':' . $t->getLine();
+            $errorLog = new ErrorLog(
+                self::$usuarioId ?? null,
+                self::$rota?->getId(),
+                $arquivo,
+                $t->getMessage(),
+                $t->getTraceAsString()
+            );
+            (new ErrorLogRepository(self::getConnection()))->save($errorLog);
+        } catch (\Throwable) {
         }
     }
 
