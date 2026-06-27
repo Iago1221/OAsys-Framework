@@ -12,63 +12,51 @@ abstract class TestCase extends PHPUnitTestCase
 {
     /**
      * Cria um mock de repository que captura o último modelo passado para save().
-     * Retorna [$mock, &$modelCapturado].
+     * Retorna [$mock, $spy] onde $spy->model contém o modelo capturado após a chamada.
      *
      * Uso:
-     *   [$repo, $salvo] = $this->spyOnSave(PedidoRepository::class);
+     *   [$repo, $spy] = $this->spyOnSave(PedidoRepository::class);
      *   $service->executar($pedido);
-     *   $this->assertEquals(Pedido::SITUACAO_PENDENTE, $salvo->getSituacao());
+     *   $this->assertEquals(Pedido::SITUACAO_PENDENTE, $spy->model->getSituacao());
      */
     protected function spyOnSave(string $repositoryClass): array
     {
-        $captured = null;
+        $spy = new \stdClass();
+        $spy->model = null;
+        $spy->calls = 0;
+
         $mock = $this->createMock($repositoryClass);
         $mock->method('save')
-            ->willReturnCallback(function (object $model) use (&$captured) {
-                $captured = $model;
+            ->willReturnCallback(function (object $model) use ($spy) {
+                $spy->model = $model;
+                $spy->calls++;
                 return true;
             });
-        return [$mock, &$captured];
+
+        return [$mock, $spy];
     }
 
     /**
      * Cria um mock de repository que captura TODOS os modelos passados para save().
-     * Retorna [$mock, &$listaCapturada].
+     * Retorna [$mock, $spy] onde $spy->models é um array com todos os modelos capturados.
      *
      * Uso:
-     *   [$repo, $salvos] = $this->spyAllSaves(ItemRepository::class);
+     *   [$repo, $spy] = $this->spyAllSaves(ItemRepository::class);
      *   $service->executar($pedido);
-     *   $this->assertCount(3, $salvos);
+     *   $this->assertCount(3, $spy->models);
      */
     protected function spyAllSaves(string $repositoryClass): array
     {
-        $captured = [];
+        $spy = new \stdClass();
+        $spy->models = [];
+
         $mock = $this->createMock($repositoryClass);
         $mock->method('save')
-            ->willReturnCallback(function (object $model) use (&$captured) {
-                $captured[] = $model;
+            ->willReturnCallback(function (object $model) use ($spy) {
+                $spy->models[] = $model;
                 return true;
             });
-        return [$mock, &$captured];
-    }
 
-    /**
-     * Asserta que save() foi chamado exatamente uma vez no mock de repository.
-     */
-    protected function assertSavedOnce(string $repositoryClass): object
-    {
-        $mock = $this->createMock($repositoryClass);
-        $mock->expects($this->once())->method('save');
-        return $mock;
-    }
-
-    /**
-     * Asserta que save() NUNCA foi chamado no mock de repository.
-     */
-    protected function assertNeverSaved(string $repositoryClass): object
-    {
-        $mock = $this->createMock($repositoryClass);
-        $mock->expects($this->never())->method('save');
-        return $mock;
+        return [$mock, $spy];
     }
 }
