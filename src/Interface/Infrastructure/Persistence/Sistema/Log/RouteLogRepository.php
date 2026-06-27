@@ -12,6 +12,8 @@ class RouteLogRepository extends Repository
     protected function queryBuilder()
     {
         parent::queryBuilder();
+        $this->addJoin('oasys','usuarios', 'usuario', 'id', 'INNER', 'usuario');
+        $this->addJoin('oasys','rotas', 'rota', 'id', 'INNER', 'rota');
         $this->with(['rota', 'usuario']);
     }
 
