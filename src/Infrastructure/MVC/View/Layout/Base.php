@@ -166,6 +166,7 @@ class Base implements ILayout
         <script src="$sBase/js/Components/NeuronIntentFormComponent.js"></script>
         <script src="$sBase/js/Components/NeuronIntentFormMountComponent.js"></script>
         <script src="$sBase/js/Components/NeuronComponent.js"></script>
+        <script src="$sBase/js/Components/ConciliacaoPanelComponent.js"></script>
         <script src="$sBase/js/app.js"></script>
         <script src="$sBase/js/portal-atualizacoes-boot.js"></script>
         <script>App.getInstance().sUrl = '$sUrl'</script>
