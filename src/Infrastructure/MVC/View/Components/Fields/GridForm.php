@@ -6,9 +6,14 @@ use Framework\Infrastructure\MVC\View\Components\IComponent;
 
 class GridForm extends FormComponent
 {
+    /** Layout padrão: uma linha por item, campos lado a lado */
+    const LAYOUT_ROWS = 'form-two-columns';
+    /** Layout em cartões: um cartão por item, campos empilhados, mais legível com muitos itens */
+    const LAYOUT_CARDS = 'cards';
+
     protected string $name;
     protected string $title;
-    protected string $layout = 'form-two-columns';
+    protected string $layout = self::LAYOUT_ROWS;
     protected array $fields = [];
     protected int $rows = 1;
     protected int $maxRows = 10;
