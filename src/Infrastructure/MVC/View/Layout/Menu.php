@@ -92,23 +92,26 @@ class Menu implements ILayout
         ?>
         <script>
             /**
-             * Fecha todos os dropdowns do menu antes de navegar para a rota clicada.
-             * Regra de fechamento: tirar o mouse de cima (mouseleave, já tratado por
-             * initializeMenu/limparDropdownItem) OU abrir uma rotina — este é o
-             * segundo caso.
+             * Fecha o(s) dropdown(s) atualmente abertos antes de navegar para a rota
+             * clicada. Regra de fechamento: tirar o mouse de cima (mouseleave, já
+             * tratado por initializeMenu) OU abrir uma rotina — este é o segundo caso.
              *
-             * Força 'none' nos dois níveis para fechar imediatamente mesmo que o
-             * mouse ainda esteja sobre o item (senão o :hover do CSS reabriria na
-             * hora). O nível 2→3 (.dropdown-item) não tem mouseenter/leave próprio
-             * — só abre via CSS ":hover" — então o listener de mouseleave em
-             * initializeMenu (abaixo) limpa esse 'none' inline assim que o mouse
-             * sair do item pai, para o :hover voltar a controlar normalmente na
-             * próxima vez. Sem essa limpeza, o inline venceria o :hover para
-             * sempre e o submenu nunca mais reabriria depois do primeiro clique.
+             * Só mexe no que está REALMENTE visível no momento (computed display
+             * diferente de 'none') — nunca em todos os .dropdown/.dropdown-item da
+             * página. Um .dropdown-item que nunca foi aberto já está 'none' por
+             * padrão da folha de estilos (sem nenhum style inline); se forçássemos
+             * 'none' nele também, ficaria com um style inline igual ao valor padrão,
+             * mas esse inline continuaria vencendo o CSS ":hover" para sempre (nível
+             * 2→3 não tem JS próprio, só abre via :hover), e como esse submenu nunca
+             * foi hoverado antes, o mouseleave que limpa o inline (em
+             * initializeMenu) nunca dispararia nele — precisando de um hover extra
+             * ("tirar e voltar") só pra disparar essa limpeza uma vez.
              */
             function navegarEFecharMenu(rota) {
                 document.querySelectorAll('.dropdown, .dropdown-item').forEach((el) => {
-                    el.style.display = 'none';
+                    if (getComputedStyle(el).display !== 'none') {
+                        el.style.display = 'none';
+                    }
                 });
                 App.getInstance().openRoute(rota);
             }
