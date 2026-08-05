@@ -82,6 +82,16 @@ class Menu implements ILayout
     {
         ?>
         <script>
+            function navegarMenu(rota) {
+                // Recolhe a sidebar (se expandida) antes de navegar, para a tela recém
+                // aberta não ficar coberta pela sobreposição da sidebar expandida.
+                const sideMenu = document.getElementById('side-menu');
+                if (sideMenu && !sideMenu.classList.contains('collapsed')) {
+                    sideMenu.classList.add('collapsed');
+                }
+                App.getInstance().openRoute(rota);
+            }
+
             function initializeMenu() {
                 const sideMenu = document.getElementById('side-menu');
 
@@ -158,7 +168,7 @@ class Menu implements ILayout
                                 ?>
                                 <li>
                                     <? if ($oItem->getRota()): ?>
-                                        <a class="dropdown-link" onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oItem->getTitulo()) ?>">
+                                        <a class="dropdown-link" onclick="navegarMenu('<?= $oItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oItem->getTitulo()) ?>">
                                             <? if($oItem->getIcone()): ?>
                                                 <span class="menu-item-icon"><?= $this->renderIcon($oItem->getIcone()) ?></span>
                                             <? endif; ?>
@@ -178,7 +188,7 @@ class Menu implements ILayout
                                                     if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oSubItem)) {
                                                         ?>
                                                             <li>
-                                                                <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oSubItem->getTitulo()) ?>">
+                                                                <a onclick="navegarMenu('<?= $oSubItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oSubItem->getTitulo()) ?>">
                                                                     <? if($oSubItem->getIcone()): ?>
                                                                         <span class="menu-item-icon"><?= $this->renderIcon($oSubItem->getIcone()) ?></span>
                                                                     <? endif; ?>
