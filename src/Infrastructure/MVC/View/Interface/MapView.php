@@ -20,6 +20,9 @@ abstract class MapView extends View
     private $routeOrder = null;
 
     /** @var array|null */
+    private $geometry = null;
+
+    /** @var array|null */
     private $center = null;
 
     /** @var int */
@@ -82,6 +85,21 @@ abstract class MapView extends View
     }
 
     /**
+     * @param array{0: float, 1: float}[]|null $geometry
+     */
+    public function setGeometry(?array $geometry): self
+    {
+        $this->geometry = $geometry;
+        return $this;
+    }
+
+    /** @return array|null */
+    public function getGeometry()
+    {
+        return $this->geometry;
+    }
+
+    /**
      * @param array{lat: float, lng: float}|null $center
      */
     public function setCenter(?array $center): self
@@ -129,6 +147,7 @@ abstract class MapView extends View
         $oMap->setPoints($this->getPoints());
         $oMap->setRoutes($this->getRoutes());
         $oMap->setRouteOrder($this->getRouteOrder());
+        $oMap->setGeometry($this->getGeometry());
         $oMap->setCenter($this->getCenter());
         $oMap->setZoom($this->getZoom());
         $oMap->setRoute($this->getRota());

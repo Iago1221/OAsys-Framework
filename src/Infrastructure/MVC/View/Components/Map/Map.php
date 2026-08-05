@@ -19,6 +19,9 @@ class Map implements IComponent
     /** @var (string|int)[]|null Ordem dos ids para uma única polilinha */
     private $routeOrder = null;
 
+    /** @var array{0: float, 1: float}[]|null Geometria real de uma rota (polyline pronta) */
+    private $geometry = null;
+
     /** @var array{lat: float, lng: float}|null */
     private $center = null;
 
@@ -66,6 +69,21 @@ class Map implements IComponent
     public function getRouteOrder()
     {
         return $this->routeOrder;
+    }
+
+    /**
+     * @param array{0: float, 1: float}[]|null $geometry
+     */
+    public function setGeometry(?array $geometry): self
+    {
+        $this->geometry = $geometry;
+        return $this;
+    }
+
+    /** @return array{0: float, 1: float}[]|null */
+    public function getGeometry()
+    {
+        return $this->geometry;
     }
 
     /**
@@ -138,6 +156,7 @@ class Map implements IComponent
                 'points' => $this->points,
                 'routes' => $this->routes,
                 'routeOrder' => $this->routeOrder,
+                'geometry' => $this->geometry,
                 'center' => $this->center,
                 'zoom' => $this->zoom,
                 'disabled' => $this->bDisabled,
