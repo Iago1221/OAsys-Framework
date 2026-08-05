@@ -19,6 +19,7 @@ class Usuario extends StatusModel
     protected $acessoVarejo;
     protected $acessoIndustria;
     protected $acessoNeuron;
+    protected $acessoLogistica;
 
     public function setId(int $id): void
     {
@@ -142,5 +143,15 @@ class Usuario extends StatusModel
     public function getAcessoNeuron()
     {
         return $this->acessoNeuron;
+    }
+
+    public function setAcessoLogistica($acessoLogistica)
+    {
+        $this->acessoLogistica = $acessoLogistica;
+    }
+
+    public function getAcessoLogistica()
+    {
+        return $this->acessoLogistica;
     }
 }

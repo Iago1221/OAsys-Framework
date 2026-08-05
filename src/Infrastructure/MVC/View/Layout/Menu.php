@@ -48,6 +48,8 @@ class Menu implements ILayout
                 return 'Varejo';
             case 5:
                 return 'Indústria';
+            case 6:
+                return 'Logística';
             default:
                 return 'ERP';
         }

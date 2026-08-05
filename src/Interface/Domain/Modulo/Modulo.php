@@ -13,7 +13,8 @@ class Modulo extends Model
           SISTEMA_CRM = 2,
           SISTEMA_GESTAO_ECONOMICA = 3,
           SISTEMA_VAREJO = 4,
-          SISTEMA_INDUSTRIA = 5;
+          SISTEMA_INDUSTRIA = 5,
+          SISTEMA_LOGISTICA = 6;
 
     protected ?int $id;
     protected ?string $titulo;

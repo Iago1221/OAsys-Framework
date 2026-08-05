@@ -47,6 +47,7 @@ class UsuarioFormView extends FormView
         $this->tab->addComponent(new FormField('acessoVarejo', 'Possui acesso Varejo?', Field::TYPE_CHECK, false));
         $this->tab->addComponent(new FormField('acessoIndustria', 'Possui acesso Indústria?', Field::TYPE_CHECK, false));
         $this->tab->addComponent(new FormField('acessoNeuron', 'Possui acesso Neuron?', Field::TYPE_CHECK, false));
+        $this->tab->addComponent(new FormField('acessoLogistica', 'Possui acesso Logística?', Field::TYPE_CHECK, false));
 
         if (Main::isRoute('sys_usuario_add')) {
             $this->tab->addComponent(new FormField('senha', 'Senha', Field::TYPE_PASSWORD));

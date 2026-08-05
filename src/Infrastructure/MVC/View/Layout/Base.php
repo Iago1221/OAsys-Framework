@@ -106,6 +106,11 @@ class Base implements ILayout
                         <i class="fi fi-tr-industry-alt"></i>
                     </li>
                 <? endif; ?>
+                <? if ($usuario->getAcessoLogistica()): ?>
+                    <li onclick="App.getInstance().switchSystem('6')" title="Logística">
+                        <i class="fi fi-tr-truck-side"></i>
+                    </li>
+                <? endif; ?>
                 <? if ($usuario->getAcessoNeuron()): ?>
                     <li onclick="App.getInstance().openRoute('sys_oasys_neuron')" title="Oasys Neuron">
                         <i class="fi fi-tr-sparkles"></i>
