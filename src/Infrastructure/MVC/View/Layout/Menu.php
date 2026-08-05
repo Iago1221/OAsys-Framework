@@ -66,12 +66,12 @@ class Menu implements ILayout
             <div class="topbar-actions">
                 <span id="oasys-header-novidades-slot" class="header-novidades-slot">
                     <a id="oasys-novidades-link" class="header-novidades-link topbar-icon-btn" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')" title="Novidades">
-                        <?= $this->renderIcon('megaphone', 18) ?>
+                        <?= $this->renderIcon('megaphone', 15) ?>
                     </a>
                 </span>
 
                 <button type="button" class="logout topbar-icon-btn" onclick="App.getInstance().logout()" title="Sair">
-                    <?= $this->renderIcon('sign-out', 18) ?>
+                    <?= $this->renderIcon('sign-out', 15) ?>
                 </button>
             </div>
 
@@ -143,7 +143,7 @@ class Menu implements ILayout
                 ?>
                 <li class="menu-item <?= $i ?>">
                     <? if($oModulo->getIcone()): ?>
-                        <?= $this->renderIcon($oModulo->getIcone(), 20) ?>
+                        <?= $this->renderIcon($oModulo->getIcone(), 16) ?>
                     <? endif; ?>
                     <?= $oModulo->getTitulo() ?>
                     <ul class="dropdown" id="dropdown<?= $i ?>">
@@ -153,7 +153,7 @@ class Menu implements ILayout
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
-                                        <?= $this->renderIcon($oItem->getIcone(), 18) ?>
+                                        <?= $this->renderIcon($oItem->getIcone(), 15) ?>
                                     <? endif; ?>
                                     <? if ($oItem->getRota()): ?>
                                         <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
@@ -167,7 +167,7 @@ class Menu implements ILayout
                                                         ?>
                                                             <li>
                                                                 <? if($oSubItem->getIcone()): ?>
-                                                                    <?= $this->renderIcon($oSubItem->getIcone(), 18) ?>
+                                                                    <?= $this->renderIcon($oSubItem->getIcone(), 15) ?>
                                                                 <? endif; ?>
                                                                 <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
                                                             </li>
