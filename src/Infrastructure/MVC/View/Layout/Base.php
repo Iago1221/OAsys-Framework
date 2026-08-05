@@ -76,49 +76,49 @@ class Base implements ILayout
             </div>
 
             <button type="button" class="side-menu-toggle" onclick="App.getInstance().toggleMenu()" title="Expandir/colapsar menu">
-                <?= $this->getMenu()->renderIcon('caret-left', 18) ?>
+                <?= $this->getMenu()->renderIcon('caret-left', 16) ?>
             </button>
 
             <ul class="side-menu-sistemas">
                 <? if ($usuario->getAcessoErp()): ?>
                     <li onclick="App.getInstance().switchSystem('1')" title="ERP">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('home', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('home', 26) ?></span>
                         <span>ERP</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoCrm()): ?>
                     <li onclick="App.getInstance().switchSystem('2')" title="CRM">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('users', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('users', 26) ?></span>
                         <span>CRM</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoGestao()): ?>
                     <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('wallet', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('wallet', 26) ?></span>
                         <span>Gestão</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoVarejo()): ?>
                     <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('shopping-cart-simple', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('shopping-cart-simple', 26) ?></span>
                         <span>Varejo</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoIndustria()): ?>
                     <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('gear-six', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('gear-six', 26) ?></span>
                         <span>Indústria</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoLogistica()): ?>
                     <li onclick="App.getInstance().switchSystem('6')" title="Logística">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('truck', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('truck', 26) ?></span>
                         <span>Logística</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoNeuron()): ?>
                     <li onclick="App.getInstance().openRoute('sys_oasys_neuron')" title="Oasys Neuron">
-                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('sparkle', 32) ?></span>
+                        <span class="side-menu-sistema-icon"><?= $this->getMenu()->renderIcon('sparkle', 26) ?></span>
                         <span>Neuron</span>
                     </li>
                 <? endif; ?>
