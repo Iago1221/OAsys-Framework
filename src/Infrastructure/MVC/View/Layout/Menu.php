@@ -92,39 +92,63 @@ class Menu implements ILayout
         ?>
         <script>
             /**
-             * Liga um par (gatilho, submenu) com um pequeno atraso antes de esconder
-             * (em vez de esconder no mouseleave imediatamente). Sem esse atraso, qualquer
-             * imprecisão no caminho do mouse ao subir do item até o submenu (movimento
-             * rápido, diagonal, ou até simulação de input) passa por uma fração de segundo
-             * fora de ambos os elementos e o navegador dispara mouseleave, escondendo o
-             * submenu antes do usuário conseguir clicar em uma rota.
+             * Mostrar/esconder dropdown por mouseenter/mouseleave direto nos elementos é
+             * frágil: depende do navegador disparar mouseenter exatamente no submenu ao
+             * mover o mouse do gatilho até ele, o que nem sempre acontece de forma
+             * confiável (movimento rápido, diagonal, etc — o submenu acaba sumindo antes
+             * do usuário conseguir clicar numa rota). Em vez disso, cada par
+             * (gatilho, submenu) visível é validado a cada mousemove global: se a posição
+             * atual do mouse está dentro da área do gatilho OU do submenu (com uma folga),
+             * mantém aberto; senão, agenda esconder com um pequeno atraso (cancelável).
              */
-            function ligarSubmenuComAtraso(gatilho, submenu) {
-                if (!submenu) return;
-                let timer = null;
-
-                const mostrar = () => {
-                    clearTimeout(timer);
-                    submenu.style.display = 'flex';
-                };
-                const esconderComAtraso = () => {
-                    clearTimeout(timer);
-                    timer = setTimeout(() => { submenu.style.display = 'none'; }, 300);
-                };
-
-                gatilho.addEventListener('mouseenter', mostrar);
-                gatilho.addEventListener('mouseleave', esconderComAtraso);
-                submenu.addEventListener('mouseenter', mostrar);
-                submenu.addEventListener('mouseleave', esconderComAtraso);
-            }
-
             function initializeMenu() {
+                const pares = [];
+
                 document.querySelectorAll('.menu-item').forEach((item) => {
-                    ligarSubmenuComAtraso(item, item.querySelector(':scope > .dropdown'));
+                    const dropdown = item.querySelector(':scope > .dropdown');
+                    if (dropdown) pares.push([item, dropdown]);
                 });
 
                 document.querySelectorAll('.dropdown > li').forEach((li) => {
-                    ligarSubmenuComAtraso(li, li.querySelector(':scope > .dropdown-item'));
+                    const sub = li.querySelector(':scope > .dropdown-item');
+                    if (sub) pares.push([li, sub]);
+                });
+
+                const timers = new WeakMap();
+
+                function dentro(rect, x, y, folga) {
+                    return x >= rect.left - folga && x <= rect.right + folga
+                        && y >= rect.top - folga && y <= rect.bottom + folga;
+                }
+
+                pares.forEach(([gatilho, submenu]) => {
+                    gatilho.addEventListener('mouseenter', () => {
+                        clearTimeout(timers.get(submenu));
+                        submenu.style.display = 'flex';
+                    });
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    pares.forEach(([gatilho, submenu]) => {
+                        if (submenu.style.display === 'none' || submenu.style.display === '') {
+                            return;
+                        }
+
+                        const sobre = dentro(gatilho.getBoundingClientRect(), e.clientX, e.clientY, 6)
+                            || dentro(submenu.getBoundingClientRect(), e.clientX, e.clientY, 6);
+
+                        if (sobre) {
+                            clearTimeout(timers.get(submenu));
+                            return;
+                        }
+
+                        if (!timers.get(submenu)) {
+                            timers.set(submenu, setTimeout(() => {
+                                submenu.style.display = 'none';
+                                timers.delete(submenu);
+                            }, 300));
+                        }
+                    });
                 });
             }
 
