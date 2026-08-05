@@ -66,12 +66,12 @@ class Menu implements ILayout
             <div class="topbar-actions">
                 <span id="oasys-header-novidades-slot" class="header-novidades-slot">
                     <a id="oasys-novidades-link" class="header-novidades-link topbar-icon-btn" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')" title="Novidades">
-                        <?= $this->renderIcon('megaphone', 15) ?>
+                        <?= $this->renderIcon('megaphone', 16) ?>
                     </a>
                 </span>
 
                 <button type="button" class="logout topbar-icon-btn" onclick="App.getInstance().logout()" title="Sair">
-                    <?= $this->renderIcon('sign-out', 15) ?>
+                    <?= $this->renderIcon('sign-out', 16) ?>
                 </button>
             </div>
 
@@ -91,18 +91,40 @@ class Menu implements ILayout
     {
         ?>
         <script>
-            function initializeMenu() {
-                const menuItems = document.querySelectorAll('.menu-item');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', (e) => {
-                        const drop = item.classList[1];
-                        document.querySelector(`#dropdown${drop}`).style.display = 'flex';
-                    });
+            /**
+             * Liga um par (gatilho, submenu) com um pequeno atraso antes de esconder
+             * (em vez de esconder no mouseleave imediatamente). Sem esse atraso, qualquer
+             * imprecisão no caminho do mouse ao subir do item até o submenu (movimento
+             * rápido, diagonal, ou até simulação de input) passa por uma fração de segundo
+             * fora de ambos os elementos e o navegador dispara mouseleave, escondendo o
+             * submenu antes do usuário conseguir clicar em uma rota.
+             */
+            function ligarSubmenuComAtraso(gatilho, submenu) {
+                if (!submenu) return;
+                let timer = null;
 
-                    item.addEventListener('mouseleave', (e) => {
-                        const drop = item.classList[1];
-                        document.querySelector(`#dropdown${drop}`).style.display = 'none';
-                    });
+                const mostrar = () => {
+                    clearTimeout(timer);
+                    submenu.style.display = 'flex';
+                };
+                const esconderComAtraso = () => {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { submenu.style.display = 'none'; }, 300);
+                };
+
+                gatilho.addEventListener('mouseenter', mostrar);
+                gatilho.addEventListener('mouseleave', esconderComAtraso);
+                submenu.addEventListener('mouseenter', mostrar);
+                submenu.addEventListener('mouseleave', esconderComAtraso);
+            }
+
+            function initializeMenu() {
+                document.querySelectorAll('.menu-item').forEach((item) => {
+                    ligarSubmenuComAtraso(item, item.querySelector(':scope > .dropdown'));
+                });
+
+                document.querySelectorAll('.dropdown > li').forEach((li) => {
+                    ligarSubmenuComAtraso(li, li.querySelector(':scope > .dropdown-item'));
                 });
             }
 
@@ -143,7 +165,7 @@ class Menu implements ILayout
                 ?>
                 <li class="menu-item <?= $i ?>">
                     <? if($oModulo->getIcone()): ?>
-                        <?= $this->renderIcon($oModulo->getIcone(), 16) ?>
+                        <?= $this->renderIcon($oModulo->getIcone(), 18) ?>
                     <? endif; ?>
                     <?= $oModulo->getTitulo() ?>
                     <ul class="dropdown" id="dropdown<?= $i ?>">
@@ -153,7 +175,7 @@ class Menu implements ILayout
                                 ?>
                                 <li>
                                     <? if($oItem->getIcone()): ?>
-                                        <?= $this->renderIcon($oItem->getIcone(), 15) ?>
+                                        <?= $this->renderIcon($oItem->getIcone(), 16) ?>
                                     <? endif; ?>
                                     <? if ($oItem->getRota()): ?>
                                         <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
@@ -167,7 +189,7 @@ class Menu implements ILayout
                                                         ?>
                                                             <li>
                                                                 <? if($oSubItem->getIcone()): ?>
-                                                                    <?= $this->renderIcon($oSubItem->getIcone(), 15) ?>
+                                                                    <?= $this->renderIcon($oSubItem->getIcone(), 16) ?>
                                                                 <? endif; ?>
                                                                 <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
                                                             </li>
