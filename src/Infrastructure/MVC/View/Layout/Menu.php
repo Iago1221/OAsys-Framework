@@ -91,6 +91,18 @@ class Menu implements ILayout
     {
         ?>
         <script>
+            /**
+             * Fecha todos os dropdowns do menu antes de navegar para a rota clicada.
+             * Regra de fechamento: tirar o mouse de cima (mouseleave, já tratado por
+             * initializeMenu) OU abrir uma rotina — este é o segundo caso.
+             */
+            function navegarEFecharMenu(rota) {
+                document.querySelectorAll('.dropdown, .dropdown-item').forEach((el) => {
+                    el.style.display = 'none';
+                });
+                App.getInstance().openRoute(rota);
+            }
+
             function initializeMenu() {
                 const menuItems = document.querySelectorAll('.menu-item');
                 menuItems.forEach(item => {
@@ -156,7 +168,7 @@ class Menu implements ILayout
                                         <?= $this->renderIcon($oItem->getIcone(), 16) ?>
                                     <? endif; ?>
                                     <? if ($oItem->getRota()): ?>
-                                        <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
+                                        <a onclick="navegarEFecharMenu('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
                                     <? else: ?>
                                         <a> <?=$oItem->getTitulo() ?> </a>
                                         <?= $this->renderIcon('caret-right', 12) ?>
@@ -169,7 +181,7 @@ class Menu implements ILayout
                                                                 <? if($oSubItem->getIcone()): ?>
                                                                     <?= $this->renderIcon($oSubItem->getIcone(), 16) ?>
                                                                 <? endif; ?>
-                                                                <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
+                                                                <a onclick="navegarEFecharMenu('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
                                                             </li>
                                                         <?php
                                                     }
