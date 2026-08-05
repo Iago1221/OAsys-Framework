@@ -55,26 +55,17 @@ class Menu implements ILayout
         }
     }
 
+    /**
+     * Renderiza só o conteúdo interno da sidebar referente ao sistema atual (título +
+     * lista de módulos). A moldura da sidebar (logo, troca de sistema, rodapé) é
+     * responsabilidade de Base.php — este método é reaproveitado tanto no carregamento
+     * inicial quanto na troca de sistema via AJAX (substitui o innerHTML de #menu-principal).
+     */
     public function render()
     {
         ?>
-        <div class="topbar">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <h1 style="font-size: 1rem;">
-                    Oasys <?= $this->getDescricao() ?>
-                </h1>
-            </div>
-
-            <div style="display: flex; flex-direction: row; align-items: center;">
-                <h2 id="oasys-header-novidades-slot" class="header-novidades-slot">
-                    <a id="oasys-novidades-link" class="header-novidades-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')">
-                        Novidades
-                    </a>
-                </h2>
-
-                <h2><a class="logout" onclick="App.getInstance().logout()">Sair</a></h2>
-            </div>
-
+        <div class="side-menu-titulo">
+            <span class="side-menu-titulo-full">Oasys <?= $this->getDescricao() ?></span>
         </div>
         <nav class="menu">
             <ul class="menu-list">
@@ -92,16 +83,27 @@ class Menu implements ILayout
         ?>
         <script>
             function initializeMenu() {
-                const menuItems = document.querySelectorAll('.menu-item');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', (e) => {
-                        const drop = item.classList[1];
-                        document.querySelector(`#dropdown${drop}`).style.display = 'flex';
-                    });
+                const sideMenu = document.getElementById('side-menu');
 
-                    item.addEventListener('mouseleave', (e) => {
-                        const drop = item.classList[1];
-                        document.querySelector(`#dropdown${drop}`).style.display = 'none';
+                document.querySelectorAll('#menu-principal .menu-item > .menu-item-row').forEach((row) => {
+                    row.addEventListener('click', (e) => {
+                        if (sideMenu && sideMenu.classList.contains('collapsed')) {
+                            return; // colapsado: navegação por hover (flyout via CSS)
+                        }
+                        e.stopPropagation();
+                        const li = row.closest('.menu-item');
+                        const wasOpen = li.classList.contains('open');
+                        li.parentElement.querySelectorAll(':scope > .menu-item.open').forEach((other) => {
+                            if (other !== li) other.classList.remove('open');
+                        });
+                        li.classList.toggle('open', !wasOpen);
+                    });
+                });
+
+                document.querySelectorAll('#menu-principal .dropdown-item-row').forEach((row) => {
+                    row.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        row.closest('li').classList.toggle('open');
                     });
                 });
             }
@@ -141,35 +143,47 @@ class Menu implements ILayout
         foreach ($this->aModulos as $i => $oModulo) {
             if ($oModulo->isDisponivel(Main::getUsuarioId()) && $this->auth->podeAcessarModulo(Main::getUsuarioId(), $oModulo)) {
                 ?>
-                <li class="menu-item <?= $i ?>">
-                    <? if($oModulo->getIcone()): ?>
-                        <?= $this->renderIcon($oModulo->getIcone()) ?>
-                    <? endif; ?>
-                    <?= $oModulo->getTitulo() ?>
+                <li class="menu-item">
+                    <div class="menu-item-row" title="<?= htmlspecialchars($oModulo->getTitulo()) ?>">
+                        <? if($oModulo->getIcone()): ?>
+                            <span class="menu-item-icon"><?= $this->renderIcon($oModulo->getIcone()) ?></span>
+                        <? endif; ?>
+                        <span class="menu-item-label"><?= $oModulo->getTitulo() ?></span>
+                        <span class="menu-item-caret"><?= $this->renderIcon('caret-down', 12) ?></span>
+                    </div>
                     <ul class="dropdown" id="dropdown<?= $i ?>">
                         <?php
-                        foreach ($oModulo->getItens() as $oItem) {
+                        foreach ($oModulo->getItens() as $j => $oItem) {
                             if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oItem) && !$oItem->getItemPai()) {
                                 ?>
                                 <li>
-                                    <? if($oItem->getIcone()): ?>
-                                        <?= $this->renderIcon($oItem->getIcone()) ?>
-                                    <? endif; ?>
                                     <? if ($oItem->getRota()): ?>
-                                        <a onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')"><?= $oItem->getTitulo() ?></a>
+                                        <a class="dropdown-link" onclick="App.getInstance().openRoute('<?= $oItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oItem->getTitulo()) ?>">
+                                            <? if($oItem->getIcone()): ?>
+                                                <span class="menu-item-icon"><?= $this->renderIcon($oItem->getIcone()) ?></span>
+                                            <? endif; ?>
+                                            <span class="menu-item-label"><?= $oItem->getTitulo() ?></span>
+                                        </a>
                                     <? else: ?>
-                                        <a> <?=$oItem->getTitulo() ?> </a>
-                                        <?= $this->renderIcon('caret-right') ?>
-                                        <ul class="dropdown-item" id="dropdown-item<?= $i ?>">
+                                        <div class="dropdown-item-row" title="<?= htmlspecialchars($oItem->getTitulo()) ?>">
+                                            <? if($oItem->getIcone()): ?>
+                                                <span class="menu-item-icon"><?= $this->renderIcon($oItem->getIcone()) ?></span>
+                                            <? endif; ?>
+                                            <span class="menu-item-label"><?= $oItem->getTitulo() ?></span>
+                                            <span class="menu-item-caret"><?= $this->renderIcon('caret-right', 12) ?></span>
+                                        </div>
+                                        <ul class="dropdown-item" id="dropdown-item<?= $i ?>-<?= $j ?>">
                                             <?php
                                                 foreach ($oItem->getItens() as $oSubItem) {
                                                     if ($this->auth->podeAcessarItem(Main::getUsuarioId(), $oSubItem)) {
                                                         ?>
                                                             <li>
-                                                                <? if($oSubItem->getIcone()): ?>
-                                                                    <?= $this->renderIcon($oSubItem->getIcone()) ?>
-                                                                <? endif; ?>
-                                                                <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')"><?= $oSubItem->getTitulo() ?></a>
+                                                                <a onclick="App.getInstance().openRoute('<?= $oSubItem->getRota()->getNome() ?>')" title="<?= htmlspecialchars($oSubItem->getTitulo()) ?>">
+                                                                    <? if($oSubItem->getIcone()): ?>
+                                                                        <span class="menu-item-icon"><?= $this->renderIcon($oSubItem->getIcone()) ?></span>
+                                                                    <? endif; ?>
+                                                                    <span class="menu-item-label"><?= $oSubItem->getTitulo() ?></span>
+                                                                </a>
                                                             </li>
                                                         <?php
                                                     }

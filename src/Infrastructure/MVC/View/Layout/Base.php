@@ -69,60 +69,78 @@ class Base implements ILayout
 
         ?>
         <body>
-        <div id="menu-principal">
-            <?php
-            $this->getMenu()->render();
-            ?>
-        </div>
-
-        <!-- Menu lateral -->
-        <div id="side-menu" class="side-menu">
-            <div class="menu-toggle" onclick="App.getInstance().toggleMenu()">
-                <i class="fi fi-rr-angle-right"></i>
+        <!-- Sidebar única: logo, troca de sistema, módulos e rodapé (inicia colapsada) -->
+        <div id="side-menu" class="side-menu collapsed">
+            <div class="side-menu-brand">
+                <img src="/assets/logo-oasys.svg" class="side-menu-logo-full" alt="Oasys">
+                <img src="/assets/icon.png" class="side-menu-logo-mini" alt="Oasys">
+                <button type="button" class="menu-toggle" onclick="App.getInstance().toggleMenu()" title="Expandir/colapsar menu">
+                    <i class="fi fi-rr-angle-left"></i>
+                </button>
             </div>
-            <ul class="menu-items">
+
+            <ul class="side-menu-sistemas">
                 <? if ($usuario->getAcessoErp()): ?>
                     <li onclick="App.getInstance().switchSystem('1')" title="ERP">
-                        <i class="fi fi-tr-house-chimney"></i>
+                        <i class="fi fi-tr-house-chimney"></i><span>ERP</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoCrm()): ?>
                     <li onclick="App.getInstance().switchSystem('2')" title="CRM">
-                        <i class="fi fi-tr-users"></i>
+                        <i class="fi fi-tr-users"></i><span>CRM</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoGestao()): ?>
                     <li onclick="App.getInstance().switchSystem('3')" title="Gestão Econômica">
-                        <i class="fi fi-tr-bank"></i>
+                        <i class="fi fi-tr-bank"></i><span>Gestão</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoVarejo()): ?>
                     <li onclick="App.getInstance().switchSystem('4')" title="Varejo">
-                        <i class="fi fi-tr-basket-shopping-simple"></i>
+                        <i class="fi fi-tr-basket-shopping-simple"></i><span>Varejo</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoIndustria()): ?>
                     <li onclick="App.getInstance().switchSystem('5')" title="Indústria">
-                        <i class="fi fi-tr-industry-alt"></i>
+                        <i class="fi fi-tr-industry-alt"></i><span>Indústria</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoLogistica()): ?>
                     <li onclick="App.getInstance().switchSystem('6')" title="Logística">
-                        <i class="fi fi-tr-truck-side"></i>
+                        <i class="fi fi-tr-truck-side"></i><span>Logística</span>
                     </li>
                 <? endif; ?>
                 <? if ($usuario->getAcessoNeuron()): ?>
                     <li onclick="App.getInstance().openRoute('sys_oasys_neuron')" title="Oasys Neuron">
-                        <i class="fi fi-tr-sparkles"></i>
+                        <i class="fi fi-tr-sparkles"></i><span>Neuron</span>
                     </li>
                 <? endif; ?>
             </ul>
+
+            <div class="side-menu-divider"></div>
+
+            <div id="menu-principal" class="side-menu-modulos">
+                <?php
+                $this->getMenu()->render();
+                ?>
+            </div>
+
+            <div class="side-menu-footer">
+                <a class="side-menu-footer-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')" title="Novidades">
+                    <i class="fi fi-rr-megaphone"></i><span>Novidades</span>
+                </a>
+                <a class="side-menu-footer-link" onclick="App.getInstance().logout()" title="Sair">
+                    <i class="fi fi-rr-sign-out-alt"></i><span>Sair</span>
+                </a>
+            </div>
         </div>
 
-        <div id="workspace">
-        </div>
+        <div id="main-content" class="main-content">
+            <div id="workspace">
+            </div>
 
-        <div id="tabs-bar">
+            <div id="tabs-bar">
+            </div>
         </div>
 
         <div class="modal">
