@@ -94,7 +94,17 @@ class Menu implements ILayout
             /**
              * Fecha todos os dropdowns do menu antes de navegar para a rota clicada.
              * Regra de fechamento: tirar o mouse de cima (mouseleave, já tratado por
-             * initializeMenu) OU abrir uma rotina — este é o segundo caso.
+             * initializeMenu/limparDropdownItem) OU abrir uma rotina — este é o
+             * segundo caso.
+             *
+             * Força 'none' nos dois níveis para fechar imediatamente mesmo que o
+             * mouse ainda esteja sobre o item (senão o :hover do CSS reabriria na
+             * hora). O nível 2→3 (.dropdown-item) não tem mouseenter/leave próprio
+             * — só abre via CSS ":hover" — então o listener de mouseleave em
+             * initializeMenu (abaixo) limpa esse 'none' inline assim que o mouse
+             * sair do item pai, para o :hover voltar a controlar normalmente na
+             * próxima vez. Sem essa limpeza, o inline venceria o :hover para
+             * sempre e o submenu nunca mais reabriria depois do primeiro clique.
              */
             function navegarEFecharMenu(rota) {
                 document.querySelectorAll('.dropdown, .dropdown-item').forEach((el) => {
@@ -104,16 +114,24 @@ class Menu implements ILayout
             }
 
             function initializeMenu() {
-                const menuItems = document.querySelectorAll('.menu-item');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', (e) => {
+                document.querySelectorAll('.menu-item').forEach((item) => {
+                    item.addEventListener('mouseenter', () => {
                         const drop = item.classList[1];
                         document.querySelector(`#dropdown${drop}`).style.display = 'flex';
                     });
 
-                    item.addEventListener('mouseleave', (e) => {
+                    item.addEventListener('mouseleave', () => {
                         const drop = item.classList[1];
                         document.querySelector(`#dropdown${drop}`).style.display = 'none';
+                    });
+                });
+
+                document.querySelectorAll('.dropdown > li').forEach((li) => {
+                    const sub = li.querySelector(':scope > .dropdown-item');
+                    if (!sub) return;
+
+                    li.addEventListener('mouseleave', () => {
+                        sub.style.removeProperty('display');
                     });
                 });
             }
