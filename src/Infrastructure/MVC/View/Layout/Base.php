@@ -69,11 +69,10 @@ class Base implements ILayout
 
         ?>
         <body>
-        <!-- Sidebar única: logo, troca de sistema, módulos e rodapé (inicia colapsada) -->
+        <!-- Sidebar: logo + troca de sistema (inicia colapsada, só ícones) -->
         <div id="side-menu" class="side-menu collapsed">
             <div class="side-menu-brand">
                 <img src="/assets/logo-oasys.svg" class="side-menu-logo-full" alt="Oasys">
-                <img src="/assets/icon.png" class="side-menu-logo-mini" alt="Oasys">
                 <button type="button" class="menu-toggle" onclick="App.getInstance().toggleMenu()" title="Expandir/colapsar menu">
                     <i class="fi fi-rr-angle-left"></i>
                 </button>
@@ -116,26 +115,15 @@ class Base implements ILayout
                     </li>
                 <? endif; ?>
             </ul>
+        </div>
 
-            <div class="side-menu-divider"></div>
-
-            <div id="menu-principal" class="side-menu-modulos">
+        <div id="main-content" class="main-content">
+            <div id="menu-principal">
                 <?php
                 $this->getMenu()->render();
                 ?>
             </div>
 
-            <div class="side-menu-footer">
-                <a class="side-menu-footer-link" onclick="App.getInstance().openRoute('sys_atualizacao_portal_list')" title="Novidades">
-                    <i class="fi fi-rr-megaphone"></i><span>Novidades</span>
-                </a>
-                <a class="side-menu-footer-link" onclick="App.getInstance().logout()" title="Sair">
-                    <i class="fi fi-rr-sign-out-alt"></i><span>Sair</span>
-                </a>
-            </div>
-        </div>
-
-        <div id="main-content" class="main-content">
             <div id="workspace">
             </div>
 
