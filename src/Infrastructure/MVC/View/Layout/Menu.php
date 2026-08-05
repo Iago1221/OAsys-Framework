@@ -91,63 +91,17 @@ class Menu implements ILayout
     {
         ?>
         <script>
-            /**
-             * Mostrar/esconder dropdown por mouseenter/mouseleave direto nos elementos é
-             * frágil: depende do navegador disparar mouseenter exatamente no submenu ao
-             * mover o mouse do gatilho até ele, o que nem sempre acontece de forma
-             * confiável (movimento rápido, diagonal, etc — o submenu acaba sumindo antes
-             * do usuário conseguir clicar numa rota). Em vez disso, cada par
-             * (gatilho, submenu) visível é validado a cada mousemove global: se a posição
-             * atual do mouse está dentro da área do gatilho OU do submenu (com uma folga),
-             * mantém aberto; senão, agenda esconder com um pequeno atraso (cancelável).
-             */
             function initializeMenu() {
-                const pares = [];
-
-                document.querySelectorAll('.menu-item').forEach((item) => {
-                    const dropdown = item.querySelector(':scope > .dropdown');
-                    if (dropdown) pares.push([item, dropdown]);
-                });
-
-                document.querySelectorAll('.dropdown > li').forEach((li) => {
-                    const sub = li.querySelector(':scope > .dropdown-item');
-                    if (sub) pares.push([li, sub]);
-                });
-
-                const timers = new WeakMap();
-
-                function dentro(rect, x, y, folga) {
-                    return x >= rect.left - folga && x <= rect.right + folga
-                        && y >= rect.top - folga && y <= rect.bottom + folga;
-                }
-
-                pares.forEach(([gatilho, submenu]) => {
-                    gatilho.addEventListener('mouseenter', () => {
-                        clearTimeout(timers.get(submenu));
-                        submenu.style.display = 'flex';
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => {
+                    item.addEventListener('mouseenter', (e) => {
+                        const drop = item.classList[1];
+                        document.querySelector(`#dropdown${drop}`).style.display = 'flex';
                     });
-                });
 
-                document.addEventListener('mousemove', (e) => {
-                    pares.forEach(([gatilho, submenu]) => {
-                        if (submenu.style.display === 'none' || submenu.style.display === '') {
-                            return;
-                        }
-
-                        const sobre = dentro(gatilho.getBoundingClientRect(), e.clientX, e.clientY, 6)
-                            || dentro(submenu.getBoundingClientRect(), e.clientX, e.clientY, 6);
-
-                        if (sobre) {
-                            clearTimeout(timers.get(submenu));
-                            return;
-                        }
-
-                        if (!timers.get(submenu)) {
-                            timers.set(submenu, setTimeout(() => {
-                                submenu.style.display = 'none';
-                                timers.delete(submenu);
-                            }, 300));
-                        }
+                    item.addEventListener('mouseleave', (e) => {
+                        const drop = item.classList[1];
+                        document.querySelector(`#dropdown${drop}`).style.display = 'none';
                     });
                 });
             }
