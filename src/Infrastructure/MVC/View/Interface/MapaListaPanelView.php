@@ -9,6 +9,14 @@ use Framework\Infrastructure\MVC\View\Components\MapaListaPanel\MapaListaPanelLi
 
 abstract class MapaListaPanelView extends View
 {
+    /** Telas de mapa se beneficiam de área cheia por padrão — pode ser desativado se necessário. */
+    private bool $fullscreen = true;
+
+    protected function setFullscreen(bool $fullscreen): void
+    {
+        $this->fullscreen = $fullscreen;
+    }
+
     protected function instanciaViewComponent(): void
     {
         $this->setViewComponent(new MapaListaPanel());
@@ -38,8 +46,9 @@ abstract class MapaListaPanelView extends View
     {
         $window = [
             'window' => [
-                'title' => $this->getTitulo(),
-                'route' => $this->getRota(),
+                'title'      => $this->getTitulo(),
+                'route'      => $this->getRota(),
+                'fullscreen' => $this->fullscreen,
             ],
         ];
 
