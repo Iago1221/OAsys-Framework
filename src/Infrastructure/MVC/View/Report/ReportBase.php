@@ -73,6 +73,7 @@ abstract class ReportBase
         $this->applyPaperSize();
         $this->pdf->render();
         $this->pdf->stream($filename, ['Attachment' => $download]);
+        exit;
     }
 
     protected function applyPaperSize(): void
