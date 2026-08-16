@@ -4,6 +4,7 @@ namespace Framework\Infrastructure\MVC\Controller;
 
 use Framework\Core\Main;
 use Framework\Infrastructure\DB\Persistence\Repository\Repository;
+use Framework\Infrastructure\Mensagem;
 use Framework\Infrastructure\MVC\View\Interface\View;
 
 /**
@@ -43,6 +44,10 @@ abstract class Controller
      */
     protected function getView(): View
     {
+        if (!isset($this->oView)) {
+            throw new Mensagem('View não definida para esta rota/ação.');
+        }
+
         return $this->oView;
     }
 
