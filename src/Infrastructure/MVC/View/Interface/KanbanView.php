@@ -40,6 +40,14 @@ abstract class KanbanView extends View
         $this->getViewComponent()->setTrocaCardColunaRoute($route);
     }
 
+    /**
+     * @param array $funis Lista de ['id' => ..., 'nome' => ...]
+     */
+    public function setFunis(array $funis, $funilAtual = null)
+    {
+        $this->getViewComponent()->setFunis($funis, $funilAtual);
+    }
+
     public function render($aData = [])
     {
         $window = [

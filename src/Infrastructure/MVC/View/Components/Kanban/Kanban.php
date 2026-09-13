@@ -14,6 +14,8 @@ class Kanban implements IComponent
     private $addRoute;
     private $getItensRoute;
     private $trocaCardColunaRoute;
+    private array $funis = [];
+    private $funilAtual;
 
     public function getName(): string
     {
@@ -45,6 +47,12 @@ class Kanban implements IComponent
         $this->trocaCardColunaRoute = $route;
     }
 
+    public function setFunis(array $funis, $funilAtual = null)
+    {
+        $this->funis = $funis;
+        $this->funilAtual = $funilAtual;
+    }
+
     public function toArray(): array
     {
         $data = [
@@ -55,7 +63,9 @@ class Kanban implements IComponent
                 'actions' => $this->actions,
                 'addRoute' => $this->addRoute,
                 'getItensRoute' => $this->getItensRoute,
-                'trocaCardColunaRoute' => $this->trocaCardColunaRoute
+                'trocaCardColunaRoute' => $this->trocaCardColunaRoute,
+                'funis' => $this->funis,
+                'funilAtual' => $this->funilAtual
             ]
         ];
 
